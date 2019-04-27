@@ -1,5 +1,4 @@
 package View;
-// Arman Change
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -22,7 +21,6 @@ public class Viewer {
     // 4 -> Battle
     ////////////////////
     public void gameHandle(){
-        System.out.println("reza");
         while(true){
             String input = scanner.nextLine();
             //============== Before Login =============//
