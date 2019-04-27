@@ -59,6 +59,14 @@ public class Viewer {
                 else
                     System.out.println("invalid Command !!!");
             }
+            //============== Collection =============//
+            else if(menuMode == 2){
+                // Arman Code Here
+            }
+            //============== Shop =============//
+            else if(menuMode == 3){
+                // Ali Code Here
+            }
         }
     }
     //======================== Account Function ====================//
@@ -124,7 +132,12 @@ public class Viewer {
         else if(name.toLowerCase().equals("battle"))
             this.menuMode = 4;
     }
+    //======================== Collection Functions ====================//
+    // Arman Here
+    //======================== Shop Function ====================//
+    // Ali Here
 
+    
 
     public void showCards(int mode){ }
     public void showMap(){}
