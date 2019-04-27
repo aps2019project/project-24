@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.Scanner;
 import Controller.*;
 import Modules.Player;
+
+import javax.sound.midi.Soundbank;
 import java.util.Comparator;
 import java.util.Collections;
 
@@ -20,6 +22,7 @@ public class Viewer {
     // 4 -> Battle
     ////////////////////
     public void gameHandle(){
+        System.out.println("reza");
         while(true){
             String input = scanner.nextLine();
             //============== Before Login =============//
