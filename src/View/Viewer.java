@@ -62,7 +62,7 @@ public class Viewer {
     }
     //======================== Account Function ====================//
     private void createAccount(String input){
-        String username = input.split(" ")[0];
+        String username = input.split(" ")[2];
         if(controller.userExists(username))
             System.out.println("This Username Already Exists !!!");
         else{
@@ -100,7 +100,7 @@ public class Viewer {
             }
         });
         for(int i = 0 ; i < players.size() ; i++)
-            System.out.println( i+1 + " - UserName : " + players.get(i) + " - Wins : " + players.get(i).getNumberOfWins());
+            System.out.println( i+1 + " - UserName : " + players.get(i).getUsername() + " - Wins : " + players.get(i).getNumberOfWins());
     }
     private void accountHelp(){
         System.out.println("============= Commands =============");

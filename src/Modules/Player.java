@@ -3,7 +3,7 @@ package Modules;
 import java.util.ArrayList;
 
 public class Player {
-    private static ArrayList<Player> players;
+    private static ArrayList<Player> players = new ArrayList<>();
     private String username;
     private ArrayList<Card> mainDeck;
     private ArrayList<Card> collection;
