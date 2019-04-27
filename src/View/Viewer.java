@@ -65,7 +65,7 @@ public class Viewer {
         String username = input.split(" ")[0];
         if(controller.userExists(username))
             System.out.println("This Username Already Exists !!!");
-        else{//////////////////////////////////////////////////////////////////////////////////////////////////////manam
+        else{
             System.out.println("Enter Your Password : ");
             String password = scanner.nextLine();
             controller.createAccount(username,password);
