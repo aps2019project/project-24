@@ -25,10 +25,10 @@ public class Viewer {
             //============== Before Login =============//
             if(menuMode == 0){
                 //====================================== Create Account =================================//
-                if(input.matches("create account //w"))
+                if(input.matches("create account \\w+"))
                     createAccount(input);
                 //====================================== Login into Account =================================//
-                else if(input.matches("login //w"))
+                else if(input.matches("login \\w+"))
                     loginAccount(input);
                 //====================================== Show LeaderBoard =================================//
                 else if(input.matches("show leaderboard"))
