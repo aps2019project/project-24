@@ -133,11 +133,11 @@ public class Viewer {
             this.menuMode = 4;
     }
     //======================== Collection Functions ====================//
-    // Arman Here
+    // Arman Here !
     //======================== Shop Function ====================//
-    // Ali Here
+    // Ali Here !
 
-    
+
 
     public void showCards(int mode){ }
     public void showMap(){}
