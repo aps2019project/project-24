@@ -1,6 +1,10 @@
+import View.*;
+import Controller.*;
+import Modules.*;
+
 public class Main {
-        public static void main(String[] args) {
-            System.out.println("Hello World!");
-            System.out.println("salam");
-        }
+    public static void main(String[] args) {
+        Viewer viewer = new Viewer();
+        viewer.gameHandle();
+    }
 }
