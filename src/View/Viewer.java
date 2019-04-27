@@ -66,6 +66,7 @@ public class Viewer {
         if(controller.userExists(username))
             System.out.println("This Username Already Exists !!!");
         else{
+            System.out.println("Enter Your Password : ");
             String password = scanner.nextLine();
             controller.createAccount(username,password);
             controller.login(username, password);
@@ -77,6 +78,7 @@ public class Viewer {
         if(!controller.userExists(username))
             System.out.println("This Username Doesn't Exists !!!");
         else{
+            System.out.println("Enter Your Password : ");
             String password = scanner.nextLine();
             if(!controller.isValidLogin(username,password))
                 System.out.println("Invalid Password for This Username !!!");
