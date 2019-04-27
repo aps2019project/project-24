@@ -37,11 +37,6 @@ public class Viewer {
                 //====================================== Save =================================//
                 else if(input.matches("save"))
                     controller.save();
-                //====================================== Logout Account =================================//
-                else if(input.matches("logout")) {
-                    controller.logOut();
-                    this.menuMode = 0;
-                }
                 //====================================== Help Account =================================//
                 else if(input.matches("help"))
                     accountHelp();
@@ -56,6 +51,11 @@ public class Viewer {
                     this.menuMode = 0;
                 else if(input.toLowerCase().matches("help"))
                     printMainMenu();
+                //========= Logout Account ======//
+                else if(input.matches("logout")) {
+                    controller.logOut();
+                    this.menuMode = 0;
+                }
                 else
                     System.out.println("invalid Command !!!");
             }
