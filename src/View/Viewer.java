@@ -11,7 +11,7 @@ public class Viewer {
     private Scanner scanner = new Scanner(System.in);
     private Server controller = new Server();
     private int menuMode = 0;
-    ////////////////////
+    /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
     // 2 -> Collection
