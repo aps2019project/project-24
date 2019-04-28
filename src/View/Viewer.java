@@ -1,13 +1,11 @@
 package View;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Scanner;
+
+import java.util.*;
 import Controller.*;
-import Modules.Player;
+import Modules.*;
 
 import javax.sound.midi.Soundbank;
 import java.util.Comparator;
-import java.util.Collections;
 
 public class Viewer {
     private Scanner scanner = new Scanner(System.in);
@@ -61,7 +59,27 @@ public class Viewer {
             }
             //============== Collection =============//
             else if(menuMode == 2){
-                // Arman Code Here
+                if(input.toLowerCase().matches("exit"))
+                    this.menuMode = 0;
+                else if(input.toLowerCase().matches("show")){
+                    ArrayList<Card> cardsToShow = controller.cardsInCollection();
+                    System.out.println("Heroes : ");
+                    for(int i = 0 ; i < cardsToShow.size() ; i++ ){
+                        if(cardsToShow.get(i) instanceof Unit && ((Unit)cardsToShow.get(i)).isHero()){
+                            Card card = cardsToShow.get(i);
+                            System.out.println(i+1 + ". Name : " + card.getName() + " - AP : " + ((Unit)card).getAttackPower() + " - HP : " + ((Unit)card).getHP()
+                            + " - Class : " + ((Unit)card).getAttackType() + " - Special Power : " + ((Unit)card).getSpecialPower().getName());
+                        }
+                    }
+                    System.out.println("Items : ");
+                    for(int i = 0 ; i < cardsToShow.size() ; i++ ){
+                        if(cardsToShow.get(i) instanceof Item){
+                            Card card = cardsToShow.get(i);
+                            System.out.println(i+1 + ". Name : " + card.getName() + " - Desc : " + ((Item)card).getDescription);
+                        }
+                    }
+                }
+
             }
             //============== Shop =============//
             else if(menuMode == 3){

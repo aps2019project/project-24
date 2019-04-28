@@ -65,4 +65,8 @@ public class Server {
     }
     public void save(){}
     public void logOut(){currentPlayer = null;}
+    //================================= Collection Functions ===============================//
+    public ArrayList<Card> cardsInCollection(){
+        return currentPlayer.getCollection();
+    }
 }

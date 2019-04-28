@@ -1,33 +1,57 @@
 package Modules;
 
-import java.util.ArrayList;
-
 public class Spell {
     private String name;
-    private int numberOfStunedrounds;
-    private int numberOfDisarmedRounds;
-    private int numberOfPoisonedRounds;
+    private boolean stun;
+    private boolean disarm;
+    private boolean poisone;
     private int weakness;
     private boolean dispel;
-    private int numberOfFiredRounds;
+    private boolean fire;
     private int attackChange;
-    private int HPchanger;
-    private int numberOfHolyBuff;
+    private int HPChanger;
+    private boolean holyBuff;
     private boolean comboCheck;
     private boolean canDisarm;
     private boolean canStun;
-    private boolean canPoisenned;
+    private boolean canPoisoned;
     private boolean canBeBuffed;
-    private boolean respawnSnake;
-    private int heroAttack;
+    private boolean deBuff;
+    private int attack;
+    private int changeMana;
+    private int rounds;
     private String recipe;
 
-    public int getHeroAttack() {
-        return heroAttack;
+    public int getRounds() {
+        return rounds;
     }
 
-    public void setHeroAttack(int heroAttack) {
-        this.heroAttack = heroAttack;
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+
+    public boolean isCanPoisoned() {
+        return canPoisoned;
+    }
+
+    public void setCanPoisoned(boolean canPoisoned) {
+        this.canPoisoned = canPoisoned;
+    }
+
+    public int getChangeMana() {
+        return changeMana;
+    }
+
+    public void setChangeMana(int changeMana) {
+        this.changeMana = changeMana;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
     }
 
     public String getName() {
@@ -38,36 +62,28 @@ public class Spell {
         this.name = name;
     }
 
-    public int getNumberOfStunedrounds() {
-        return numberOfStunedrounds;
-    }
-
-    public void setNumberOfStunedrounds(int numberOfStunedrounds) {
-        this.numberOfStunedrounds = numberOfStunedrounds;
-    }
-
-    public int getNumberOfDisarmedRounds() {
-        return numberOfDisarmedRounds;
-    }
-
-    public void setNumberOfDisarmedRounds(int numberOfDisarmedRounds) {
-        this.numberOfDisarmedRounds = numberOfDisarmedRounds;
-    }
-
-    public int getNumberOfPoisonedRounds() {
-        return numberOfPoisonedRounds;
-    }
-
-    public void setNumberOfPoisonedRounds(int numberOfPoisonedRounds) {
-        this.numberOfPoisonedRounds = numberOfPoisonedRounds;
-    }
-
     public int getWeakness() {
         return weakness;
     }
 
     public void setWeakness(int weakness) {
         this.weakness = weakness;
+    }
+
+    public boolean isDeBuff() {
+        return deBuff;
+    }
+
+    public void setDeBuff(boolean deBuff) {
+        this.deBuff = deBuff;
+    }
+
+    public String getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(String recipe) {
+        this.recipe = recipe;
     }
 
     public boolean isDispel() {
@@ -78,14 +94,6 @@ public class Spell {
         this.dispel = dispel;
     }
 
-    public int getNumberOfFiredRounds() {
-        return numberOfFiredRounds;
-    }
-
-    public void setNumberOfFiredRounds(int numberOfFiredRounds) {
-        this.numberOfFiredRounds = numberOfFiredRounds;
-    }
-
     public int getAttackChange() {
         return attackChange;
     }
@@ -94,20 +102,12 @@ public class Spell {
         this.attackChange = attackChange;
     }
 
-    public int getHPchanger() {
-        return HPchanger;
+    public int getHPChanger() {
+        return HPChanger;
     }
 
-    public void setHPchanger(int HPchanger) {
-        this.HPchanger = HPchanger;
-    }
-
-    public int getNumberOfHolyBuff() {
-        return numberOfHolyBuff;
-    }
-
-    public void setNumberOfHolyBuff(int numberOfHolyBuff) {
-        this.numberOfHolyBuff = numberOfHolyBuff;
+    public void setHPChanger(int HPChanger) {
+        this.HPChanger = HPChanger;
     }
 
     public boolean isComboCheck() {
@@ -134,12 +134,12 @@ public class Spell {
         this.canStun = canStun;
     }
 
-    public boolean isCanPoisenned() {
-        return canPoisenned;
+    public boolean isCanPoisened() {
+        return canPoisoned;
     }
 
-    public void setCanPoisenned(boolean canPoisenned) {
-        this.canPoisenned = canPoisenned;
+    public void setCanPoisened(boolean canPoisened) {
+        this.canPoisoned = canPoisened;
     }
 
     public boolean isCanBeBuffed() {
@@ -150,11 +150,43 @@ public class Spell {
         this.canBeBuffed = canBeBuffed;
     }
 
-    public boolean isRespawnSnake() {
-        return respawnSnake;
+    public boolean isStun() {
+        return stun;
     }
 
-    public void setRespawnSnake(boolean respawnSnake) {
-        this.respawnSnake = respawnSnake;
+    public void setStun(boolean stun) {
+        this.stun = stun;
+    }
+
+    public boolean isDisarm() {
+        return disarm;
+    }
+
+    public void setDisarm(boolean disarm) {
+        this.disarm = disarm;
+    }
+
+    public boolean isPoisone() {
+        return poisone;
+    }
+
+    public void setPoisone(boolean poisone) {
+        this.poisone = poisone;
+    }
+
+    public boolean isFire() {
+        return fire;
+    }
+
+    public void setFire(boolean fire) {
+        this.fire = fire;
+    }
+
+    public boolean isHolyBuff() {
+        return holyBuff;
+    }
+
+    public void setHolyBuff(boolean holyBuff) {
+        this.holyBuff = holyBuff;
     }
 }
