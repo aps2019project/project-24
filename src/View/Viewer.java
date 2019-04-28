@@ -172,8 +172,7 @@ public class Viewer {
     }
     //======================== Collection Functions ====================//
     // Arman Here !
-    //======================== Shop Function ====================//
-    // Ali Here !
+
 
 
 
