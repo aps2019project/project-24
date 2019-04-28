@@ -1,16 +1,23 @@
 package Modules;
 
 public class Unit extends Card{
-    private boolean isHero;
     private int attackPower;
     private int HP;
     private Spell specialPower;
     private String attackType;
-    private String race;//irani toorani ...
     private int range;
     private int manaCost;
-    private Target SpecialPwerTarget;
+    private boolean isHero;
+    private Target SpecialPowerTarget;
     private String SpecialPowerCastTime;
+
+    public boolean isHero() {
+        return isHero;
+    }
+
+    public void setHero(boolean hero) {
+        isHero = hero;
+    }
 
     public String getSpecialPowerCastTime() {
         return SpecialPowerCastTime;
@@ -20,28 +27,12 @@ public class Unit extends Card{
         SpecialPowerCastTime = specialPowerCastTime;
     }
 
-    public String getRace() {
-        return race;
+    public Target getSpecialPowerTarget() {
+        return SpecialPowerTarget;
     }
 
-    public void setRace(String race) {
-        this.race = race;
-    }
-
-    public Target getSpecialPwerTarget() {
-        return SpecialPwerTarget;
-    }
-
-    public void setSpecialPwerTarget(Target specialPwerTarget) {
-        SpecialPwerTarget = specialPwerTarget;
-    }
-
-    public boolean isHero() {
-        return isHero;
-    }
-
-    public void setHero(boolean hero) {
-        isHero = hero;
+    public void setSpecialPowerTarget(Target specialPowerTarget) {
+        SpecialPowerTarget = specialPowerTarget;
     }
 
     public int getAttackPower() {
