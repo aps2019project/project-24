@@ -2,76 +2,56 @@ package Modules;
 
 import java.util.ArrayList;
 
+
 public class Shop{
     private ArrayList<Card> cards;
-    private String input;
-    private String output;
     private Player player;
-    private Card card;
-    private ArrayList<String> cardsString;
 
-    public void sell(Player seller, Card card){
-    }
-    public void buy(Player player, Card card){
-    }
-
-//    public Card makeCardFromInput(String input){
-//
-//    }
-//
-//    public Player makePlayerFromInput(String input){
-//
-//    }
-
-    public ArrayList<Card> getCards() {
-        return cards;
+    public void sellWithID(Player seller, int cardID){
+        for(int i = 0; i < seller.getCollection().size(); i++){
+            if(seller.getCollection().get(i).getCardID() == cardID){
+                seller.removeCard(seller.getCollection().get(i));
+                seller.increaseMoney(seller.getCollection().get(i).getPrice());
+                System.out.println("selling Done");
+                break;
+            }
+        }
     }
 
-    public void setCards(ArrayList<Card> cards) {
-        this.cards = cards;
+    public void sellWithName(Player seller, String name){
+        for(int i = 0; i < seller.getCollection().size(); i++){
+            if(seller.getCollection().get(i).getName() == name){
+                seller.removeCard(seller.getCollection().get(i));
+                seller.increaseMoney(seller.getCollection().get(i).getPrice());
+                System.out.println("selling Done");
+                break;
+            }
+        }
     }
+    //////////////////////////sell ba nameam mishe
 
-    public String getInput() {
-        return input;
+    public void buy(Player buyer, String name){
+        for(int i = 0; i < this.cards.size(); i++){
+            if(this.cards.get(i).getName() == name){
+                buyer.addCard(this.cards.get(i));
+                buyer.decreaseMoney(this.cards.get(i).getPrice());
+                break;
+            }
+        }
     }
-
-    public void setInput(String input) {
-        this.input = input;
-    }
-
-    public String getOutput() {
-        return output;
-    }
-
-    public void setOutput(String output) {
-        this.output = output;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public Card getCard() {
-        return card;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
-    }
-
-    public ArrayList<String> getCardsString() {
-        return cardsString;
-    }
-
-    public void setCardsString(ArrayList<String> cardsString) {
-        this.cardsString = cardsString;
-    }
-
-    public void showCollenctions(Player player){
+    public void showCollection(){
 
     }
+    public void searchCard(String cardName){
+        for(int i = 0; i < this.cards.size(); i++){
+            if(this.cards.get(i).getName() == cardName){
+                System.out.println(this.cards.get(i).getCardID());
+                break;
+            }
+        }
+    }
+    public void showItems(){
+
+    }
+
 }
