@@ -1,8 +1,7 @@
 package Controller;
 
 import View.*;
-import Modules.Game;
-import Modules.Player;
+import Modules.*;
 import java.util.ArrayList;
 
 public class Server {
@@ -35,4 +34,8 @@ public class Server {
     }
     public void save(){}
     public void logOut(){currentPlayer = null;}
+    //================================= Collection Functions ===============================//
+    public ArrayList<Card> cardsInCollection(){
+        return currentPlayer.getCollection();
+    }
 }
