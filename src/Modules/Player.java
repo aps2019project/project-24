@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class Player {
     private static ArrayList<Player> players = new ArrayList<>();
     private String username;
-    private ArrayList<Card> mainDeck;
+    private Deck mainDeck;
     private ArrayList<Card> collection;
-    private ArrayList<Card[]> allDecks;
+    private ArrayList<Deck> allDecks;
     private int money;
-    private ArrayList<EndedMatches> listOfMacthes;
+    private ArrayList<EndedMatches> listOfMatches;
     private String password;
     private int numberOfWins;
     public Player(String username , String password){
@@ -17,10 +17,10 @@ public class Player {
         this.password = password;
         this.numberOfWins = 0;
         this.money = 15000;
-        this.mainDeck = new ArrayList<>();
+        this.mainDeck = new Deck();
         this.collection = new ArrayList<>();
         this.allDecks = new ArrayList<>();
-        this.listOfMacthes = new ArrayList<>();
+        this.listOfMatches = new ArrayList<>();
         players.add(this);
     }
     public static Player getPlayerObj(String username){
@@ -28,6 +28,19 @@ public class Player {
             if(players.get(i).getUsername().equals(username))
                 return players.get(i);
         return null;
+    }
+    public void addCard(Card card){
+        this.collection.add(card);
+    }
+    public void removeCard(Card card){
+        this.collection.remove(card);
+    }
+    public void decreaseMoney(int price){
+        this.money -= price;
+    }
+
+    public void increaseMoney(int price){
+        this.money += price;
     }
     public static ArrayList<Player> getPlayers(){return players;}
     public int getNumberOfWins() {
@@ -44,34 +57,48 @@ public class Player {
         return username;
     }
     public void setUsername(String name) {this.username = name;}
-    public ArrayList<Card> getMainDeck() {
-        return mainDeck;
-    }
-    public void setMainDeck(ArrayList<Card> mainDeck) {
-        this.mainDeck = mainDeck;
-    }
+
     public ArrayList<Card> getCollection() {
         return collection;
     }
     public void setCollection(ArrayList<Card> collection) {
         this.collection = collection;
     }
-    public ArrayList<Card[]> getAllDecks() {
-        return allDecks;
-    }
-    public void setAllDecks(ArrayList<Card> allDecks) {
-        allDecks = allDecks;
-    }
     public int getMoney() {
         return money;
     }
+
+    public static void setPlayers(ArrayList<Player> players) {
+        Player.players = players;
+    }
+
+    public Deck getMainDeck() {
+        return mainDeck;
+    }
+
+    public void setMainDeck(Deck mainDeck) {
+        this.mainDeck = mainDeck;
+    }
+
+    public ArrayList<Deck> getAllDecks() {
+        return allDecks;
+    }
+
+    public void setAllDecks(ArrayList<Deck> allDecks) {
+        this.allDecks = allDecks;
+    }
+
+    public void setNumberOfWins(int numberOfWins) {
+        this.numberOfWins = numberOfWins;
+    }
+
     public void setMoney(int money) {
         this.money = money;
     }
-    public ArrayList<EndedMatches> getListOfMacthes() {
-        return listOfMacthes;
+    public ArrayList<EndedMatches> getListOfMatches() {
+        return listOfMatches;
     }
-    public void setListOfMacthes(ArrayList<EndedMatches> listOfMacthes) {
-        this.listOfMacthes = listOfMacthes;
+    public void setListOfMatches(ArrayList<EndedMatches> listOfMatches) {
+        this.listOfMatches = listOfMatches;
     }
 }
