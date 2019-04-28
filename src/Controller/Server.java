@@ -38,4 +38,16 @@ public class Server {
     public ArrayList<Card> cardsInCollection(){
         return currentPlayer.getCollection();
     }
+    public ArrayList<Integer> searchCollection(String keyword){
+        return Collection.searchCard(currentPlayer,keyword);
+    }
+    public boolean isDeckExists(String keyword){
+
+    }
+    public void createDeckForPlayer(String keyword){
+
+    }
+    public void deleteDeckPlayer(String keyword){
+
+    }
 }

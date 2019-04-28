@@ -7,6 +7,15 @@ public class SpellCard extends Card {
     private Target target;
     private Spell spell;
     private ArrayList<String> recipe;
+    private int manaCost;
+
+    public int getManaCost() {
+        return manaCost;
+    }
+
+    public void setManaCost(int manaCost) {
+        this.manaCost = manaCost;
+    }
 
     public Spell getSpell() {
         return spell;
