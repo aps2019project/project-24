@@ -45,7 +45,7 @@ public class Viewer {
             }
             //============== MainMenu =============//
             else if(menuMode == 1){
-                if(input.matches("Enter \\w"))
+                if(input.matches("Enter \\w+"))
                     goToMenu(input.split(" ")[1]);
                 else if(input.toLowerCase().matches("exit"))
                     this.menuMode = 0;
@@ -65,7 +65,24 @@ public class Viewer {
             }
             //============== Shop =============//
             else if(menuMode == 3){
-                // Ali Code Here
+                if(input.matches("exit"))
+                    menuMode = 1;
+                else if(input.matches("show collection"))
+                    controller.showCollection();
+                else if(input.matches("search \\w+"))
+                    controller.searchCard(input.split(" ")[1]);
+                ////////////////////////////////////////////////////search too collection bayad az server collection sseda she
+                //////////////////////////INVALID HA RO HANOOZ NAZADAM
+                else if(input.matches("buy \\w+"))
+                    controller.buyCard(input.split(" ")[1]);
+                else if(input.matches("sell \\d+"))
+                    controller.sellCardwithID(Integer.parseInt(input.split(" ")[1]));
+                else if(input.matches("sell \\D+"))
+                    controller.sellCardWithName(input.split(" ")[1]);
+                else if(input.matches("show"))
+                    controller.showItems();
+                else if(input.matches("help"))
+                    printShopMenu();
             }
         }
     }
@@ -123,6 +140,9 @@ public class Viewer {
     //======================== Main Menu Function ====================//
     private void printMainMenu(){
         System.out.print("1. Collection\n2. Shop\n3. Battle\n4. Exit\n5. Help\n");
+    }
+    private void printShopMenu(){
+        System.out.print("1. exit\n2. show collection\n3. search\n4. search collection\n5. buy\n6. sell\n7. show");
     }
     private void goToMenu(String name){
         if(name.toLowerCase().equals("collection"))

@@ -29,6 +29,19 @@ public class Player {
                 return players.get(i);
         return null;
     }
+    public void addCard(Card card){
+        this.collection.add(card);
+    }
+    public void removeCard(Card card){
+        this.collection.remove(card);
+    }
+    public void decreaseMoney(int price){
+        this.money -= price;
+    }
+
+    public void increaseMoney(int price){
+        this.money += price;
+    }
     public static ArrayList<Player> getPlayers(){return players;}
     public int getNumberOfWins() {
         return numberOfWins;
