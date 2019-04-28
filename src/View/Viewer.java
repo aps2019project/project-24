@@ -75,7 +75,7 @@ public class Viewer {
                     for(int i = 0 ; i < cardsToShow.size() ; i++ ){
                         if(cardsToShow.get(i) instanceof Item){
                             Card card = cardsToShow.get(i);
-                            System.out.println(i+1 + ". Name : " + card.getName() + " - Desc : " + ((Item)card).getDescription);
+                            System.out.println(i+1 + ". Name : " + card.getName() + " - Desc : " + ((Item)card).getDescription());
                         }
                     }
                 }
