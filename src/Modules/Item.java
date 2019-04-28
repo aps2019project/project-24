@@ -6,6 +6,15 @@ public class Item extends Card {
     private boolean isUseAble;
     private Spell spell;
     private Target target;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public boolean isFlag() {
         return isFlag;
