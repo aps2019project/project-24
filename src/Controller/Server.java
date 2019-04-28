@@ -73,7 +73,7 @@ public class Server {
         return Collection.searchCard(currentPlayer,keyword);
     }
     public boolean isDeckExists(String keyword){
-
+        return true;
     }
     public void createDeckForPlayer(String keyword){
 

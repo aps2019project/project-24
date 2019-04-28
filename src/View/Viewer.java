@@ -11,7 +11,7 @@ public class Viewer {
     private Scanner scanner = new Scanner(System.in);
     private Server controller = new Server();
     private int menuMode = 0;
-    ////////////////////
+    /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
     // 2 -> Collection
@@ -26,16 +26,16 @@ public class Viewer {
                 //====================================== Create Account =================================//
                 if(input.matches("create account \\w+"))
                     createAccount(input);
-                //====================================== Login into Account =================================//
+                    //====================================== Login into Account =================================//
                 else if(input.matches("login \\w+"))
                     loginAccount(input);
-                //====================================== Show LeaderBoard =================================//
+                    //====================================== Show LeaderBoard =================================//
                 else if(input.matches("show leaderboard"))
                     showLeaderBoard();
-                //====================================== Save =================================//
+                    //====================================== Save =================================//
                 else if(input.matches("save"))
                     controller.save();
-                //====================================== Help Account =================================//
+                    //====================================== Help Account =================================//
                 else if(input.matches("help"))
                     accountHelp();
                 else
@@ -49,7 +49,7 @@ public class Viewer {
                     this.menuMode = 0;
                 else if(input.toLowerCase().matches("help"))
                     printMainMenu();
-                //========= Logout Account ======//
+                    //========= Logout Account ======//
                 else if(input.matches("logout")) {
                     controller.logOut();
                     this.menuMode = 0;
@@ -61,25 +61,16 @@ public class Viewer {
             else if(menuMode == 2){
                 if(input.toLowerCase().matches("exit"))
                     this.menuMode = 0;
-                else if(input.toLowerCase().matches("show")){
-                    ArrayList<Card> cardsToShow = controller.cardsInCollection();
-                    System.out.println("Heroes : ");
-                    for(int i = 0 ; i < cardsToShow.size() ; i++ ){
-                        if(cardsToShow.get(i) instanceof Unit && ((Unit)cardsToShow.get(i)).isHero()){
-                            Card card = cardsToShow.get(i);
-                            System.out.println(i+1 + ". Name : " + card.getName() + " - AP : " + ((Unit)card).getAttackPower() + " - HP : " + ((Unit)card).getHP()
-                            + " - Class : " + ((Unit)card).getAttackType() + " - Special Power : " + ((Unit)card).getSpecialPower().getName());
-                        }
-                    }
-                    System.out.println("Items : ");
-                    for(int i = 0 ; i < cardsToShow.size() ; i++ ){
-                        if(cardsToShow.get(i) instanceof Item){
-                            Card card = cardsToShow.get(i);
-                            System.out.println(i+1 + ". Name : " + card.getName() + " - Desc : " + ((Item)card).getDescription());
-                        }
-                    }
-                }
-
+                else if(input.toLowerCase().matches("show"))
+                    showCollection();
+                else if(input.toLowerCase().matches("search \\w+"))
+                    printSearchCollection(input.split(" ")[1]);
+                else if(input.toLowerCase().matches("save"))
+                    System.out.println("Saved Successfully !!!");
+                else if(input.toLowerCase().matches("create deck \\w+"))
+                    createPlayerDeck(input.split(" ")[2]);
+                else if(input.toLowerCase().matches("delete deck \\w+"))
+                    deletePlayerDeck(input.split(" ")[2]);
             }
             //============== Shop =============//
             else if(menuMode == 3){
@@ -89,8 +80,8 @@ public class Viewer {
                     controller.showCollection();
                 else if(input.matches("search \\w+"))
                     controller.searchCard(input.split(" ")[1]);
-                ////////////////////////////////////////////////////search too collection bayad az server collection sseda she
-                //////////////////////////INVALID HA RO HANOOZ NAZADAM
+                    ////////////////////////////////////////////////////search too collection bayad az server collection sseda she
+                    //////////////////////////INVALID HA RO HANOOZ NAZADAM
                 else if(input.matches("buy \\w+"))
                     controller.buyCard(input.split(" ")[1]);
                 else if(input.matches("sell \\d+"))
@@ -171,7 +162,33 @@ public class Viewer {
             this.menuMode = 4;
     }
     //======================== Collection Functions ====================//
-    // Arman Here !
+    public void showCollection(){
+        ArrayList<Card> cardsToShow = controller.cardsInCollection();
+        System.out.println("Heroes : ");
+        for(int i = 0 ; i < cardsToShow.size() ; i++ ){
+            if(cardsToShow.get(i) instanceof Unit && ((Unit)cardsToShow.get(i)).isHero()){
+                Card card = cardsToShow.get(i);
+                System.out.println(i+1 + ". Name : " + card.getName() + " - AP : " + ((Unit)card).getAttackPower() + " - HP : " + ((Unit)card).getHP()
+                        + " - Class : " + ((Unit)card).getAttackType() + " - Special Power : " + ((Unit)card).getSpecialPower().getName());
+            }
+        }
+        System.out.println("Items : ");
+        for(int i = 0 ; i < cardsToShow.size() ; i++ ){
+            if(cardsToShow.get(i) instanceof Item){
+                Card card = cardsToShow.get(i);
+                System.out.println(i+1 + ". Name : " + card.getName() + " - Desc : " + ((Item)card).getDescription());
+            }
+        }
+    }
+    public void printSearchCollection(String keyword){
+
+    }
+    public void createPlayerDeck(String keyword){
+
+    }
+    public void deletePlayerDeck(String keyword){
+
+    }
     //======================== Shop Function ====================//
     // Ali Here !
 
@@ -180,7 +197,6 @@ public class Viewer {
     public void showCards(int mode){ }
     public void showMap(){}
     public void showError(){ }
-    public void showCollection(){}
 
     public int getMenuMode(){
         return this.menuMode;
