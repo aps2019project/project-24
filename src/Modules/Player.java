@@ -101,4 +101,5 @@ public class Player {
     public void setListOfMatches(ArrayList<EndedMatches> listOfMatches) {
         this.listOfMatches = listOfMatches;
     }
+
 }

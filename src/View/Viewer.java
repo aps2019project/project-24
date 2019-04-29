@@ -11,7 +11,7 @@ public class Viewer {
     private Scanner scanner = new Scanner(System.in);
     private Server controller = new Server();
     private int menuMode = 0;
-    ////////////////////
+    /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
     // 2 -> Collection
@@ -26,16 +26,16 @@ public class Viewer {
                 //====================================== Create Account =================================//
                 if(input.matches("create account \\w+"))
                     createAccount(input);
-                //====================================== Login into Account =================================//
+                    //====================================== Login into Account =================================//
                 else if(input.matches("login \\w+"))
                     loginAccount(input);
-                //====================================== Show LeaderBoard =================================//
+                    //====================================== Show LeaderBoard =================================//
                 else if(input.matches("show leaderboard"))
                     showLeaderBoard();
-                //====================================== Save =================================//
+                    //====================================== Save =================================//
                 else if(input.matches("save"))
                     controller.save();
-                //====================================== Help Account =================================//
+                    //====================================== Help Account =================================//
                 else if(input.matches("help"))
                     accountHelp();
                 else
@@ -49,7 +49,7 @@ public class Viewer {
                     this.menuMode = 0;
                 else if(input.toLowerCase().matches("help"))
                     printMainMenu();
-                //========= Logout Account ======//
+                    //========= Logout Account ======//
                 else if(input.matches("logout")) {
                     controller.logOut();
                     this.menuMode = 0;
@@ -61,47 +61,55 @@ public class Viewer {
             else if(menuMode == 2){
                 if(input.toLowerCase().matches("exit"))
                     this.menuMode = 0;
-                else if(input.toLowerCase().matches("show")){
-                    ArrayList<Card> cardsToShow = controller.cardsInCollection();
-                    System.out.println("Heroes : ");
-                    for(int i = 0 ; i < cardsToShow.size() ; i++ ){
-                        if(cardsToShow.get(i) instanceof Unit && ((Unit)cardsToShow.get(i)).isHero()){
-                            Card card = cardsToShow.get(i);
-                            System.out.println(i+1 + ". Name : " + card.getName() + " - AP : " + ((Unit)card).getAttackPower() + " - HP : " + ((Unit)card).getHP()
-                            + " - Class : " + ((Unit)card).getAttackType() + " - Special Power : " + ((Unit)card).getSpecialPower().getName());
-                        }
-                    }
-                    System.out.println("Items : ");
-                    for(int i = 0 ; i < cardsToShow.size() ; i++ ){
-                        if(cardsToShow.get(i) instanceof Item){
-                            Card card = cardsToShow.get(i);
-                            System.out.println(i+1 + ". Name : " + card.getName() + " - Desc : " + ((Item)card).getDescription());
-                        }
-                    }
-                }
-
+                else if(input.toLowerCase().matches("show"))
+                    showCollection();
+                else if(input.toLowerCase().matches("search \\w+"))
+                    printSearchCollection(input.split(" ")[1]);
+                else if(input.toLowerCase().matches("save"))
+                    System.out.println("Saved Successfully !!!");
+                else if(input.toLowerCase().matches("create deck \\w+"))
+                    createPlayerDeck(input.split(" ")[2]);
+                else if(input.toLowerCase().matches("delete deck \\w+"))
+                    deletePlayerDeck(input.split(" ")[2]);
+                else if(input.toLowerCase().matches("add \\d+ to deck \\w+"))
+                    addCardToDeck(Integer.parseInt(input.split(" ")[1]),input.split(" ")[4]);
+                else if(input.toLowerCase().matches("remove \\d+ from deck \\w+"))
+                    removeCardFromDeck(Integer.parseInt(input.split(" ")[1]),input.split(" ")[4]);
+                else if(input.toLowerCase().matches("validate deck \\w+"))
+                    checkDeckValidation(input.split(" ")[2]);
+                else if(input.toLowerCase().matches("select deck \\w+"))
+                    setMainDeck(input.split(" ")[2]);
+                else if(input.toLowerCase().matches("show all decks"))
+                    showAllDecks();
+                else if(input.toLowerCase().matches("show deck \\w+"))
+                    showOneDeck(input.split(" ")[2]);
+                else if(input.toLowerCase().matches("help"))
+                    collectionHelp();
+                else
+                    System.out.println("Invalid Command !!!");
             }
             //============== Shop =============//
             else if(menuMode == 3){
                 if(input.matches("exit"))
                     menuMode = 1;
                 else if(input.matches("show collection"))
-                    controller.showCollection();
-                else if(input.matches("search \\w+"))
-                    controller.searchCard(input.split(" ")[1]);
-                ////////////////////////////////////////////////////search too collection bayad az server collection sseda she
-                //////////////////////////INVALID HA RO HANOOZ NAZADAM
+                    showCollectionInShop();
+                else if(input.matches("search collection \\w+"))
+                    controller.searchCardInCollection(input.split(" ")[2]);
+                else if(input.matches("search \\w+") && !input.split(" ")[1].matches("collection"))
+                    controller.searchCardInShop(input.split(" ")[1]);
                 else if(input.matches("buy \\w+"))
-                    controller.buyCard(input.split(" ")[1]);
+                    buyCard(input.split(" ")[1]);
                 else if(input.matches("sell \\d+"))
-                    controller.sellCardwithID(Integer.parseInt(input.split(" ")[1]));
+                    sellCardWithID(Integer.parseInt(input.split(" ")[1]));
                 else if(input.matches("sell \\D+"))
-                    controller.sellCardWithName(input.split(" ")[1]);
+                    sellCardWithName(input.split(" ")[1]);
                 else if(input.matches("show"))
-                    controller.showItems();
+                    showCardsInShop();
                 else if(input.matches("help"))
                     printShopMenu();
             }
+
         }
     }
     //======================== Account Function ====================//
@@ -159,9 +167,7 @@ public class Viewer {
     private void printMainMenu(){
         System.out.print("1. Collection\n2. Shop\n3. Battle\n4. Exit\n5. Help\n");
     }
-    private void printShopMenu(){
-        System.out.print("1. exit\n2. show collection\n3. search\n4. search collection\n5. buy\n6. sell\n7. show");
-    }
+
     private void goToMenu(String name){
         if(name.toLowerCase().equals("collection"))
             this.menuMode = 2;
@@ -190,23 +196,282 @@ public class Viewer {
         }
     }
     public void printSearchCollection(String keyword){
-
+        ArrayList<Integer> cardIDs = controller.searchCollection(keyword);
+        if(cardIDs.size() == 0)
+            System.out.println("Nothing Found in Search !!!");
+        else{
+            System.out.println("Search Result :");
+            for(int i = 0 ; i < cardIDs.size() ; i++)
+                System.out.println(cardIDs.get(i));
+        }
     }
     public void createPlayerDeck(String keyword){
-
+        if(controller.isDeckExists(keyword))
+            System.out.println("a Deck with this name already exists !!!");
+        else {
+            controller.createDeckForPlayer(keyword);
+            System.out.println("Deck with name " + keyword + " Successfully Created !");
+        }
     }
     public void deletePlayerDeck(String keyword){
-
+        if(!controller.isDeckExists(keyword))
+            System.out.println("a Deck with this name does not exist !!!");
+        else {
+            controller.deleteDeckPlayer(keyword);
+            System.out.println("Deck with name " + keyword + " Successfully Deleted !");
+        }
+    }
+    public void addCardToDeck(int cardID,String keyword){
+        if(!controller.isDeckExists(keyword))
+            System.out.println("Deck with this name does not exists !!!");
+        else if(!controller.isCardInCollection(cardID))
+            System.out.println("This CardID is not in your Collection !!!");
+        else if(controller.isCardInDeck(cardID,keyword))
+            System.out.println("This CardID is already in your Deck !!!");
+        else if(controller.isDeckFull(keyword))
+            System.out.println("This Deck is Full and cant Add your Card !!!");
+        else if(controller.isCardIDHero(cardID) && controller.deckHasHero(keyword))
+            System.out.println("Your Deck already has a Hero !!!");
+        else{
+            controller.addCardToTheDeck(keyword,cardID);
+            System.out.println("Card Successfully added to your Deck !");
+        }
+    }
+    public void removeCardFromDeck(int cardID , String keyword){
+        if(!controller.isDeckExists(keyword))
+            System.out.println("Deck with this name doesnt exist !!!");
+        else if(!controller.isCardInDeck(cardID,keyword))
+            System.out.println("This Card Does not exist in your Deck !!!");
+        else{
+            controller.deleteCardFromDeck(keyword,cardID);
+            System.out.println("Card Successfully Deleted From Deck !!!");
+        }
+    }
+    public void checkDeckValidation(String keyword){
+        if(!controller.isDeckExists(keyword))
+            System.out.println("Deck with this name doesnt exist !!!");
+        else if(controller.isDeckValid(keyword))
+            System.out.println("This Deck is Valid !");
+        else
+            System.out.println("Deck is not Valid !!!");
+    }
+    public void setMainDeck(String keyword){
+        if(!controller.isDeckExists(keyword))
+            System.out.println("Deck with this name doesnt exist !!!");
+        else{
+            controller.setMainDeck(keyword);
+            System.out.println("Main Deck Successfully been Set !");
+        }
+    }
+    public void showDeck(String keyword){
+        ArrayList<Card> cardsToShow = controller.getDeck(keyword).getCards();
+        System.out.println("Heroes : ");
+        for(int i = 0 ; i < cardsToShow.size() ; i++ ){
+            if(cardsToShow.get(i) instanceof Unit && ((Unit)cardsToShow.get(i)).isHero()){
+                Card card = cardsToShow.get(i);
+                System.out.println(i+1 + ". Name : " + card.getName() + " - AP : " + ((Unit)card).getAttackPower() + " - HP : " + ((Unit)card).getHP()
+                        + " - Class : " + ((Unit)card).getAttackType() + " - Special Power : " + ((Unit)card).getSpecialPower().getName());
+            }
+        }
+        System.out.println("Items : ");
+        for(int i = 0 ; i < cardsToShow.size() ; i++ ){
+            if(cardsToShow.get(i) instanceof Item){
+                Card card = cardsToShow.get(i);
+                System.out.println(i+1 + ". Name : " + card.getName() + " - Desc : " + ((Item)card).getDescription());
+            }
+        }
+    }
+    public void showOneDeck(String keyword){
+        if(!controller.isDeckExists(keyword))
+            System.out.println("Deck with this name doesnt exist !!!");
+        else
+            showDeck(keyword);
+    }
+    public void showAllDecks(){
+        ArrayList<Deck> decks = controller.getPlayerDecks();
+        System.out.println("1 : " + controller.getPlayerMainDeck().getName());
+        showDeck(controller.getPlayerMainDeck().getName());
+        int cnt = 2;
+        for(int i = 0 ; i < decks.size() ; i++ ){
+            System.out.println(cnt++ + " :");
+            showDeck(decks.get(i).getName());
+        }
+    }
+    public void collectionHelp(){
+        System.out.println("============= Commands =============");
+        System.out.println("exit");
+        System.out.println("show");
+        System.out.println("search [card name | item name]");
+        System.out.println("save");
+        System.out.println("create deck [deck name]");
+        System.out.println("delete deck [deck name]");
+        System.out.println("add [card id | card id | hero id] to deck [deck name]");
+        System.out.println("remove [card id | card id| hero id] from deck [deck name]");
+        System.out.println("validate deck [deck name");
+        System.out.println("select deck [deck name]");
+        System.out.println("show all decks");
+        System.out.println("show deck [deck name]");
+        System.out.println("=====================================");
     }
     //======================== Shop Function ====================//
-    // Ali Here !
+    public void showCollectionInShop(){
+        ArrayList<Card> collection = controller.cardsInCollection();
+        System.out.println("Heroes :");
+        int counter = 0;
+        for(int i = 0; i < collection.size(); i++){
+            if(collection.get(i) instanceof Unit && ((Unit) collection.get(i)).isHero()){
+                Unit hero = (Unit)collection.get(i);
+                counter++;
+                System.out.println("\t" + counter + " : Name : " + hero.getName() + " _ AP : " + hero.getAttackPower() + " _ HP : " +
+                        hero.getHP() + " _ Class" + hero.getClass() + " _ Special power : " + hero.getSpecialPower() +
+                        " _ Sell Cost : " + hero.getPrice());
+                ///////////////////getclass ina ro nadarim asan too unit va inke new unit chera khakestarie
+            }
+        }
+        System.out.println("Items : ");
+        counter = 0;
+        for(int i = 0; i < collection.size(); i++){
+            if(collection.get(i) instanceof Item){
+                Item item = (Item)collection.get(i);
+                counter++;
+                System.out.println("\t" + counter + " : Name " + item.getName() + " _ Desc : " +
+                        item.getDescription() + " _ Sell Cost : " + item.getPrice());
+            }
+        }
+        System.out.println("Cards : ");
+        counter = 0;
+        for(int i  = 0; i < collection.size(); i++){
+            if(!(collection.get(i) instanceof Item) && !(collection.get(i) instanceof Unit &&
+                    ((Unit) collection.get(i)).isHero())){
+                counter++;
+                if(collection.get(i) instanceof SpellCard){
+                    SpellCard card = (SpellCard) collection.get(i);
+                    System.out.println("\t" + counter + " : Type : Spell _ Name : " + card.getName() +
+                            " _ MP : " + card.getManaCost() + " _ Description : " + " _ Sell Cost : "
+                            + card.getPrice() );///////////////////////////////////////////////desc nadare
+                }
+                if(collection.get(i) instanceof Unit){
+                    Unit card = (Unit)collection.get(i);
+                    System.out.println("\t" + counter + " : Type : Minion _ Name : " + card.getName()
+                            + " _ class : " + card.getClass() + " _ AP : " + card.getAttackPower() + " _ HP : "
+                            + card.getHP() + " _ MP : " + card.getManaCost() + " _ Special Power : " +
+                            card.getSpecialPower() + " _ Sell Cost : " + card.getPrice());
+                }
+
+            }
+        }
+    }
+    public void showCardsInShop(){
+        ArrayList<Card> cardsInShop = controller.getCardsInShop();
+        System.out.println("Heroes :");
+        int counter = 0;
+        for(int i = 0; i < cardsInShop.size(); i++){
+            if(cardsInShop.get(i) instanceof Unit && ((Unit) cardsInShop.get(i)).isHero()){
+                Unit hero = (Unit)cardsInShop.get(i);
+                counter++;
+                System.out.println("\t" + counter + " : Name : " + hero.getName() + " _ AP : " + hero.getAttackPower()
+                        + " _ HP : " + hero.getHP() + " _ Special power : " + hero.getSpecialPower() +
+                        " _ Buy Cost : " + hero.getPrice());
+            }
+        }
+        System.out.println("Items : ");
+        counter = 0;
+        for(int i = 0; i < cardsInShop.size(); i++){
+            if(cardsInShop.get(i) instanceof Item){
+                Item item = (Item)cardsInShop.get(i);
+                counter++;
+                System.out.println("\t" + counter + " : Name " + item.getName() + " _ Desc : " +
+                        item.getDescription() + " _ Buy Cost : " + item.getPrice());
+            }
+        }
+        System.out.println("Cards : ");
+        counter = 0;
+        for(int i  = 0; i < cardsInShop.size(); i++){
+            if(!(cardsInShop.get(i) instanceof Item) && !(cardsInShop.get(i) instanceof Unit &&
+                    ((Unit) cardsInShop.get(i)).isHero())){
+                counter++;
+                if(cardsInShop.get(i) instanceof SpellCard){
+                    SpellCard card = (SpellCard) cardsInShop.get(i);
+                    System.out.println("\t" + counter + " : Type : Spell _ Name : " + card.getName() +
+                            " _ MP : " + card.getManaCost() + " _ Description : " + " _ Buy Cost : "
+                            + card.getPrice() );///////////////////////////////////////////////desc nadare
+                }
+                if(cardsInShop.get(i) instanceof Unit){
+                    Unit card = (Unit)cardsInShop.get(i);
+                    System.out.println("\t" + counter + " : Type : Minion _ Name : " + card.getName()
+                            + " _ class : " + card.getClass() + " _ AP : " + card.getAttackPower() + " _ HP : "
+                            + card.getHP() + " _ MP : " + card.getManaCost() + " _ Special Power : " +
+                            card.getSpecialPower() + " _ Buy Cost : " + card.getPrice());
+                }
+
+            }
+        }
+    }
+    public void sellCardWithID(int cardID){
+        ArrayList<Card> cardsInCollection = controller.cardsInCollection();
+        boolean found = false;
+        for(int i = 0; i < cardsInCollection.size(); i++){
+            if(cardsInCollection.get(i).getCardID() == cardID){
+                controller.sellCardWithID(cardID);
+                System.out.println("selling Done!");
+                found = true;
+                break;
+            }
+        }
+        if(!found){
+            System.out.println("you dont have this card!");
+        }
+    }
+    public void sellCardWithName(String name){
+        ArrayList<Card> cardsInCollection = controller.cardsInCollection();
+        boolean found = false;
+        for(int i = 0; i < cardsInCollection.size(); i++){
+            if(cardsInCollection.get(i).getName() == name){
+                controller.sellCardWithName(name);
+                System.out.println("selling Done!");
+                found = true;
+            }
+        }
+        if(!found){
+            System.out.println("you dont have this card!");
+        }
+    }
+    private void printShopMenu(){
+        System.out.print("1. exit\n2. show collection\n3. search\n4. search collection\n5. buy\n6. sell\n7. show");
+    }
+    public void buyCard(String name){
+        ArrayList<Card> cardsInShop = controller.getCardsInShop();
+        boolean found = false;
+        for(int i = 0; i < cardsInShop.size(); i++){
+            if(cardsInShop.get(i).getName() == name){
+                found = true;
+                if(cardsInShop.get(i).getPrice() > controller.getPlayerMoney()){
+                    System.out.println("you dont have enough money");
+                }
+                else if(controller.getNumberOfItemsOfPlayers() > 3 && cardsInShop.get(i) instanceof Item){
+                    System.out.println("you cant buy any more items");
+                }
+                else{
+                    controller.buyCard(name);
+                    System.out.println("buying successful");
+                }
+                break;
+            }
+        }
+        if(!found)
+            System.out.println("we dont have this card");
+    }
+
+    public void printSearchedID(int cardID){
+        System.out.println(cardID);
+    }
+
 
 
 
     public void showCards(int mode){ }
     public void showMap(){}
     public void showError(){ }
-    public void showCollection(){}
 
     public int getMenuMode(){
         return this.menuMode;
