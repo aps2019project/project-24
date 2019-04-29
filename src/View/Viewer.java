@@ -171,8 +171,35 @@ public class Viewer {
             this.menuMode = 4;
     }
     //======================== Collection Functions ====================//
-    // Arman Here !
+    public void showCollection(){
+        ArrayList<Card> cardsToShow = controller.cardsInCollection();
+        System.out.println("Heroes : ");
+        for(int i = 0 ; i < cardsToShow.size() ; i++ ){
+            if(cardsToShow.get(i) instanceof Unit && ((Unit)cardsToShow.get(i)).isHero()){
+                Card card = cardsToShow.get(i);
+                System.out.println(i+1 + ". Name : " + card.getName() + " - AP : " + ((Unit)card).getAttackPower() + " - HP : " + ((Unit)card).getHP()
+                        + " - Class : " + ((Unit)card).getAttackType() + " - Special Power : " + ((Unit)card).getSpecialPower().getName());
+            }
+        }
+        System.out.println("Items : ");
+        for(int i = 0 ; i < cardsToShow.size() ; i++ ){
+            if(cardsToShow.get(i) instanceof Item){
+                Card card = cardsToShow.get(i);
+                System.out.println(i+1 + ". Name : " + card.getName() + " - Desc : " + ((Item)card).getDescription());
+            }
+        }
+    }
+    public void printSearchCollection(String keyword){
 
+    }
+    public void createPlayerDeck(String keyword){
+
+    }
+    public void deletePlayerDeck(String keyword){
+
+    }
+    //======================== Shop Function ====================//
+    // Ali Here !
 
 
 
