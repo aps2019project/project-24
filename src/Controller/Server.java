@@ -73,12 +73,81 @@ public class Server {
         return Collection.searchCard(currentPlayer,keyword);
     }
     public boolean isDeckExists(String keyword){
-        return true;
+        for(int i = 0 ; i < currentPlayer.getAllDecks().size() ; i++ )
+            if(currentPlayer.getAllDecks().get(i).getName().equals(keyword))
+                return true;
+        return false;
     }
     public void createDeckForPlayer(String keyword){
-
+        Deck d = new Deck(keyword);
+        currentPlayer.getAllDecks().add(d);
     }
     public void deleteDeckPlayer(String keyword){
-
+        for(int i = 0 ; i < currentPlayer.getAllDecks().size() ; i++)
+            if(currentPlayer.getAllDecks().get(i).getName().equals(keyword))
+                currentPlayer.getAllDecks().remove(i);
+    }
+    public boolean isCardInCollection(int cardID){
+        for(int i = 0 ; i < currentPlayer.getCollection().size() ; i++)
+            if(currentPlayer.getCollection().get(i).getCardID() == cardID)
+                return true;
+        return false;
+    }
+    public boolean isCardInDeck(int cardID , String keyword){
+        Deck d = Collection.searchDeck(currentPlayer,keyword);
+        for(int j = 0 ; j < d.getCards().size() ; j++)
+            if(d.getCards().get(j).getCardID() == cardID)
+                return true;
+        return false;
+    }
+    public boolean isDeckFull(String keyword){
+        Deck d = Collection.searchDeck(currentPlayer,keyword);
+        if(d.getCards().size() == 20)
+            return true;
+        return false;
+    }
+    public boolean isCardIDHero(int cardID){
+        for(int i = 0 ; i < currentPlayer.getCollection().size() ; i++)
+            if(currentPlayer.getCollection().get(i).getCardID() == cardID){
+                if( currentPlayer.getCollection().get(i) instanceof Unit && ((Unit)currentPlayer.getCollection().get(i)).isHero())
+                    return true;
+            }
+        return false;
+    }
+    public boolean deckHasHero(String keyword){
+        Deck d = Collection.searchDeck(currentPlayer,keyword);
+        for(int i = 0 ; i < d.getCards().size() ; i++)
+            if(d.getCards().get(i) instanceof Unit && ((Unit)d.getCards().get(i)).isHero())
+                return true;
+        return false;
+    }
+    public void addCardToTheDeck(String keyword , int cardID){
+        Deck d = Collection.searchDeck(currentPlayer,keyword);
+        Card c = Collection.searchCard(currentPlayer,cardID);
+        d.getCards().add(c);
+    }
+    public void deleteCardFromDeck(String keyword , int cardID){
+        Deck d = Collection.searchDeck(currentPlayer,keyword);
+        Card c = Collection.searchCard(currentPlayer,cardID);
+        d.getCards().remove(c);
+    }
+    public boolean isDeckValid(String keyword){
+        if(deckHasHero(keyword) && isDeckFull(keyword))
+            return true;
+        return false;
+    }
+    public void setMainDeck(String keyword){
+        Deck d = Collection.searchDeck(currentPlayer,keyword);
+        currentPlayer.setMainDeck(d);
+        currentPlayer.getAllDecks().remove(d);
+    }
+    public Deck getDeck(String keyword){
+        return Collection.searchDeck(currentPlayer,keyword);
+    }
+    public ArrayList<Deck> getPlayerDecks(){
+        return currentPlayer.getAllDecks();
+    }
+    public Deck getPlayerMainDeck(){
+        return currentPlayer.getMainDeck();
     }
 }
