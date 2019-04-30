@@ -11,6 +11,13 @@ public class Unit extends Card{
     private boolean hasFlag;
     private Target SpecialPowerTarget;
     private String SpecialPowerCastTime;
+    private String description;
+    private boolean canCombo;
+
+    public boolean getCanCombo(){return this.canCombo;}
+    public void setCanCombo(boolean canDoCombo){this.canCombo = canDoCombo;}
+    public String getDescription(){return this.description;}
+    public void setDescription(String str){this.description = str;}
 
     public boolean getHasFlag(){ return this.hasFlag; }
     public void setHasFlag(boolean unitHasFlag){this.hasFlag = unitHasFlag;}
