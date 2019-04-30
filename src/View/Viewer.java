@@ -110,7 +110,11 @@ public class Viewer {
                 else if(input.matches("help"))
                     printShopMenu();
             }
-
+            //============== Game =============//
+            else if(menuMode == 4){
+                if(input.toLowerCase().matches("game info"))
+                    showGameInfo();
+            }
         }
     }
     //======================== Account Function ====================//
@@ -480,7 +484,15 @@ public class Viewer {
     public void setMenuMode(int i){
         this.menuMode = i;
     }
-    /////////////////////////////// GAME ////////////////////////////
+
+
+
+    //======================== Battle Functions ====================//
+    public void showGameInfo(){
+        System.out.println("-------- Game Info ---------");
+        System.out.println("Mana => " + controller.showPlayersMana());
+        System.out.println(controller.showGameModeInfo());
+    }
     public void showPlayerMinions(){
 
     }

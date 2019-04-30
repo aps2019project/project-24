@@ -8,8 +8,12 @@ public class Unit extends Card{
     private int range;
     private int manaCost;
     private boolean isHero;
+    private boolean hasFlag;
     private Target SpecialPowerTarget;
     private String SpecialPowerCastTime;
+
+    public boolean getHasFlag(){ return this.hasFlag; }
+    public void setHasFlag(boolean unitHasFlag){this.hasFlag = unitHasFlag;}
 
     public boolean isHero() {
         return isHero;

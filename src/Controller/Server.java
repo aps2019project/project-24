@@ -39,7 +39,7 @@ public class Server {
     public void save(){}
     public void logOut(){currentPlayer = null;}
 
-//=================================shop functions ===================================//
+//================================= Shop functions ===================================//
 
     public void searchCardInShop(String cardName){
         for(int i = 0; i < shop.getCards().size(); i++) {
@@ -170,7 +170,39 @@ public class Server {
         return currentPlayer.getMainDeck();
     }
 
-    ////////////////GAME///////////////
+    //================================= Battle Functions ===============================//
+    public String showPlayersMana(){
+        String ans = "";
+        ans = ans.concat(currentGame.getPlayersOfGame()[0].getUsername() + " " + currentGame.getManaOfPlayers()[0] + " - ");
+        ans = ans.concat(currentGame.getPlayersOfGame()[1].getUsername() + " " + currentGame.getManaOfPlayers()[1]);
+        return ans;
+    }
+    public String showGameModeInfo(){
+        String ans = "Game Mode => ";
+        if(currentGame.getGameMode().equals("heroMode")){
+            ans = ans.concat("Hero Mode\n1. Health Of Hero Player " + currentGame.getPlayersOfGame()[0].getUsername() + " : " + ((Unit)currentGame.getPlayerHero(0)).getHP() + "\n");
+            ans = ans.concat("2. Health Of Hero Player " + currentGame.getPlayersOfGame()[1].getUsername() + " : " + ((Unit)currentGame.getPlayerHero(1)).getHP() + "\n");
+        }
+        else if(currentGame.getGameMode().equals("flagHolding")){
+            int[] coord = new int[2];
+            coord[0] = currentGame.getFlagHoldedCoordination()[0];
+            coord[1] = currentGame.getFlagHoldedCoordination()[1];
+            ans = ans.concat("Flag Holding Mode\nFlag Coordination = X : " + coord[0] + " , Y : " + coord[1] + "\n");
+            if(currentGame.getFlagOwner(coord[0],coord[1]) == null)
+                ans = ans.concat("Nobody has the flag !!!");
+            else
+                ans = ans.concat("Player " + currentGame.getFlagOwner(coord[0],coord[1]).getUsername() + " Has The Flag !");
+        }
+        else{
+            ArrayList<String> flagsInfo = currentGame.getFlagsInfo();
+            ans = ans.concat("Flags Collecting Mode\n Soldiers That have The flag :\n");
+            for(int i = 0 ; i < flagsInfo.size() ; i++ )
+                ans = ans.concat(i+1 + ". " + flagsInfo.get(i) + "\n");
+        }
+        return ans;
+    }
+
+
     public ArrayList<String> getAllMinionsInfo(String whom){
         ArrayList<String> ans = new ArrayList<>();
 
