@@ -1,7 +1,6 @@
 package View;
 
 import java.lang.reflect.Array;
-import java.sql.SQLOutput;
 import java.util.*;
 import Controller.*;
 import Modules.*;
@@ -115,9 +114,14 @@ public class Viewer {
             else if(menuMode == 4){
                 if(input.toLowerCase().matches("game info"))
                     showGameInfo();
-                else if ( input.toLowerCase().matches("select [\\d+]"));
+                else if ( input.toLowerCase().matches("select [\\d+]"))
                     selectCard(Integer.parseInt(input.split("\\s")[1]));
-
+                else if(input.toLowerCase().matches("show my minions"))
+                    showPlayerMinions("my");
+                else if(input.toLowerCase().matches("show opponent minions"))
+                    showPlayerMinions("opponent");
+                else if(input.toLowerCase().matches("show card info \\d+"))
+                    showCardInfo(Integer.parseInt(input.split(" ")[3]));
             }
         }
     }
@@ -497,12 +501,13 @@ public class Viewer {
         System.out.println("Mana => " + controller.showPlayersMana());
         System.out.println(controller.showGameModeInfo());
     }
-    public void showPlayerMinions(){
-
+    public void showPlayerMinions(String string){
+        ArrayList<String> unitsInfo = controller.getPlayerUnitsInfo(string);
+        for(int i = 0 ; i < unitsInfo.size() ; i++)
+            System.out.println(i+1 + ". " + unitsInfo.get(i));
     }
-
-    public void showCardInfo(){
-
+    public void showCardInfo(int cardID){
+        System.out.println(controller.showCardInfo(cardID));
     }
 
     public void selectCard(int cardID){

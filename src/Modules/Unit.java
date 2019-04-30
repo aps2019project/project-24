@@ -11,11 +11,14 @@ public class Unit extends Card{
     private boolean hasFlag;
     private Target SpecialPowerTarget;
     private String SpecialPowerCastTime;
-    private boolean hasBeenMovedThisRound;
+    private String description;
+    private boolean canCombo;
 
-    public boolean isHasFlag() {
-        return hasFlag;
-    }
+    public boolean getCanCombo(){return this.canCombo;}
+    public void setCanCombo(boolean canDoCombo){this.canCombo = canDoCombo;}
+    public String getDescription(){return this.description;}
+    public void setDescription(String str){this.description = str;}
+    private boolean hasBeenMovedThisRound;
 
     public boolean isHasBeenMovedThisRound() {
         return hasBeenMovedThisRound;

@@ -201,6 +201,34 @@ public class Server {
         }
         return ans;
     }
+    public ArrayList<String> getPlayerUnitsInfo(String turn){
+        return currentGame.getPlayerUnitsInfo(turn);
+    }
+    public String showCardInfo(int cardID){
+        Card card = currentGame.findCardByID(cardID);
+        if(card == null)
+            return "This Card ID is invalid !!!";
+        else if(card instanceof Unit && ((Unit)card).isHero()){
+            String ans = "";
+            ans = ans.concat("Hero :\nName : " + card.getName() + "\nCost : " + ((Unit) card).getManaCost() + "\nDesc : " + ((Unit) card).getDescription());
+            return ans;
+        }
+        else if(card instanceof Unit){
+            String ans = "";
+            String canCombo;
+            if(((Unit) card).getCanCombo())
+                canCombo = "Yes";
+            else
+                canCombo = "No";
+            ans = ans.concat("Minion :\nName : " + card.getName() + "\nHP : " + ((Unit) card).getHP() + " , AP : " + ((Unit) card).getAttackPower()
+                    + " , MP : " + ((Unit) card).getManaCost() + "\nRange : " + ((Unit) card).getRange() + "\nCombo-Ability : "
+                    + canCombo + "\nCost : " + ((Unit) card).getManaCost() + "\nDesc : " + ((Unit) card).getDescription() );
+            return ans;
+        }
+        String ans = "";
+        ans = ans.concat("Spell :\nName : " + card.getName() + "\nMP : " + ((SpellCard) card).getManaCost() + "\nDesc : " + ((SpellCard) card).getDescription());
+        return ans;
+    }
 
 
     public ArrayList<String> getAllMinionsInfo(String whom){

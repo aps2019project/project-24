@@ -203,6 +203,32 @@ public class Game{
         return ans;
     }
 
+    public ArrayList<String> getPlayerUnitsInfo(String turn){
+        ArrayList<String> ans = new ArrayList<>();
+        Player p;
+        if(turn.equals("my"))
+            p = this.playersOfGame[this.turn];
+        else{
+            p = this.playersOfGame[0];
+            if(this.turn == 0)
+                p = this.playersOfGame[1];
+        }
+        for(int i = 0 ; i < 5 ; i++)
+            for(int j = 0 ; j < 9 ; j++)
+                if(this.map[i][j].getCard() instanceof Unit && this.getCardOwner(this.map[i][j].getCard()).equals(p) ) {
+                    Unit unit = (Unit)this.map[i][j].getCard();
+                    ans.add(unit.getCardID() + " : " + unit.getName() + " , Health : " + unit.getHP() + " , Location : ("
+                    + i + "," + j + ") , Power : " + unit.getAttackPower());
+                }
+        return ans;
+    }
+
+    public int[] findByCardID(int cardID){
+        int[] ans = new int[2];
+
+        return ans;
+    }
+
     public Card findCardByID(int cardID){
         for (int i=0; i<2; i++ )
             for ( Card card : primaryCards[i] )
