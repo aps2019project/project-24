@@ -49,7 +49,8 @@ public class Target {
         this.targetType = targetType;
     }
 
-    public void setTheTarget(){
+    public void setTheTarget() {
         //az ruye string khoonde mishe dastoor va cartaye hadaf daqiqan moshakhas mishan!!
     }
+    //tedad minionYaHeroYaHarchi khodiYaDoshman
 }

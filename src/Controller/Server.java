@@ -2,11 +2,14 @@ package Controller;
 ///////////////////////////////////////////////////////////ali inja comment gozashte
 import View.*;
 import Modules.*;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Server {
     private Shop shop;
     private Player currentPlayer = null;
+    private Game currentGame;
     private ArrayList<Game> allGames;
     private Viewer viewer;
     public ArrayList<Player> getAllPlayers() {
@@ -166,4 +169,96 @@ public class Server {
     public Deck getPlayerMainDeck(){
         return currentPlayer.getMainDeck();
     }
+
+    ////////////////GAME///////////////
+    public ArrayList<String> getAllMinionsInfo(String whom){
+        ArrayList<String> ans = new ArrayList<>();
+
+
+        return ans;
+    }
+
+    public Card findCard(int cardID){
+        return this.currentGame.findCardByID(cardID);
+    }
+
+    public boolean selectCard(int cardID){
+        if ( this.currentGame.findCardByID(cardID) != null )
+            return true;
+        else
+            return false;
+    }
+
+    public int moveCard(int x, int y){
+        if ( true )
+            return this.currentGame.getCurrentCard().getCardID();
+        else
+            return 0;
+    }
+
+    public int attack(int opponentCardID){
+        // return -1 -> opponent is missed
+        // return -2 -> range !
+        // return -3 -> already attacked
+        // return -4 -> no card has been selected !
+        return this.currentGame.getCurrentCard().getCardID();
+    }
+
+    public int counterAttack(int opponentCardID){
+
+    }
+
+    public int comboAttack(int opponentCardID, ArrayList<Integer> comboAttackers){
+
+    }
+
+    public int useSpecialPower(int x, int y){
+
+    }
+
+    public ArrayList<Card>showHand(){
+
+    }
+
+    public int insertUnit(String cardName, int x, int y){
+
+    }
+
+    public int insertSpell(String cardName, int x, int y){
+
+    }
+
+    public void endTurn(){
+
+    }
+
+    public ArrayList<Item> ShowCollectables(){
+
+    }
+
+    public int selectItem(int itemID){
+
+    }
+
+    public Item showCurrentItemInfo(){
+
+    }
+
+    public boolean useCurrentItem(int x, int y){
+
+    }
+
+    public void showNextCard(){
+
+    }
+
+    public boolean enterGraveYard(){
+
+    }
+
+    public void endGame(){
+
+    }
+
+
 }

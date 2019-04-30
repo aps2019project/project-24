@@ -1,5 +1,6 @@
 package View;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import Controller.*;
 import Modules.*;
@@ -479,4 +480,93 @@ public class Viewer {
     public void setMenuMode(int i){
         this.menuMode = i;
     }
+    /////////////////////////////// GAME ////////////////////////////
+    public void showPlayerMinions(){
+
+    }
+
+    public void showCardInfo(){
+
+    }
+
+    public void selectCard(int cardID){
+
+    }
+
+    public void moveCard(int x, int y){
+
+    }
+
+    public void attack(int opponentCardID){
+
+    }
+
+    public void comboAttack(int opponentCardID, ArrayList<Integer> comboAttackers){
+
+    }
+
+    public void useSpecialPower(int x, int y){
+
+    }
+
+    public void showHand(){
+
+    }
+
+    public void insertUnit(String cardName, int x, int y){
+
+    }
+
+    public void insertSpell(String cardName, int x, int y){
+
+    }
+
+    public void endTrun(){
+
+    }
+
+    public void ShowCollectables(){
+
+    }
+
+    public void selectItemByID(int itemID){
+
+    }
+
+    public void showCurrentItemInfo(){
+
+    }
+
+    public void useCurrentItem(int x, int y){
+
+    }
+
+    public void showNextCard(){
+
+    }
+
+    public void EnterGraveYard(){
+
+    }
+
+    public void showInfoOfCard(int cardID){
+
+    }
+
+    public void help(){
+
+    }
+
+    public void endGame(){
+
+    }
+
+    public void exit(){
+
+    }
+
+    public void showMenu(){
+
+    }
+
 }
