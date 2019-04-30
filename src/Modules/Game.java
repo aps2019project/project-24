@@ -1,12 +1,15 @@
 package Modules;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import View.*;
 
 public class Game{
     private Player[] playersOfGame;
     private int turn;
     private ArrayList<Card>[] decksOfPLayers;
+    private ArrayList<Card>[] primaryCards;
     private ArrayList<Card>[] handsOfPlayers;
     private ArrayList<Item>[] collectableItems;
     private Cell[][] map;
@@ -14,12 +17,44 @@ public class Game{
     private ArrayList<Card> graveYard;
     private int[] manaOfPlayers;
     private int numberOfFlagsToWin;
-    private ArrayList<String> input;
-    private ArrayList<String> output;
-    private Viewer viewer;
     private Card currentCard ;
     private Item currentItem;
     private boolean areWeInTheGraveYard;
+
+    public Game(Player player1, Player player2, String gameMode, int numberOfFlagsToWin){
+        playersOfGame = new Player[2];
+        playersOfGame[0] = player1;
+        playersOfGame[1] = player2;
+        this.turn = 0;
+        decksOfPLayers = new ArrayList[2];
+        primaryCards = new ArrayList[2];
+        collectableItems = new ArrayList[2];
+        for (int i=0; i<2; i++ ) {
+            decksOfPLayers[i] = new ArrayList<>();
+            decksOfPLayers[i].addAll(playersOfGame[i].getMainDeck().getCards());
+            primaryCards[i] = new ArrayList<>();
+            primaryCards[i].addAll(decksOfPLayers[i]);
+            collectableItems[i] = new ArrayList<>();
+            Collections.shuffle(decksOfPLayers[i]);
+        }
+        handsOfPlayers  = new ArrayList[2];
+        for (int i=0; i<2; i++) {
+            handsOfPlayers[i] = new ArrayList<>();
+            for (int j = 0; j < 5; j++)
+                handsOfPlayers[i].add(decksOfPLayers[i].get(j));
+            for ( int j=0; j < 5; j++)
+                decksOfPLayers[i].remove(0);
+        }
+        map = new Cell[5][9];
+        for ( Cell[] cells : map )
+            for ( Cell cell : cells )
+                cell = new Cell();
+        this.gameMode = gameMode;
+        this.numberOfFlagsToWin = numberOfFlagsToWin;
+        this.currentCard = null;
+        this.currentItem = null;
+        this.areWeInTheGraveYard = false;
+    }
 
     public Player[] getPlayersOfGame() {
         return playersOfGame;
@@ -93,22 +128,6 @@ public class Game{
         this.numberOfFlagsToWin = numberOfFlagsToWin;
     }
 
-    public ArrayList<String> getInput() {
-        return input;
-    }
-
-    public void setInput(ArrayList<String> input) {
-        this.input = input;
-    }
-
-    public ArrayList<String> getOutput() {
-        return output;
-    }
-
-    public void setOutput(ArrayList<String> output) {
-        this.output = output;
-    }
-
     public Viewer getViewer() {
         return viewer;
     }
@@ -145,11 +164,9 @@ public class Game{
         this.areWeInTheGraveYard = areWeInTheGraveYard;
     }
 
-    ///////////////// GAme/////////////////
 
-    public void startTheGame(){
-        // instanse gereftan az deck haye mellat berize tu deckaye game
-    }
+
+    ///////////////// GAme/////////////////
 
     public int[] findByCardID(int cardID){
         int[] ans = new int[2];
@@ -234,4 +251,4 @@ public class Game{
     }
 
 
- }
+}
