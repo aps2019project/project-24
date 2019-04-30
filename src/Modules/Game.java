@@ -203,27 +203,19 @@ public class Game{
         return ans;
     }
 
-    public void startTheGame(){
-        // instanse gereftan az deck haye mellat berize tu deckaye game
-    }
-
-    public int[] findByCardID(int cardID){
-        int[] ans = new int[2];
-
-        return ans;
-    }
-
     public Card findCardByID(int cardID){
-        Card ans = null;
-
-        return ans;
+        for (int i=0; i<2; i++ )
+            for ( Card card : primaryCards[i] )
+                if ( cardID == card.getCardID() )
+                    return card;
+        return null;
     }
 
     public void setCurrentCard(Card currentCard) {
         this.currentCard = currentCard;
     }
 
-    public int moceCurrentCard(int x, int y){
+    public int moveCurrentCard(int x, int y){
         if ( true )
             return this.getCurrentCard().getCardID();
         else

@@ -210,15 +210,19 @@ public class Server {
         return ans;
     }
 
-    public Card findCard(int cardID){
-        return this.currentGame.findCardByID(cardID);
-    }
-
     public boolean selectCard(int cardID){
-        if ( this.currentGame.findCardByID(cardID) != null )
-            return true;
-        else
+        if ( this.currentGame.findCardByID(cardID) == null )
             return false;
+        else{
+            for ( Cell[] cells : this.currentGame.getMap() )
+                for ( Cell cell : cells )
+                    if ( cell.getCard().getCardID() == cardID && this.currentGame.getCardOwner(cell.getCard()).equals
+                            (this.currentGame.getPlayersOfGame()[this.currentGame.getTurn()]) ) {
+                        this.currentGame.setCurrentCard(cell.getCard());
+                        return true;
+                    }
+        }
+        return false;
     }
 
     public int moveCard(int x, int y){

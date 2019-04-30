@@ -1,6 +1,7 @@
 package View;
 
 import java.lang.reflect.Array;
+import java.sql.SQLOutput;
 import java.util.*;
 import Controller.*;
 import Modules.*;
@@ -114,6 +115,9 @@ public class Viewer {
             else if(menuMode == 4){
                 if(input.toLowerCase().matches("game info"))
                     showGameInfo();
+                else if ( input.toLowerCase().matches("select [\\d+]"));
+                    selectCard(Integer.parseInt(input.split("\\s")[1]));
+
             }
         }
     }
@@ -502,7 +506,10 @@ public class Viewer {
     }
 
     public void selectCard(int cardID){
-
+        if ( controller.selectCard(cardID) )
+            System.out.println("card has been selected!");
+        else
+            System.out.println("Invalid select");
     }
 
     public void moveCard(int x, int y){

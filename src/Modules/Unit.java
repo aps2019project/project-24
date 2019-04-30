@@ -11,6 +11,19 @@ public class Unit extends Card{
     private boolean hasFlag;
     private Target SpecialPowerTarget;
     private String SpecialPowerCastTime;
+    private boolean hasBeenMovedThisRound;
+
+    public boolean isHasFlag() {
+        return hasFlag;
+    }
+
+    public boolean isHasBeenMovedThisRound() {
+        return hasBeenMovedThisRound;
+    }
+
+    public void setHasBeenMovedThisRound(boolean hasBeenMovedThisRound) {
+        this.hasBeenMovedThisRound = hasBeenMovedThisRound;
+    }
 
     public boolean getHasFlag(){ return this.hasFlag; }
     public void setHasFlag(boolean unitHasFlag){this.hasFlag = unitHasFlag;}
