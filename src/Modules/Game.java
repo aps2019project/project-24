@@ -17,9 +17,6 @@ public class Game{
     private ArrayList<Card> graveYard;
     private int[] manaOfPlayers;
     private int numberOfFlagsToWin;
-    private ArrayList<String> input;
-    private ArrayList<String> output;
-    private Viewer viewer;
     private Card currentCard ;
     private Item currentItem;
     private boolean areWeInTheGraveYard;
@@ -57,6 +54,7 @@ public class Game{
         this.currentCard = null;
         this.currentItem = null;
         this.areWeInTheGraveYard = false;
+        this.graveYard = new ArrayList<>();
     }
 
     public Player[] getPlayersOfGame() {
@@ -131,30 +129,6 @@ public class Game{
 
     public void setNumberOfFlagsToWin(int numberOfFlagsToWin) {
         this.numberOfFlagsToWin = numberOfFlagsToWin;
-    }
-
-    public ArrayList<String> getInput() {
-        return input;
-    }
-
-    public void setInput(ArrayList<String> input) {
-        this.input = input;
-    }
-
-    public ArrayList<String> getOutput() {
-        return output;
-    }
-
-    public void setOutput(ArrayList<String> output) {
-        this.output = output;
-    }
-
-    public Viewer getViewer() {
-        return viewer;
-    }
-
-    public void setViewer(Viewer viewer) {
-        this.viewer = viewer;
     }
 
     public Card getCurrentCard() {
