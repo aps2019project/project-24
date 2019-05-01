@@ -1,6 +1,8 @@
 package Modules;
 
-public class Unit extends Card{
+import java.util.ArrayList;
+
+public class Unit extends Card {
     private int attackPower;
     private int HP;
     private Spell specialPower;
@@ -9,15 +11,62 @@ public class Unit extends Card{
     private int manaCost;
     private boolean isHero;
     private boolean hasFlag;
-    private Target SpecialPowerTarget;
-    private String SpecialPowerCastTime;
+    private Target specialPowerTarget;
+    private String specialPowerCastTime;
+    private int specialPowerManaCost;
     private String description;
     private boolean canCombo;
+    private boolean canMove;
+    private ArrayList<Spell> buffs;
 
-    public boolean getCanCombo(){return this.canCombo;}
-    public void setCanCombo(boolean canDoCombo){this.canCombo = canDoCombo;}
-    public String getDescription(){return this.description;}
-    public void setDescription(String str){this.description = str;}
+    public int getSpecialPowerManaCost() {
+        return specialPowerManaCost;
+    }
+
+    public void setSpecialPowerManaCost(int specialPowerManaCost) {
+        this.specialPowerManaCost = specialPowerManaCost;
+    }
+
+    public ArrayList<Spell> getBuffs() {
+        return buffs;
+    }
+
+    public void setBuffs(ArrayList<Spell> buffs) {
+        this.buffs = buffs;
+    }
+
+    public boolean isHasFlag() {
+        return hasFlag;
+    }
+
+    public boolean isCanCombo() {
+        return canCombo;
+    }
+
+    public boolean isCanMove() {
+        return canMove;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
+    public boolean getCanCombo() {
+        return this.canCombo;
+    }
+
+    public void setCanCombo(boolean canDoCombo) {
+        this.canCombo = canDoCombo;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String str) {
+        this.description = str;
+    }
+
     private boolean hasBeenMovedThisRound;
 
     public boolean isHasBeenMovedThisRound() {
@@ -28,8 +77,13 @@ public class Unit extends Card{
         this.hasBeenMovedThisRound = hasBeenMovedThisRound;
     }
 
-    public boolean getHasFlag(){ return this.hasFlag; }
-    public void setHasFlag(boolean unitHasFlag){this.hasFlag = unitHasFlag;}
+    public boolean getHasFlag() {
+        return this.hasFlag;
+    }
+
+    public void setHasFlag(boolean unitHasFlag) {
+        this.hasFlag = unitHasFlag;
+    }
 
     public boolean isHero() {
         return isHero;
@@ -40,19 +94,19 @@ public class Unit extends Card{
     }
 
     public String getSpecialPowerCastTime() {
-        return SpecialPowerCastTime;
+        return specialPowerCastTime;
     }
 
     public void setSpecialPowerCastTime(String specialPowerCastTime) {
-        SpecialPowerCastTime = specialPowerCastTime;
+        this.specialPowerCastTime = specialPowerCastTime;
     }
 
     public Target getSpecialPowerTarget() {
-        return SpecialPowerTarget;
+        return specialPowerTarget;
     }
 
     public void setSpecialPowerTarget(Target specialPowerTarget) {
-        SpecialPowerTarget = specialPowerTarget;
+        this.specialPowerTarget = specialPowerTarget;
     }
 
     public int getAttackPower() {
