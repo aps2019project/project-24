@@ -280,7 +280,14 @@ public class Server {
 
         return ans;
     }
-
+    public boolean selectItem(int itemID){
+        if(currentGame.findItemByItemID(itemID) == null)
+            return false;
+        else{
+            currentGame.setCurrentItem(currentGame.findItemByItemID(itemID));
+            return true;
+        }
+    }
     public boolean selectCard(int cardID) {
         if (this.currentGame.findCardByID(cardID) == null)
             return false;

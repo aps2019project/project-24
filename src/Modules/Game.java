@@ -181,6 +181,13 @@ public class Game {
         return null;
     }
 
+    public Item findItemByItemID(int itemID){
+        for(int i = 0; i < getCollectableItems()[this.turn].size(); i++){
+            if(getCollectableItems()[this.turn].get(i).getCardID() == itemID)
+                return getCollectableItems()[this.turn].get(i);
+        }
+        return null;
+    }
     public int[] getFlagHoldedCoordination() {
         int[] coord = new int[2];
         for (int i = 0; i < 5; i++)
