@@ -47,15 +47,17 @@ public class Game {
         handsOfPlayers = new ArrayList[2];
         for (int i = 0; i < 2; i++) {
             handsOfPlayers[i] = new ArrayList<>();
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 1; j++)
                 handsOfPlayers[i].add(decksOfPLayers[i].get(j));
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 1; j++)
                 decksOfPLayers[i].remove(0);
         }
         map = new Cell[5][9];
-        for (Cell[] cells : map)
-            for (Cell cell : cells)
-                cell = new Cell();
+        for(int i = 0 ; i < 5 ; i++) {
+            map[i] = new Cell[9];
+            for (int j = 0; j < 9; j++)
+                map[i][j] = new Cell();
+        }
         this.gameMode = gameMode;
         this.numberOfFlagsToWin = numberOfFlagsToWin;
         this.currentCard = null;
@@ -65,6 +67,8 @@ public class Game {
         this.manaOfPlayers = new int[2];
         for (int i = 0; i < 2; i++)
             manaOfPlayers[i] = 5;
+        map[2][0].setCard(getPlayerHero(0));
+        map[2][8].setCard(getPlayerHero(1));
     }
 
     public Player[] getPlayersOfGame() {

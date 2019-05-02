@@ -116,6 +116,7 @@ public class Viewer {
             //============== Game =============//
             else if (menuMode == 4) {
                 if(!isInGraveYard){
+                    printGameMap();
                     if (input.toLowerCase().matches("game info"))
                         showGameInfo();
                     else if (input.toLowerCase().matches("select [\\d+]"))
@@ -147,6 +148,9 @@ public class Viewer {
                         isInGraveYard = true;
                     else if(input.toLowerCase().matches("help"))
                         showHelpInGame();
+                    else if(input.toLowerCase().matches("move to \\d \\d")){
+                        moveCurrentCard(Integer.parseInt(input.split(" ")[2]) , Integer.parseInt(input.split(" ")[3]) );
+                    }
                     ///////////////////////////// END ARMAN ////////////////////////////////
                     else if(input.toLowerCase().matches("show info"))
                         showCurrentItemInfo();
@@ -236,8 +240,10 @@ public class Viewer {
             this.menuMode = 2;
         else if (name.toLowerCase().equals("shop"))
             this.menuMode = 3;
-        else if (name.toLowerCase().equals("battle"))
+        else if (name.toLowerCase().equals("battle")) {
+            controller.newGame();
             this.menuMode = 4;
+        }
     }
 
     //======================== Collection Functions ====================//
@@ -709,6 +715,22 @@ public class Viewer {
         System.out.println("Enter graveyard");
         System.out.println("End Game");
         System.out.println("Exit");
+    }
+    public void printGameMap() {
+        Cell[][] map = controller.getGameMap();
+        for (int i = 0; i < 5; i++){
+            for (int j = 0; j < 9; j++) {
+                if (map[i][j].getCard() == null)
+                    System.out.print("_");
+                else if(map[i][j].getCard() instanceof Unit && ((Unit)map[i][j].getCard()).isHero())
+                    System.out.print("H");
+                else
+                    System.out.print("M");
+                if(j != 8)
+                    System.out.print("|");
+            }
+            System.out.print("\n");
+        }
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 

@@ -31,7 +31,7 @@ public class Server {
     }
 
     public void createAccount(String username, String password) {
-        new Player(username, password);
+        currentPlayer = new Player(username, password);
     }
 
     public boolean isValidLogin(String username, String password) {
@@ -198,7 +198,6 @@ public class Server {
     public void setMainDeck(String keyword) {
         Deck d = Collection.searchDeck(currentPlayer, keyword);
         currentPlayer.setMainDeck(d);
-        currentPlayer.getAllDecks().remove(d);
     }
 
     public Deck getDeck(String keyword) {
@@ -379,6 +378,14 @@ public class Server {
         for(int i = 0 ; i < cards.size() ; i++)
             ans = ans.concat(i+1 + ". Name : " + cards.get(i).getName() + " , CardID : " + cards.get(i).getCardID());
         return ans;
+    }
+    public Cell[][] getGameMap(){
+        return currentGame.getMap();
+    }
+    public void newGame(){
+        Player p1 = Player.getPlayers().get(0);
+        Player p2 = Player.getPlayers().get(1);
+        currentGame = new Game(p1,p2,"heroMode",2);
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 
