@@ -131,9 +131,9 @@ public class Game {
         return manaOfPlayers;
     }
 
-    public void setManaOfPlayers(int[] manaOfPlayers) {
-        this.manaOfPlayers = manaOfPlayers;
-    }
+        public void decreaseManaOfPlayers(int manacost) {
+            this.manaOfPlayers[this.turn] -= manacost;
+        }
 
     public int getNumberOfFlagsToWin() {
         return numberOfFlagsToWin;
@@ -364,8 +364,6 @@ public class Game {
     }
     public void unitLost(Card card){
         int x = cardCoordination(card)[0] , y = cardCoordination(card)[1];
-        if ( ((Unit)card).getSpecialPowerCastTime().equals("onDeath") )
-            useSpecialPowerOfTheCard(card, x, y);
         this.map[x][y].setCard(null);
         this.graveYard.add(card);
     }
@@ -384,19 +382,7 @@ public class Game {
         }
         return (isStun && canBeStun) || (isDisarm && canBeDisarm);
     }
-
     public boolean canCounterAttack(Card defender,Card attacker){
-        int xOfAttacker = 0, yOfAttacker = 0;
-        for ( int i=0; i<5; i++ )
-            for ( int j=0; j<9; j++ ) {
-                Cell cell = map[i][j];
-                if (cell.getCard() != null && cell.getCard().getCardID() == attacker.getCardID()) {
-                    xOfAttacker = i+1-1;
-                    yOfAttacker = j;
-                    break;
-                }
-            }
-        useSpecialPowerOfTheCard(defender, xOfAttacker, yOfAttacker);
         boolean isInRange = isInAttackRange(defender,attacker.getCardID());
         boolean isDisarm = isUnitDisarm(defender); // Check is Stun and Disarm
         if( isInRange && !isDisarm )
@@ -406,22 +392,7 @@ public class Game {
     public void attack(int opponentCardID){
         Unit attacker = (Unit)this.currentCard;
         Unit defender = (Unit)findCardByID(opponentCardID);
-        int xOfDefender = 0, yOfDefender = 0;
-        for ( int i=0; i<5; i++ )
-            for ( int j=0; j<9; j++ ) {
-                Cell cell = map[i][j];
-                if (cell.getCard() != null && cell.getCard().getCardID() == defender.getCardID()) {
-                    xOfDefender = i;
-                    yOfDefender = j;
-                    break;
-                }
-            }
-
         defender.setHP(defender.getHP() - attacker.getAttackPower());
-
-        if ( attacker.getSpecialPowerCastTime().equals("onAttack") )
-            useSpecialPowerOfTheCard(attacker, xOfDefender, yOfDefender);
-
         if(canCounterAttack(defender,attacker))
             attacker.setHP(attacker.getHP() - defender.getAttackPower());
         this.didCardAttack.put(this.currentCard,true);
@@ -450,13 +421,6 @@ public class Game {
             unitLost(findCardByID(defenderID));
         if(firstAttacker.getHP() <= 0)
             unitLost(firstAttacker);
-    }
-    public Card searchCardByIDinGraveyard(int cardID){
-        ArrayList<Card> cards = this.getGraveYard();
-        for(int i = 0 ; i < cards.size() ; i++)
-            if(cards.get(i).getCardID() == cardID)
-                return cards.get(i);
-        return null;
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 

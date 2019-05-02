@@ -1,16 +1,19 @@
 package View;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import Controller.*;
 import Modules.*;
 
+import javax.sound.midi.Soundbank;
 import java.util.Comparator;
 
 public class Viewer {
     private Scanner scanner = new Scanner(System.in);
     private Server controller = new Server();
     private int menuMode = 0;
+
     /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
@@ -126,7 +129,7 @@ public class Viewer {
                     else if(input.matches("show hand"))
                         showHand();
                     else if(input.matches("insert \\w+ in \\(\\d,\\d\\)"))
-                        insertUnit(input.split(" ")[1],input.split(" ")[3]);
+                        insert(input.split(" ")[1],input.split(" ")[3]);
                     //////////////////////////// ARMAN ////////////////////////////////
                     else if(input.toLowerCase().matches("attack \\d+"))
                         attack(Integer.parseInt(input.split(" ")[1]));
@@ -145,6 +148,10 @@ public class Viewer {
                     else if(input.toLowerCase().matches("help"))
                         showHelpInGame();
                     ///////////////////////////// END ARMAN ////////////////////////////////
+                    else if(input.toLowerCase().matches("show info"))
+                        showCurrentItemInfo();
+                    else if(input.toLowerCase().matches("Use \\[location \\d, \\d\\]"))
+                        useItem(input);
                 }
                 else{
                     ///////////////////////////// ARMAN ////////////////////////////////
@@ -739,31 +746,33 @@ public class Viewer {
         Card nextCard = controller.getNextCard();
         System.out.println("next card : " + nextCard.getName());
     }
-
-    public void insertUnit(String cardName, String coords){
+//    public void showCollectables(){
+//        System.out.println(controller.showCollectables());
+//    }
+    public void insert(String cardName, String coords){
         int x = Integer.parseInt(coords.substring(coords.indexOf("(") + 1,coords.indexOf(",")));
         int y = Integer.parseInt(coords.substring(coords.indexOf(",") + 1, coords.indexOf(")")));
-        System.out.println(controller.insertUnit(cardName, x, y));
+        System.out.println(controller.insert(cardName, x, y));
     }
-
-    public void insertSpell(String cardName, int x, int y) {
-
+    public void useItem(String input){
+        int x = Integer.parseInt(input.substring(input.indexOf("n") + 2, input.indexOf(",")));
+        int y = Integer.parseInt(input.substring(input.indexOf(",") + 2 , input.indexOf("]")));
+        System.out.println(controller.useItem(x, y));
     }
-
     public void endTrun() {
 
     }
 
-    public void ShowCollectables() {
-
-    }
+//    public void ShowCollectables() {
+//
+//    }
 
     public void selectItemByID(int itemID) {
 
     }
 
     public void showCurrentItemInfo() {
-
+        System.out.println(controller.getCurrentItemInfo());
     }
 
     public void useCurrentItem(int x, int y) {

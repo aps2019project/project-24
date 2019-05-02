@@ -198,6 +198,7 @@ public class Server {
     public void setMainDeck(String keyword) {
         Deck d = Collection.searchDeck(currentPlayer, keyword);
         currentPlayer.setMainDeck(d);
+        currentPlayer.getAllDecks().remove(d);
     }
 
     public Deck getDeck(String keyword) {
@@ -295,6 +296,17 @@ public class Server {
         return false;
     }
 
+//    public boolean selectItem(int cardID){
+//        for(int i = 0; i < currentGame.getCollectableItems()[currentGame.getTurn()].size(); i++){
+//            if()
+//        }
+//    }
+
+    public String getCurrentItemInfo(){
+        Item item = currentGame.getCurrentItem();
+        return "name : " + item.getName() + "\ndescription : " + item.getDescription();
+    }
+
     public int moveCurrentCard(int x, int y) {
         if (this.currentGame.getCurrentCard() == null || !(this.currentGame.getCurrentCard() instanceof Unit))
             return 4;
@@ -386,7 +398,7 @@ public class Server {
         return card;
     }
 
-    public String insertUnit(String cardName, int x, int y) {
+    public String insert(String cardName, int x, int y){
         Card card = currentGame.findCardByName(cardName);
         if (card == null)
             return "Invalid card name";
@@ -394,7 +406,18 @@ public class Server {
             return "Invalid card name";
         else if (x > 4 || y > 8)
             return "Invalid target";
-        else if (currentGame.getMap()[x][y].getCard() != null)
+        else if(card instanceof Unit) {
+            return insertUnit(card, x, y);
+        }
+        else if(card instanceof SpellCard)
+            return insertSpell(card, x, y);
+        else{
+            return "Invalid card name";
+        }
+    }
+
+    public String insertUnit(Card card, int x, int y) {
+        if (currentGame.getMap()[x][y].getCard() != null)
             return "Invalid target";
         else if (!currentGame.isNearHero(x, y))
             return "Invalid target";/////////////////////////unit o faghat mishe nazdik hero gozasht
@@ -403,30 +426,47 @@ public class Server {
         else {
             currentGame.getMap()[x][y].setCard(card);
             currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
-            if ( ((Unit)card).getSpecialPowerCastTime().equals("onRespawn") )
-                this.currentGame.useSpecialPowerOfTheCard(card, 0, 0);
-            return "Insert successfull";
+            currentGame.decreaseManaOfPlayers(((Unit) card).getManaCost());
+            return "Insert successful";
         }
-
 
     }
 
-//    public int insertSpell(String cardName, int x, int y) {
-//
-//    }
-//
-//    public void endTurn() {
-//
-//    }
-//
-//    public ArrayList<Item> ShowCollectables() {
-//
-//    }
-//
-//    public int selectItem(int itemID) {
-//
-//    }
-//
+    public String insertSpell(Card card, int x, int y) {
+        if(currentGame.getManaOfPlayers()[currentGame.getTurn()] < ((SpellCard)card).getManaCost())
+            return "you dont have enough mana";
+        else if(currentGame.useSpecialPowerOfTheCard(card, x, y)){
+            currentGame.decreaseManaOfPlayers(((SpellCard) card).getManaCost());
+            currentGame.getMap()[x][y].setCard(card);
+            currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
+            return card.getName() + " with " + card.getCardID() + " inserted to " + "(" + x + "," + ")";
+        }
+        else
+            return "Invalid target";
+    }
+
+    public String useItem(int x, int y){
+        if(currentGame.getCurrentItem() == null)
+            return "no item selected";
+        else if(currentGame.useSpecialPowerOfTheCard(currentGame.getCurrentItem(), x, y))
+            return "item used successfully";
+        else
+            return "invalid target";
+    }
+
+    public void endTurn() {
+
+    }
+
+    public String showCollectables() {
+        ArrayList<Item> collectables = currentGame.getCollectableItems()[currentGame.getTurn()];
+        String answer = "";
+        for(int i = 0; i < collectables.size(); i++){
+            answer.concat(collectables.get(i).getName() + "\n");
+        }
+        return answer;
+    }
+
 //    public Item showCurrentItemInfo() {
 //
 //    }
