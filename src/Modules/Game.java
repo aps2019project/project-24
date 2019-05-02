@@ -422,6 +422,13 @@ public class Game {
         if(firstAttacker.getHP() <= 0)
             unitLost(firstAttacker);
     }
+    public Card searchCardByIDinGraveyard(int cardID){
+        ArrayList<Card> cards = this.getGraveYard();
+        for(int i = 0 ; i < cards.size() ; i++)
+            if(cards.get(i).getCardID() == cardID)
+                return cards.get(i);
+        return null;
+    }
     //////////////////////////// END ARMAN ////////////////////////////////
 
     public int useSpecialPowerOfHero(int x, int y) {
@@ -659,6 +666,7 @@ public class Game {
         }
         return true;
     }
+
 
 //    public boolean insertSpell(Card card, Cell cell) {
 //
