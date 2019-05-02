@@ -13,7 +13,6 @@ public class Viewer {
     private Scanner scanner = new Scanner(System.in);
     private Server controller = new Server();
     private int menuMode = 0;
-
     /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
@@ -21,6 +20,7 @@ public class Viewer {
     // 3 -> Shop
     // 4 -> Battle
     ////////////////////
+    boolean isInGraveYard = false;
     public void gameHandle() {
         while (true) {
             String input = scanner.nextLine();
@@ -113,30 +113,54 @@ public class Viewer {
             }
             //============== Game =============//
             else if (menuMode == 4) {
-                if (input.toLowerCase().matches("game info"))
-                    showGameInfo();
-                else if (input.toLowerCase().matches("select [\\d+]"))
-                    selectCard(Integer.parseInt(input.split("\\s")[1]));
-                else if (input.toLowerCase().matches("show my minions"))
-                    showPlayerMinions("my");
-                else if (input.toLowerCase().matches("show opponent minions"))
-                    showPlayerMinions("opponent");
-                else if (input.toLowerCase().matches("show card info \\d+"))
-                    showCardInfo(Integer.parseInt(input.split(" ")[3]));
-                else if(input.matches("show hand"))
-                    showHand();
-                else if(input.matches("insert \\w+ in \\(\\d,\\d\\)"))
-                    insertUnit(input.split(" ")[1],input.split(" ")[3]);
-                //////////////////////////// ARMAN ////////////////////////////////
-                else if(input.toLowerCase().matches("attack \\d+"))
-                    attack(Integer.parseInt(input.split(" ")[1]));
-                else if(input.toLowerCase().matches("attack combo \\d+ [\\d+]+")){
-                    ArrayList<Integer> cardsID = new ArrayList<>();
-                    for(int i = 3 ; i < input.split(" ").length ; i++ )
-                        cardsID.add(Integer.parseInt(input.split(" ")[i]));
-                    comboAttack(Integer.parseInt(input.split(" ")[2]),cardsID);
+                if(!isInGraveYard){
+                    if (input.toLowerCase().matches("game info"))
+                        showGameInfo();
+                    else if (input.toLowerCase().matches("select [\\d+]"))
+                        selectCard(Integer.parseInt(input.split("\\s")[1]));
+                    else if (input.toLowerCase().matches("show my minions"))
+                        showPlayerMinions("my");
+                    else if (input.toLowerCase().matches("show opponent minions"))
+                        showPlayerMinions("opponent");
+                    else if (input.toLowerCase().matches("show card info \\d+"))
+                        showCardInfo(Integer.parseInt(input.split(" ")[3]));
+                    else if(input.matches("show hand"))
+                        showHand();
+                    else if(input.matches("insert \\w+ in \\(\\d,\\d\\)"))
+                        insertUnit(input.split(" ")[1],input.split(" ")[3]);
+                    //////////////////////////// ARMAN ////////////////////////////////
+                    else if(input.toLowerCase().matches("attack \\d+"))
+                        attack(Integer.parseInt(input.split(" ")[1]));
+                    else if(input.toLowerCase().matches("attack combo \\d+ [\\d+]+")){
+                        ArrayList<Integer> cardsID = new ArrayList<>();
+                        for(int i = 3 ; i < input.split(" ").length ; i++ )
+                            cardsID.add(Integer.parseInt(input.split(" ")[i]));
+                        comboAttack(Integer.parseInt(input.split(" ")[2]),cardsID);
+                    }
+                    else if(input.toLowerCase().matches("show collectables"))
+                        showCollectables();
+                    else if(input.toLowerCase().matches("show next card"))
+                        showNextCard();
+                    else if(input.toLowerCase().matches("enter graveyard"))
+                        isInGraveYard = true;
+                    else if(input.toLowerCase().matches("help"))
+                        showHelpInGame();
+                    ///////////////////////////// END ARMAN ////////////////////////////////
                 }
-                ///////////////////////////// END ARMAN ////////////////////////////////
+                else{
+                    ///////////////////////////// ARMAN ////////////////////////////////
+                    if(input.toLowerCase().matches("exit"))
+                        isInGraveYard = false;
+                    else if(input.toLowerCase().matches("show info \\d+"))
+                        showInfoCardIDGraveyard(Integer.parseInt(input.split(" ")[2]));
+                    else if(input.toLowerCase().matches("show cards"))
+                        showGraveyardCards();
+                    else if(input.toLowerCase().matches("help"))
+                        showHelpGraveyard();
+                    else
+                        System.out.println("Invalid Command !");
+                    ///////////////////////////// END ARMAN ////////////////////////////////
+                }
             }
         }
     }
@@ -584,6 +608,41 @@ public class Viewer {
     public void comboAttack(int opponentCardID, ArrayList<Integer> comboAttackers){
         System.out.println(controller.comboAttack(opponentCardID,comboAttackers));
     }
+    public void showCollectables(){
+        System.out.println(controller.getCollectablesInfo());
+    }
+    public void showNextCard(){
+        System.out.println(controller.getNextCardInfo());
+    }
+    public void showInfoCardIDGraveyard(int id){
+        System.out.println(controller.getInfoCardInGraveyard(id));
+    }
+    public void showGraveyardCards(){
+        System.out.println(controller.getCardsInfoGraveyard());
+    }
+    public void showHelpGraveyard(){
+        System.out.print("Show info [card id]\nShow cards\nExit\n");
+    }
+    public void showHelpInGame(){
+        System.out.println("Game info");
+        System.out.println("Show my minions");
+        System.out.println("Show opponent minions");
+        System.out.println("Show card info [card id]");
+        System.out.println("Select [card id]");
+        System.out.println("Move to ([x], [y])");
+        System.out.println("Attack [opponent card id]");
+        System.out.println("Attack combo [opponent card id] [my card id] [my card id] [...]");
+        System.out.println("Use special power (x, y)");
+        System.out.println("Show hand");
+        System.out.println("Insert [card name] in (x, y)");
+        System.out.println("End turn");
+        System.out.println("Show collectables");
+        System.out.println("Select [collectable id]");
+        System.out.println("Show Next Card");
+        System.out.println("Enter graveyard");
+        System.out.println("End Game");
+        System.out.println("Exit");
+    }
     //////////////////////////// END ARMAN ////////////////////////////////
 
     public void useSpecialPower(int x, int y) {
@@ -642,10 +701,6 @@ public class Viewer {
     }
 
     public void useCurrentItem(int x, int y) {
-
-    }
-
-    public void showNextCard() {
 
     }
 

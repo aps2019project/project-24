@@ -335,6 +335,30 @@ public class Server {
         currentGame.comboAttack(comboAttackers,opponentCardID);
         return "Combo Attack was successful !";
     }
+    public String getCollectablesInfo(){
+        String ans = "";
+        ArrayList<Item> items = currentGame.getCollectableItems()[currentGame.getTurn()];
+        for(int i = 0 ; i < items.size() ; i++)
+            ans = ans.concat( i+1 + ". Name : " + items.get(i).getName() + "\n");
+        return ans;
+    }
+    public String getNextCardInfo(){
+        Card card = currentGame.getDecksOfPLayers()[currentGame.getTurn()].get(0);
+        return "Name : " + card.getName() + " , CardID : " + card.getCardID();
+    }
+    public String getInfoCardInGraveyard(int cardID){
+        Card card = currentGame.searchCardByIDinGraveyard(cardID);
+        if(card == null)
+            return "This Card Does not exists in the graveyard !!!";
+        return "Card Name : " + card.getName();
+    }
+    public String getCardsInfoGraveyard(){
+        String ans = "";
+        ArrayList<Card> cards = currentGame.getGraveYard();
+        for(int i = 0 ; i < cards.size() ; i++)
+            ans = ans.concat(i+1 + ". Name : " + cards.get(i).getName() + " , CardID : " + cards.get(i).getCardID());
+        return ans;
+    }
     //////////////////////////// END ARMAN ////////////////////////////////
 
     public int useSpecialPower(int x, int y) {

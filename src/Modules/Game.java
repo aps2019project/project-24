@@ -18,7 +18,7 @@ public class Game {
     private ArrayList<Card> graveYard;
     private int[] manaOfPlayers;
     private int numberOfFlagsToWin;
-    private Card currentCard ;
+    private Card currentCard;
     private Item currentItem;
     private boolean areWeInTheGraveYard;
 
@@ -422,6 +422,13 @@ public class Game {
             unitLost(findCardByID(defenderID));
         if(firstAttacker.getHP() <= 0)
             unitLost(firstAttacker);
+    }
+    public Card searchCardByIDinGraveyard(int cardID){
+        ArrayList<Card> cards = this.getGraveYard();
+        for(int i = 0 ; i < cards.size() ; i++)
+            if(cards.get(i).getCardID() == cardID)
+                return cards.get(i);
+        return null;
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 
