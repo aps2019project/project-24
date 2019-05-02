@@ -19,6 +19,10 @@ public class Unit extends Card {
     private boolean canMove;
     private ArrayList<Spell> buffs;
 
+    {
+        buffs = new ArrayList<>();
+    }
+
     public void setIsHero(boolean b){ this.isHero = b; }
     public boolean getIsHero(){ return this.isHero; }
 

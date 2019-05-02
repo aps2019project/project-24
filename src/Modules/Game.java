@@ -472,6 +472,9 @@ public class Game {
             spell = ((Unit) card).getSpecialPower();
             target = ((Unit) card).getSpecialPowerTarget();
             unit = (Unit) card;
+        } else if (card instanceof Item) {
+            spell = ((Item) card).getSpell();
+            target = ((Item) card).getTarget();
         } else
             return false;
 

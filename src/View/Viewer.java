@@ -566,7 +566,7 @@ public class Viewer {
         ArrayList<Card> cardsInCollection = controller.cardsInCollection();
         boolean found = false;
         for (int i = 0; i < cardsInCollection.size(); i++) {
-            if (cardsInCollection.get(i).getName() == name) {
+            if (cardsInCollection.get(i).getName().equals(name)) {
                 controller.sellCardWithName(name);
                 System.out.println("selling Done!");
                 found = true;
