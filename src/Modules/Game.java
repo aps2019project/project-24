@@ -236,6 +236,45 @@ public class Game{
                     return card;
         return null;
     }
+    public int[] coordinationOfHero(){
+        for(int i = 0; i < 5; i++)
+            for(int j = 0; j < 9; j++) {
+                if (this.map[i][j].getCard() instanceof Unit && ((Unit) this.map[i][j].getCard()).isHero() &&
+                        getCardOwner(this.map[i][j].getCard()).getUsername().equals(this.playersOfGame[this.turn].getUsername())) {
+                    int[] ans = new int[2];
+                    ans[0] = i;
+                    ans[1] = j;
+                }
+
+            }
+    }
+
+    public boolean isNearHero(int x, int y){
+        int[] coordOfHero = coordinationOfHero();
+        int xDistance = Math.abs(x - coordOfHero[0]);
+        int yDistance = Math.abs(y - coordOfHero[1]);
+        int distance = Math.max(xDistance, yDistance);
+        if(distance == 1)
+            return true;
+        return false;
+    }
+
+
+    public Card findCardByName(String name){
+        for(int i = 0; i < 2; i++)
+            for(Card card : primaryCards[i])
+                if(card.getName().equals(name))
+                    return card;
+        return null;
+    }
+
+    public boolean cardIsInHand(Card card){
+        ArrayList<Card> hand = this.handsOfPlayers[this.turn];
+        for(int i = 0; i < hand.size(); i++)
+            if(hand.get(i).getCardID() == card.getCardID())
+                return true;
+        return false;
+    }
 
     public void setCurrentCard(Card currentCard) {
         this.currentCard = currentCard;
@@ -266,12 +305,6 @@ public class Game{
 
     public int useSpecialPower(int x, int y){
 
-    }
-
-    public Card findCardByName(String name){
-        Card ans = null;
-
-        return ans;
     }
 
     public boolean insertUnit(Card card, Cell cell){

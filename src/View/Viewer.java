@@ -122,6 +122,10 @@ public class Viewer {
                     showPlayerMinions("opponent");
                 else if(input.toLowerCase().matches("show card info \\d+"))
                     showCardInfo(Integer.parseInt(input.split(" ")[3]));
+                else if(input.matches("show hand"))
+                    showHand();
+                else if(input.matches("insert \\w+ in \\(\\d,\\d\\)"))
+                    insertUnit(input.split(" ")[1],input.split(" ")[3]);
             }
         }
     }
@@ -534,11 +538,17 @@ public class Viewer {
     }
 
     public void showHand(){
-
+        ArrayList<Card> hand = controller.showHand();
+        for(int i = 0; i < hand.size(); i++)
+            System.out.println(hand.get(i).getName());
+        Card nextCard = controller.getNextCard();
+        System.out.println("next card : " + nextCard.getName());
     }
 
-    public void insertUnit(String cardName, int x, int y){
-
+    public void insertUnit(String cardName, String coords){
+        int x = Integer.parseInt(coords.substring(coords.indexOf("(") + 1,coords.indexOf(",")));
+        int y = Integer.parseInt(coords.substring(coords.indexOf(",") + 1, coords.indexOf(")")));
+        System.out.println(controller.insertUnit(cardName, x, y));
     }
 
     public void insertSpell(String cardName, int x, int y){
