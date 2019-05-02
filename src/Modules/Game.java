@@ -2,6 +2,7 @@ package Modules;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import View.*;
 
@@ -20,6 +21,12 @@ public class Game{
     private Card currentCard ;
     private Item currentItem;
     private boolean areWeInTheGraveYard;
+
+    //////////////////////////// ARMAN ////////////////////////////////
+    private HashMap<Card,Boolean> didCardAttack;
+
+    public HashMap<Card, Boolean> getDidCardAttack(){return this.didCardAttack;}
+    //////////////////////////// End ARMAN ////////////////////////////////
 
     public Game(Player player1, Player player2, String gameMode, int numberOfFlagsToWin){
         playersOfGame = new Player[2];
@@ -248,21 +255,81 @@ public class Game{
             return 0;
     }
 
-    public int attack(int opponentCardID){
-        // return -1 -> opponent is missed
-        // return -2 -> range !
-        // return -3 -> already attacked
-        // return -4 -> no card has been selected !
-        return this.currentCard.getCardID();
+    //////////////////////////// ARMAN ////////////////////////////////
+    public int[] cardCoordination(Card card){
+        int[] coord = new int[2];
+        for(int i = 0 ; i < 5 ; i++)
+            for(int j = 0 ; j < 9 ; j++)
+                if(this.map[i][j].getCard().equals(card)){
+                    coord[0] = i;
+                    coord[1] = j;
+                    return coord;
+                }
+        return coord;
     }
-
-    public int counterAttack(int opponentCardID){
-
+    public boolean isValidUnitInMap(int cardID){
+        for(int i = 0 ; i < 5 ; i++ )
+            for(int j = 0 ; j < 9 ; j++)
+                if(this.map[i][j].getCard() instanceof Unit && this.map[i][j].getCard().getCardID() == cardID)
+                    return true;
+        return false;
     }
-
-    public boolean canCombo(ArrayList<Integer> comboAttackers){
-
+    public boolean isInAttackRange(Card attackerCard,int cardID){
+        int[] coordsCurrentUnit = cardCoordination(attackerCard);
+        int[] coordsOpponentUnit = cardCoordination(findCardByID(cardID));
+        int xDistance = Math.abs(coordsCurrentUnit[0]-coordsOpponentUnit[0]);
+        int yDistance = Math.abs(coordsCurrentUnit[1]-coordsOpponentUnit[1]);
+        int distance = Math.max(xDistance,yDistance);
+        if(distance == ((Unit)attackerCard).getRange())
+            return true;
+        return false;
     }
+    public void unitLost(Card card){
+        int x = cardCoordination(card)[0] , y = cardCoordination(card)[1];
+        this.map[x][y].setCard(null);
+        this.graveYard.add(card);
+    }
+    public boolean canCounterAttack(Card defender,Card attacker){
+        boolean isInRange = isInAttackRange(defender,attacker.getCardID());
+        boolean isDisarman = false; // Check is Stun and Disarm
+        if( isInRange && !isDisarman )
+            return true;
+        return false;
+    }
+    public void attack(int opponentCardID){
+        Unit attacker = (Unit)this.currentCard;
+        Unit defender = (Unit)findCardByID(opponentCardID);
+        defender.setHP(defender.getHP() - attacker.getAttackPower());
+        if(canCounterAttack(defender,attacker))
+            attacker.setHP(attacker.getHP() - defender.getAttackPower());
+        this.didCardAttack.put(this.currentCard,true);
+        if(defender.getHP() <= 0)
+            unitLost(findCardByID(opponentCardID));
+        if(attacker.getHP() <= 0)
+            unitLost(this.currentCard);
+    }
+    public boolean canCombo(ArrayList<Integer> comboAttackersID){
+        boolean doAllHaveComboPower = true;
+        for(int i = 0 ; i < comboAttackersID.size() ; i++)
+            if(!((Unit)findCardByID(comboAttackersID.get(i))).getCanCombo())
+                doAllHaveComboPower = false;
+        return doAllHaveComboPower;
+    }
+    public void comboAttack(ArrayList<Integer> attackersID , int defenderID){
+        for(int i = 0 ; i < attackersID.size() ; i++){
+            Unit attacker = (Unit)findCardByID(attackersID.get(i)) , defender = (Unit)findCardByID(defenderID);
+            defender.setHP(defender.getHP() - attacker.getAttackPower());
+            this.didCardAttack.put(this.currentCard,true);
+            if(i == 0 && canCounterAttack(defender,attacker))
+                attacker.setHP(attacker.getHP() - defender.getAttackPower());
+        }
+        Unit firstAttacker = (Unit)findCardByID(attackersID.get(0)) , defender = (Unit)findCardByID(defenderID);
+        if(defender.getHP() <= 0)
+            unitLost(findCardByID(defenderID));
+        if(firstAttacker.getHP() <= 0)
+            unitLost(firstAttacker);
+    }
+    //////////////////////////// END ARMAN ////////////////////////////////
 
     public int useSpecialPower(int x, int y){
 

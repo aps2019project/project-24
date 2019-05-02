@@ -238,19 +238,15 @@ public class Server {
         return ans;
     }
 
+    public Card findCard(int cardID){
+        return this.currentGame.findCardByID(cardID);
+    }
+
     public boolean selectCard(int cardID){
-        if ( this.currentGame.findCardByID(cardID) == null )
+        if ( this.currentGame.findCardByID(cardID) != null )
+            return true;
+        else
             return false;
-        else{
-            for ( Cell[] cells : this.currentGame.getMap() )
-                for ( Cell cell : cells )
-                    if ( cell.getCard().getCardID() == cardID && this.currentGame.getCardOwner(cell.getCard()).equals
-                            (this.currentGame.getPlayersOfGame()[this.currentGame.getTurn()]) ) {
-                        this.currentGame.setCurrentCard(cell.getCard());
-                        return true;
-                    }
-        }
-        return false;
     }
 
     public int moveCard(int x, int y){
@@ -260,21 +256,50 @@ public class Server {
             return 0;
     }
 
-    public int attack(int opponentCardID){
-        // return -1 -> opponent is missed
-        // return -2 -> range !
-        // return -3 -> already attacked
-        // return -4 -> no card has been selected !
-        return this.currentGame.getCurrentCard().getCardID();
+    //////////////////////////// ARMAN ////////////////////////////////
+    public String attack(int opponentCardID){
+        if(currentGame.getCurrentCard() == null)
+            return "No Unit Selected For Attack !";
+        else if(!currentGame.isValidUnitInMap(opponentCardID) || currentGame.getCardOwner(currentGame.findCardByID(opponentCardID)).equals(currentGame.getPlayersOfGame()[currentGame.getTurn()]))
+            return "Invalid Opponent's Card ID !";
+        else if(!(currentGame.getCurrentCard() instanceof Unit) || currentGame.getDidCardAttack().get(currentGame.getCurrentCard()) )
+            return "Card with CardID : " + currentGame.getCurrentCard().getCardID() + " can't attack !";
+        else if(!currentGame.isInAttackRange(currentGame.getCurrentCard(),opponentCardID))
+            return "Opponent minion is unavailable for attack !";
+        else {
+            currentGame.attack(opponentCardID);
+            return "Attack Was Successful !";
+        }
     }
-
-    public int counterAttack(int opponentCardID){
-
+    public String comboAttack(int opponentCardID, ArrayList<Integer> comboAttackers){
+        if(!currentGame.isValidUnitInMap(opponentCardID) || currentGame.getCardOwner(currentGame.findCardByID(opponentCardID)).equals(currentGame.getPlayersOfGame()[currentGame.getTurn()]))
+            return "Invalid Opponent's Card ID !";
+        String errorLog = "";
+        for(int i = 0 ; i < comboAttackers.size() ; i++){
+            int cardID = comboAttackers.get(i);
+            if(!currentGame.isValidUnitInMap(cardID) || !currentGame.getCardOwner(currentGame.findCardByID(cardID)).equals(currentGame.getPlayersOfGame()[currentGame.getTurn()]))
+            errorLog = errorLog.concat("Card with CardID : " + currentGame.findCardByID(cardID).getCardID() + " is Not Valid !\n");
+        }
+        if(errorLog.length() != 0)
+            return errorLog;
+        for(int i = 0 ; i < comboAttackers.size() ; i++){
+            int cardID = comboAttackers.get(i);
+            if(!(currentGame.findCardByID(cardID) instanceof Unit) || currentGame.getDidCardAttack().get(currentGame.findCardByID(cardID)) )
+                errorLog = errorLog.concat("Card with CardID : " + currentGame.findCardByID(cardID).getCardID() + " can't attack !\n");
+        }
+        if(errorLog.length() != 0)
+            return errorLog;
+        for(int i = 0 ; i < comboAttackers.size() ; i++){
+            int cardID = comboAttackers.get(i);
+            if(!currentGame.isInAttackRange(currentGame.findCardByID(cardID),opponentCardID))
+                errorLog = errorLog.concat("Opponent minion is unavailable for attack for Card with cardID : " + cardID + " !");
+        }
+        if(errorLog.length() != 0)
+            return errorLog;
+        currentGame.comboAttack(comboAttackers,opponentCardID);
+        return "Combo Attack was successful !";
     }
-
-    public int comboAttack(int opponentCardID, ArrayList<Integer> comboAttackers){
-
-    }
+    //////////////////////////// END ARMAN ////////////////////////////////
 
     public int useSpecialPower(int x, int y){
 

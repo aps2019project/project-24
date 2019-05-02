@@ -114,14 +114,22 @@ public class Viewer {
             else if(menuMode == 4){
                 if(input.toLowerCase().matches("game info"))
                     showGameInfo();
-                else if ( input.toLowerCase().matches("select [\\d+]"))
-                    selectCard(Integer.parseInt(input.split("\\s")[1]));
                 else if(input.toLowerCase().matches("show my minions"))
                     showPlayerMinions("my");
                 else if(input.toLowerCase().matches("show opponent minions"))
                     showPlayerMinions("opponent");
                 else if(input.toLowerCase().matches("show card info \\d+"))
                     showCardInfo(Integer.parseInt(input.split(" ")[3]));
+                //////////////////////////// ARMAN ////////////////////////////////
+                else if(input.toLowerCase().matches("attack \\d+"))
+                    attack(Integer.parseInt(input.split(" ")[1]));
+                else if(input.toLowerCase().matches("attack combo \\d+ [\\d+]+")){
+                    ArrayList<Integer> cardsID = new ArrayList<>();
+                    for(int i = 3 ; i < input.split(" ").length ; i++ )
+                        cardsID.add(Integer.parseInt(input.split(" ")[i]));
+                    comboAttack(Integer.parseInt(input.split(" ")[2]),cardsID);
+                }
+                ///////////////////////////// END ARMAN ////////////////////////////////
             }
         }
     }
@@ -511,23 +519,22 @@ public class Viewer {
     }
 
     public void selectCard(int cardID){
-        if ( controller.selectCard(cardID) )
-            System.out.println("card has been selected!");
-        else
-            System.out.println("Invalid select");
+
     }
 
     public void moveCard(int x, int y){
 
     }
 
+    //////////////////////////// ARMAN ////////////////////////////////
     public void attack(int opponentCardID){
-
+        System.out.println(controller.attack(opponentCardID));
     }
 
     public void comboAttack(int opponentCardID, ArrayList<Integer> comboAttackers){
-
+        System.out.println(controller.comboAttack(opponentCardID,comboAttackers));
     }
+    //////////////////////////// END ARMAN ////////////////////////////////
 
     public void useSpecialPower(int x, int y){
 
