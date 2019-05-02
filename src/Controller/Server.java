@@ -253,11 +253,10 @@ public class Server {
         return false;
     }
 
-    public int moveCard(int x, int y){
-        if ( true )
-            return this.currentGame.getCurrentCard().getCardID();
-        else
-            return 0;
+    public int moveCurrentCard(int x, int y){
+        if ( this.currentGame.getCurrentCard() == null || !(this.currentGame.getCurrentCard() instanceof Unit ) )
+            return 4;
+        return this.currentGame.moveCurrentCard(x, y);
     }
 
     public int attack(int opponentCardID){
@@ -277,7 +276,9 @@ public class Server {
     }
 
     public int useSpecialPower(int x, int y){
-
+        if ( this.currentGame.getCurrentCard() == null || !(this.currentGame.getCurrentCard() instanceof Unit) )
+            return 4;
+        return this.currentGame.useSpecialPower(x, y);
     }
 
     public ArrayList<Card> showHand(){

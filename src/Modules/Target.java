@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Target {
 
-    private String number;// 1, ALL, 3*3, 4*4, row, column
-    private String targetGroup;//cell, enemy, allie
-    private String targetType;//minion, hero
+    private String number;// 1, ALL, 3*3, 2*2, row, column, himself, 8around, hisrow, hiscolumn
+    private String targetGroup;//cell, enemy, ally
+    private String targetType;//minion, hero, both
 
 
     public String getNumber() {
