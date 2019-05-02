@@ -21,6 +21,9 @@ public class Spell {
     private int rounds;
     private String recipe;
 
+    public Spell(){
+
+    }
 
     public Spell(Spell spell){
         this.attack = spell.attack;

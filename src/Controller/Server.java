@@ -7,7 +7,7 @@ import Modules.*;
 import java.util.ArrayList;
 
 public class Server {
-    private Shop shop;
+    private Shop shop = new Shop();
     private Player currentPlayer = null;
     private Game currentGame;
     private ArrayList<Game> allGames;
@@ -54,24 +54,35 @@ public class Server {
 
 //================================= Shop functions ===================================//
 
-    public void searchCardInShop(String cardName) {
+    public String searchCardInShop(String cardName) {
         for (int i = 0; i < shop.getCards().size(); i++) {
-            if (shop.getCards().get(i).getName() == cardName) {
-                viewer.printSearchedID(shop.getCards().get(i).getCardID());
-                break;
+            if (shop.getCards().get(i).getName().equals(cardName)) {
+                return shop.getCards().get(i).getCardID() + "";
             }
         }
+        return "couldnt find card in collection";
     }
 
-    public void searchCardInCollection(String cardName) {
+    public String  searchCardInCollection(String cardName) {
         for (int i = 0; i < currentPlayer.getCollection().size(); i++) {
-            if (currentPlayer.getCollection().get(i).getName() == cardName)
-                viewer.printSearchedID(currentPlayer.getCollection().get(i).getCardID());
+            if (currentPlayer.getCollection().get(i).getName().equals(cardName))
+                return currentPlayer.getCollection().get(i).getCardID() + "" ;
         }
+        return "couldnt find card in collection";
     }
 
     public void buyCard(String name) {
         shop.buy(currentPlayer, name);
+    }
+
+    public void removeSelledCardFromDecks(int cardID){
+        ArrayList<Deck> decks = currentPlayer.getAllDecks();
+        for(int i = 0 ; i < decks.size() ; i++){
+            ArrayList<Card> cards = decks.get(i).getCards();
+            for(int j = 0 ; j < cards.size() ; j++ )
+                if(cards.get(j).getCardID() == cardID)
+                    cards.remove(j);
+        }
     }
 
     public void sellCardWithID(int cardID) {
@@ -187,7 +198,6 @@ public class Server {
     public void setMainDeck(String keyword) {
         Deck d = Collection.searchDeck(currentPlayer, keyword);
         currentPlayer.setMainDeck(d);
-        currentPlayer.getAllDecks().remove(d);
     }
 
     public Deck getDeck(String keyword) {
@@ -401,41 +411,41 @@ public class Server {
 
     }
 
-    public int insertSpell(String cardName, int x, int y) {
-
-    }
-
-    public void endTurn() {
-
-    }
-
-    public ArrayList<Item> ShowCollectables() {
-
-    }
-
-    public int selectItem(int itemID) {
-
-    }
-
-    public Item showCurrentItemInfo() {
-
-    }
-
-    public boolean useCurrentItem(int x, int y) {
-
-    }
-
-    public void showNextCard() {
-
-    }
-
-    public boolean enterGraveYard() {
-
-    }
-
-    public void endGame() {
-
-    }
+//    public int insertSpell(String cardName, int x, int y) {
+//
+//    }
+//
+//    public void endTurn() {
+//
+//    }
+//
+//    public ArrayList<Item> ShowCollectables() {
+//
+//    }
+//
+//    public int selectItem(int itemID) {
+//
+//    }
+//
+//    public Item showCurrentItemInfo() {
+//
+//    }
+//
+//    public boolean useCurrentItem(int x, int y) {
+//
+//    }
+//
+//    public void showNextCard() {
+//
+//    }
+//
+//    public boolean enterGraveYard() {
+//
+//    }
+//
+//    public void endGame() {
+//
+//    }
 
 
 }

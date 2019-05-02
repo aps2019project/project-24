@@ -696,25 +696,25 @@ public class Game {
         return true;
     }
 
-    public boolean insertSpell(Card card, Cell cell) {
-
-    }
-
-    public void endTrun() {
-
-    }
-
-    public boolean useCurrentItem(int x, int y) {
-
-    }
-
-    public void sendCardToTHeGraveYard(Card card) {
-
-    }
-
-    public int checkEndGame() {
-
-    }
+//    public boolean insertSpell(Card card, Cell cell) {
+//
+//    }
+//
+//    public void endTrun() {
+//
+//    }
+//
+//    public boolean useCurrentItem(int x, int y) {
+//
+//    }
+//
+//    public void sendCardToTHeGraveYard(Card card) {
+//
+//    }
+//
+//    public int checkEndGame() {
+//
+//    }
 
 
 }

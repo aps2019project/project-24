@@ -17,7 +17,7 @@ public class Player {
         this.password = password;
         this.numberOfWins = 0;
         this.money = 15000;
-        this.mainDeck = new Deck();
+        this.mainDeck = null;
         this.collection = new ArrayList<>();
         this.allDecks = new ArrayList<>();
         this.listOfMatches = new ArrayList<>();
