@@ -4,7 +4,6 @@ package Controller;
 import View.*;
 import Modules.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Server {
@@ -361,10 +360,10 @@ public class Server {
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 
-    public int useSpecialPower(int x, int y) {
+    public int useSpecialPowerOfHero(int x, int y) {
         if (this.currentGame.getCurrentCard() == null || !(this.currentGame.getCurrentCard() instanceof Unit))
             return 4;
-        return this.currentGame.useSpecialPower(x, y);
+        return this.currentGame.useSpecialPowerOfHero(x, y);
     }
 
     public ArrayList<Card> showHand() {
@@ -394,8 +393,11 @@ public class Server {
         else {
             currentGame.getMap()[x][y].setCard(card);
             currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
+            if ( ((Unit)card).getSpecialPowerCastTime().equals("onRespawn") )
+                this.currentGame.useSpecialPowerOfTheCard(card, 0, 0);
             return "Insert successfull";
         }
+
 
     }
 
