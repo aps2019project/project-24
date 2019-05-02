@@ -1,12 +1,10 @@
 package View;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import Controller.*;
 import Modules.*;
 
-import javax.sound.midi.Soundbank;
 import java.util.Comparator;
 
 public class Viewer {
@@ -586,9 +584,12 @@ public class Viewer {
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 
-    public void useSpecialPower(int x, int y) {
-        int ans = controller.useSpecialPower(x, y);
+    public void useSpecialPowerOfHero(int x, int y) {
+        int ans = controller.useSpecialPowerOfHero(x, y);
         switch (ans){
+            case 0:
+                System.out.println("wrong target");
+                break;
             case 2:
                 System.out.println("not enough mana");
                 break;
@@ -603,6 +604,9 @@ public class Viewer {
                 break;
             case 5:
                 System.out.println("the selected card is not hero!");
+                break;
+            case 6:
+                System.out.println("the special power is not cast able");
                 break;
         }
     }

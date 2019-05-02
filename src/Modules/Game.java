@@ -256,7 +256,6 @@ public class Game {
                     ans[1] = j;
                     return ans;
                 }
-
             }
         return ans;
     }
@@ -365,6 +364,8 @@ public class Game {
     }
     public void unitLost(Card card){
         int x = cardCoordination(card)[0] , y = cardCoordination(card)[1];
+        if ( ((Unit)card).getSpecialPowerCastTime().equals("onDeath") )
+            useSpecialPowerOfTheCard(card, x, y);
         this.map[x][y].setCard(null);
         this.graveYard.add(card);
     }
@@ -383,7 +384,19 @@ public class Game {
         }
         return (isStun && canBeStun) || (isDisarm && canBeDisarm);
     }
+
     public boolean canCounterAttack(Card defender,Card attacker){
+        int xOfAttacker = 0, yOfAttacker = 0;
+        for ( int i=0; i<5; i++ )
+            for ( int j=0; j<9; j++ ) {
+                Cell cell = map[i][j];
+                if (cell.getCard() != null && cell.getCard().getCardID() == attacker.getCardID()) {
+                    xOfAttacker = i+1-1;
+                    yOfAttacker = j;
+                    break;
+                }
+            }
+        useSpecialPowerOfTheCard(defender, xOfAttacker, yOfAttacker);
         boolean isInRange = isInAttackRange(defender,attacker.getCardID());
         boolean isDisarm = isUnitDisarm(defender); // Check is Stun and Disarm
         if( isInRange && !isDisarm )
@@ -393,7 +406,22 @@ public class Game {
     public void attack(int opponentCardID){
         Unit attacker = (Unit)this.currentCard;
         Unit defender = (Unit)findCardByID(opponentCardID);
+        int xOfDefender = 0, yOfDefender = 0;
+        for ( int i=0; i<5; i++ )
+            for ( int j=0; j<9; j++ ) {
+                Cell cell = map[i][j];
+                if (cell.getCard() != null && cell.getCard().getCardID() == defender.getCardID()) {
+                    xOfDefender = i;
+                    yOfDefender = j;
+                    break;
+                }
+            }
+
         defender.setHP(defender.getHP() - attacker.getAttackPower());
+
+        if ( attacker.getSpecialPowerCastTime().equals("onAttack") )
+            useSpecialPowerOfTheCard(attacker, xOfDefender, yOfDefender);
+
         if(canCounterAttack(defender,attacker))
             attacker.setHP(attacker.getHP() - defender.getAttackPower());
         this.didCardAttack.put(this.currentCard,true);
@@ -425,7 +453,7 @@ public class Game {
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 
-    public int useSpecialPower(int x, int y) {
+    public int useSpecialPowerOfHero(int x, int y) {
         Unit unit = (Unit) this.currentCard;
         if (!unit.isHero())
             return 5;
@@ -433,13 +461,20 @@ public class Game {
             return 3;
         if (manaOfPlayers[turn] < unit.getSpecialPowerManaCost())
             return 2;
-        //use spell of this card !
-        return 1;
+        if (!unit.getSpecialPowerCastTime().equals("castAble"))
+            return 6;
+        boolean bool = useSpecialPowerOfTheCard(this.currentCard, x, y);
+        if ( bool )
+            return 1;
+        else
+            return 0;
     }
 
     public void addBuffToACardOrCell(Card card, Spell buff){
         Spell spell = new Spell(buff);
         ((Unit)card).getBuffs().add(buff);
+        if ( ((Unit) card).getSpecialPowerCastTime().equals("onDefend"))
+            useSpecialPowerOfTheCard(card, 0, 0);
     }
 
     public void addBuffToACardOrCell(Cell cell, Spell buff){

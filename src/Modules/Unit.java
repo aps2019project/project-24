@@ -12,7 +12,7 @@ public class Unit extends Card {
     private boolean isHero;
     private boolean hasFlag;
     private Target specialPowerTarget;
-    private String specialPowerCastTime;
+    private String specialPowerCastTime;//onAttack, onRespawn, passive, onDeath, onDefend, castAble
     private int specialPowerManaCost;
     private String description;
     private boolean canCombo;
