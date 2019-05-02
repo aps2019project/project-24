@@ -368,10 +368,25 @@ public class Game {
         this.map[x][y].setCard(null);
         this.graveYard.add(card);
     }
+    public boolean isUnitDisarm(Card unit){
+        ArrayList<Spell> buffs = ((Unit)unit).getBuffs();
+        boolean isDisarm = false , isStun = false , canBeDisarm = true , canBeStun = true;
+        for(int i = 0 ; i < buffs.size(); i++){
+            if(buffs.get(i).isDisarm())
+                isDisarm = true;
+            if(!buffs.get(i).isCanBeDisarm())
+                canBeDisarm = false;
+            if(buffs.get(i).isStun())
+                isStun = true;
+            if(!buffs.get(i).isCanBeStun())
+                canBeStun = false;
+        }
+        return (isStun && canBeStun) || (isDisarm && canBeDisarm);
+    }
     public boolean canCounterAttack(Card defender,Card attacker){
         boolean isInRange = isInAttackRange(defender,attacker.getCardID());
-        boolean isDisarman = false; // Check is Stun and Disarm
-        if( isInRange && !isDisarman )
+        boolean isDisarm = isUnitDisarm(defender); // Check is Stun and Disarm
+        if( isInRange && !isDisarm )
             return true;
         return false;
     }
