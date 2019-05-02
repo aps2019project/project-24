@@ -120,7 +120,7 @@ public class Viewer {
                     if (input.toLowerCase().matches("game info"))
                         showGameInfo();
                     else if (input.toLowerCase().matches("select [\\d+]"))
-                        selectCard(Integer.parseInt(input.split("\\s")[1]));
+                        select(Integer.parseInt(input.split("\\s")[1]));
                     else if (input.toLowerCase().matches("show my minions"))
                         showPlayerMinions("my");
                     else if (input.toLowerCase().matches("show opponent minions"))
@@ -643,13 +643,17 @@ public class Viewer {
     public void showCardInfo(int cardID) {
         System.out.println(controller.showCardInfo(cardID));
     }
-
-    public void selectCard(int cardID) {
-        if (controller.selectCard(cardID))
+    public void select(int cardID){
+        if (controller.selectCard(cardID)) {
             System.out.println("card has been selected!");
+        }
+        else if(controller.selectItem(cardID))
+            System.out.println("Item has been selected");
         else
             System.out.println("Invalid select");
+
     }
+
 
     public void moveCurrentCard(int x, int y) {
         int ans = controller.moveCurrentCard(x, y);
