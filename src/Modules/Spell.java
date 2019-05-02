@@ -4,23 +4,44 @@ public class Spell {
     private String name;
     private boolean stun;
     private boolean disarm;
-    private boolean poisone;
+    private boolean poison;
     private int weakness;
     private boolean dispel;
     private boolean fire;
     private int attackChange;
     private int HPChanger;
     private boolean holyBuff;
-    private boolean comboCheck;
-    private boolean canDisarm;
-    private boolean canStun;
-    private boolean canPoisoned;
+    private boolean canBeDisarm;
+    private boolean canBeStun;
+    private boolean canBePoisoned;
     private boolean canBeBuffed;
     private boolean deBuff;
     private int attack;
     private int changeMana;
     private int rounds;
     private String recipe;
+
+
+    public Spell(Spell spell){
+        this.attack = spell.attack;
+        this.attackChange = spell.attackChange;
+        this.canBeBuffed = spell.canBeBuffed;
+        this.canBeDisarm = spell.canBeDisarm;
+        this.canBePoisoned = spell.canBePoisoned;
+        this.canBeStun = spell.canBeStun;
+        this.changeMana = spell.changeMana;
+        this.deBuff = spell.deBuff;
+        this.disarm = spell.disarm;
+        this.dispel = spell.dispel;
+        this.fire = spell.fire;
+        this.holyBuff = spell.holyBuff;
+        this.HPChanger = spell.HPChanger;
+        this.name = spell.name;
+        this.poison = spell.poison;
+        this.rounds = spell.rounds;
+        this.stun = spell.stun;
+        this.weakness = spell.weakness;
+    }
 
     public int getRounds() {
         return rounds;
@@ -30,12 +51,12 @@ public class Spell {
         this.rounds = rounds;
     }
 
-    public boolean isCanPoisoned() {
-        return canPoisoned;
+    public boolean isCanBePoisoned() {
+        return canBePoisoned;
     }
 
-    public void setCanPoisoned(boolean canPoisoned) {
-        this.canPoisoned = canPoisoned;
+    public void setCanBePoisoned(boolean canBePoisoned) {
+        this.canBePoisoned = canBePoisoned;
     }
 
     public int getChangeMana() {
@@ -110,36 +131,28 @@ public class Spell {
         this.HPChanger = HPChanger;
     }
 
-    public boolean isComboCheck() {
-        return comboCheck;
+    public boolean isCanBeDisarm() {
+        return canBeDisarm;
     }
 
-    public void setComboCheck(boolean comboCheck) {
-        this.comboCheck = comboCheck;
+    public void setCanBeDisarm(boolean canBeDisarm) {
+        this.canBeDisarm = canBeDisarm;
     }
 
-    public boolean isCanDisarm() {
-        return canDisarm;
+    public boolean isCanBeStun() {
+        return canBeStun;
     }
 
-    public void setCanDisarm(boolean canDisarm) {
-        this.canDisarm = canDisarm;
-    }
-
-    public boolean isCanStun() {
-        return canStun;
-    }
-
-    public void setCanStun(boolean canStun) {
-        this.canStun = canStun;
+    public void setCanBeStun(boolean canBeStun) {
+        this.canBeStun = canBeStun;
     }
 
     public boolean isCanPoisened() {
-        return canPoisoned;
+        return canBePoisoned;
     }
 
     public void setCanPoisened(boolean canPoisened) {
-        this.canPoisoned = canPoisened;
+        this.canBePoisoned = canPoisened;
     }
 
     public boolean isCanBeBuffed() {
@@ -166,12 +179,12 @@ public class Spell {
         this.disarm = disarm;
     }
 
-    public boolean isPoisone() {
-        return poisone;
+    public boolean isPoison() {
+        return poison;
     }
 
-    public void setPoisone(boolean poisone) {
-        this.poisone = poisone;
+    public void setPoison(boolean poison) {
+        this.poison = poison;
     }
 
     public boolean isFire() {

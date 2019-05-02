@@ -249,11 +249,10 @@ public class Server {
             return false;
     }
 
-    public int moveCard(int x, int y){
-        if ( true )
-            return this.currentGame.getCurrentCard().getCardID();
-        else
-            return 0;
+    public int moveCurrentCard(int x, int y){
+        if ( this.currentGame.getCurrentCard() == null || !(this.currentGame.getCurrentCard() instanceof Unit ) )
+            return 4;
+        return this.currentGame.moveCurrentCard(x, y);
     }
 
     //////////////////////////// ARMAN ////////////////////////////////
@@ -302,14 +301,39 @@ public class Server {
     //////////////////////////// END ARMAN ////////////////////////////////
 
     public int useSpecialPower(int x, int y){
-
+        if ( this.currentGame.getCurrentCard() == null || !(this.currentGame.getCurrentCard() instanceof Unit) )
+            return 4;
+        return this.currentGame.useSpecialPower(x, y);
     }
 
-    public ArrayList<Card>showHand(){
-
+    public ArrayList<Card> showHand(){
+        ArrayList<Card> hand = currentGame.getHandsOfPlayers()[currentGame.getTurn()];
+        return hand;
+    }
+    public Card getNextCard(){
+        Card card = currentGame.getDecksOfPLayers()[currentGame.getTurn()].get(0);
+        return card;
     }
 
-    public int insertUnit(String cardName, int x, int y){
+    public String insertUnit(String cardName, int x, int y){
+        Card card = currentGame.findCardByName(cardName);
+        if(card == null)
+            return "Invalid card name";
+        else if(!currentGame.cardIsInHand(card))
+            return "Invalid card name";
+        else if(x > 4 || y > 8)
+            return "Invalid target";
+        else if(currentGame.getMap()[x][y].getCard() != null)
+            return "Invalid target";
+        else if(!currentGame.isNearHero(x, y))
+            return "Invalid target";/////////////////////////unit o faghat mishe nazdik hero gozasht
+        else if(currentGame.getManaOfPlayers()[currentGame.getTurn()] < ((Unit)card).getManaCost())
+            return"You dont have enough mana";
+        else{
+            currentGame.getMap()[x][y].setCard(card);
+            currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
+            return "Insert successfull";
+        }
 
     }
 

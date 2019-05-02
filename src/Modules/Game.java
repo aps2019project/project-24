@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import View.*;
 
-public class Game{
+public class Game {
     private Player[] playersOfGame;
     private int turn;
     private ArrayList<Card>[] decksOfPLayers;
@@ -36,7 +36,7 @@ public class Game{
         decksOfPLayers = new ArrayList[2];
         primaryCards = new ArrayList[2];
         collectableItems = new ArrayList[2];
-        for (int i=0; i<2; i++ ) {
+        for (int i = 0; i < 2; i++) {
             decksOfPLayers[i] = new ArrayList<>();
             decksOfPLayers[i].addAll(playersOfGame[i].getMainDeck().getCards());
             primaryCards[i] = new ArrayList<>();
@@ -44,17 +44,17 @@ public class Game{
             collectableItems[i] = new ArrayList<>();
             Collections.shuffle(decksOfPLayers[i]);
         }
-        handsOfPlayers  = new ArrayList[2];
-        for (int i=0; i<2; i++) {
+        handsOfPlayers = new ArrayList[2];
+        for (int i = 0; i < 2; i++) {
             handsOfPlayers[i] = new ArrayList<>();
             for (int j = 0; j < 5; j++)
                 handsOfPlayers[i].add(decksOfPLayers[i].get(j));
-            for ( int j=0; j < 5; j++)
+            for (int j = 0; j < 5; j++)
                 decksOfPLayers[i].remove(0);
         }
         map = new Cell[5][9];
-        for ( Cell[] cells : map )
-            for ( Cell cell : cells )
+        for (Cell[] cells : map)
+            for (Cell cell : cells)
                 cell = new Cell();
         this.gameMode = gameMode;
         this.numberOfFlagsToWin = numberOfFlagsToWin;
@@ -62,13 +62,18 @@ public class Game{
         this.currentItem = null;
         this.areWeInTheGraveYard = false;
         this.graveYard = new ArrayList<>();
+        this.manaOfPlayers = new int[2];
+        for (int i = 0; i < 2; i++)
+            manaOfPlayers[i] = 5;
     }
 
     public Player[] getPlayersOfGame() {
         return playersOfGame;
     }
 
-    public ArrayList<Card>[] getPrimaryCards(){return primaryCards;}
+    public ArrayList<Card>[] getPrimaryCards() {
+        return primaryCards;
+    }
 
     public void setPlayersOfGame(Player[] playersOfGame) {
         this.playersOfGame = playersOfGame;
@@ -168,91 +173,163 @@ public class Game{
 
     ///////////////// GAme/////////////////
 
-    public Card getPlayerHero(int turn){
-        for(int i = 0 ; i < this.primaryCards[turn].size() ; i++){
-            if(this.primaryCards[turn].get(i) instanceof Unit && ((Unit)this.primaryCards[turn].get(i)).isHero())
+    public Card getPlayerHero(int turn) {
+        for (int i = 0; i < this.primaryCards[turn].size(); i++) {
+            if (this.primaryCards[turn].get(i) instanceof Unit && ((Unit) this.primaryCards[turn].get(i)).isHero())
                 return this.primaryCards[turn].get(i);
         }
         return null;
     }
-    public int[] getFlagHoldedCoordination(){
+
+    public int[] getFlagHoldedCoordination() {
         int[] coord = new int[2];
-        for(int i = 0 ; i < 5 ; i ++)
-            for(int j = 0 ; j < 9 ; j++)
-                if(this.map[i][j].getItem().isFlag()){
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 9; j++)
+                if (this.map[i][j].getItem().isFlag()) {
                     coord[0] = i;
                     coord[1] = j;
                 }
         return coord;
     }
-    public Player getCardOwner(Card card){
-        for(int i = 0 ; i < this.getPrimaryCards()[0].size() ; i++)
-            if(this.getPrimaryCards()[0].get(i).equals(card))
+
+    public Player getCardOwner(Card card) {
+        for (int i = 0; i < this.getPrimaryCards()[0].size(); i++)
+            if (this.getPrimaryCards()[0].get(i).equals(card))
                 return this.playersOfGame[0];
-        for(int i = 0 ; i < this.getPrimaryCards()[1].size() ; i++)
-            if(this.getPrimaryCards()[1].get(i).equals(card))
+        for (int i = 0; i < this.getPrimaryCards()[1].size(); i++)
+            if (this.getPrimaryCards()[1].get(i).equals(card))
                 return this.playersOfGame[1];
         return null;
     }
-    public Player getFlagOwner(int x , int y){
+
+    public Player getFlagOwner(int x, int y) {
         Card card = this.map[x][y].getCard();
         return getCardOwner(card);
     }
-    public ArrayList<String> getFlagsInfo(){
+
+    public ArrayList<String> getFlagsInfo() {
         ArrayList<String> ans = new ArrayList<>();
-        for(int i = 0 ; i < 5 ; i++)
-            for(int j = 0 ; j < 9 ; j++)
-                if(this.map[i][j].getItem().isFlag())
-                    if(this.getFlagOwner(i,j) != null){
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 9; j++)
+                if (this.map[i][j].getItem().isFlag())
+                    if (this.getFlagOwner(i, j) != null) {
                         Card card = this.map[i][j].getCard();
-                        ans.add("Team " + this.getFlagOwner(i,j).getUsername() + " : Soldier " + card.getName() + " Has Flag !");
+                        ans.add("Team " + this.getFlagOwner(i, j).getUsername() + " : Soldier " + card.getName() + " Has Flag !");
                     }
         return ans;
     }
 
-    public ArrayList<String> getPlayerUnitsInfo(String turn){
+    public ArrayList<String> getPlayerUnitsInfo(String turn) {
         ArrayList<String> ans = new ArrayList<>();
         Player p;
-        if(turn.equals("my"))
+        if (turn.equals("my"))
             p = this.playersOfGame[this.turn];
-        else{
+        else {
             p = this.playersOfGame[0];
-            if(this.turn == 0)
+            if (this.turn == 0)
                 p = this.playersOfGame[1];
         }
-        for(int i = 0 ; i < 5 ; i++)
-            for(int j = 0 ; j < 9 ; j++)
-                if(this.map[i][j].getCard() instanceof Unit && this.getCardOwner(this.map[i][j].getCard()).equals(p) ) {
-                    Unit unit = (Unit)this.map[i][j].getCard();
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 9; j++)
+                if (this.map[i][j].getCard() instanceof Unit && this.getCardOwner(this.map[i][j].getCard()).equals(p)) {
+                    Unit unit = (Unit) this.map[i][j].getCard();
                     ans.add(unit.getCardID() + " : " + unit.getName() + " , Health : " + unit.getHP() + " , Location : ("
-                    + i + "," + j + ") , Power : " + unit.getAttackPower());
+                            + i + "," + j + ") , Power : " + unit.getAttackPower());
                 }
         return ans;
     }
 
-    public int[] findByCardID(int cardID){
-        int[] ans = new int[2];
-
-        return ans;
-    }
-
-    public Card findCardByID(int cardID){
-        for (int i=0; i<2; i++ )
-            for ( Card card : primaryCards[i] )
-                if ( cardID == card.getCardID() )
+    public Card findCardByID(int cardID) {
+        for (int i = 0; i < 2; i++)
+            for (Card card : primaryCards[i])
+                if (cardID == card.getCardID())
                     return card;
         return null;
+    }
+    public int[] coordinationOfHero(){
+        for(int i = 0; i < 5; i++)
+            for(int j = 0; j < 9; j++) {
+                if (this.map[i][j].getCard() instanceof Unit && ((Unit) this.map[i][j].getCard()).isHero() &&
+                        getCardOwner(this.map[i][j].getCard()).getUsername().equals(this.playersOfGame[this.turn].getUsername())) {
+                    int[] ans = new int[2];
+                    ans[0] = i;
+                    ans[1] = j;
+                }
+
+            }
+    }
+
+    public boolean isNearHero(int x, int y){
+        int[] coordOfHero = coordinationOfHero();
+        int xDistance = Math.abs(x - coordOfHero[0]);
+        int yDistance = Math.abs(y - coordOfHero[1]);
+        int distance = Math.max(xDistance, yDistance);
+        if(distance == 1)
+            return true;
+        return false;
+    }
+
+
+    public Card findCardByName(String name){
+        for(int i = 0; i < 2; i++)
+            for(Card card : primaryCards[i])
+                if(card.getName().equals(name))
+                    return card;
+        return null;
+    }
+
+    public boolean cardIsInHand(Card card){
+        ArrayList<Card> hand = this.handsOfPlayers[this.turn];
+        for(int i = 0; i < hand.size(); i++)
+            if(hand.get(i).getCardID() == card.getCardID())
+                return true;
+        return false;
     }
 
     public void setCurrentCard(Card currentCard) {
         this.currentCard = currentCard;
     }
 
-    public int moveCurrentCard(int x, int y){
-        if ( true )
-            return this.getCurrentCard().getCardID();
-        else
-            return 0;
+    public int moveCurrentCard(int x, int y) {
+        int priviousX = 0, priviousY = 0;
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 9; j++) {
+                boolean flag = false;
+                if (this.currentCard.getCardID() == map[i][j].getCard().getCardID()) {
+                    priviousX = i;
+                    priviousY = j;
+                    flag = true;
+                }
+                if (flag)
+                    break;
+            }
+        if (java.lang.Math.abs(priviousX - x) > 2 || java.lang.Math.abs(priviousY - y) > 2)
+            return 3;
+        if (java.lang.Math.abs(priviousX - x) == 2 && java.lang.Math.abs(priviousY - y) > 0)
+            return 3;
+        if (java.lang.Math.abs(priviousX - x) > 0 || java.lang.Math.abs(priviousY - y) == 2)
+            return 3;
+        if (map[x][y].getCard() != null)
+            return 3;
+        if (x - priviousX == 2 && map[x + 1][y] != null)
+            return 3;
+        if (priviousX - x == 2 && map[x - 1][y] != null)
+            return 3;
+        if (y - priviousY == 2 && map[x][y + 1] != null)
+            return 3;
+        if (priviousY - y == 2 && map[x][y - 1] != null)
+            return 3;
+
+        Unit unit = (Unit) this.currentCard;
+        if (!unit.isCanMove())
+            return 2;
+        for (Spell buff : unit.getBuffs())
+            if (buff.isStun())
+                return 5;
+
+        map[priviousX][priviousY] = null;
+        map[x][y].setCard(currentCard);
+        return this.currentCard.getCardID();
     }
 
     //////////////////////////// ARMAN ////////////////////////////////
@@ -331,48 +408,262 @@ public class Game{
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 
-    public int useSpecialPower(int x, int y){
-
+    public int useSpecialPower(int x, int y) {
+        Unit unit = (Unit) this.currentCard;
+        if (!unit.isHero())
+            return 5;
+        if (unit.getSpecialPower() == null)
+            return 3;
+        if (manaOfPlayers[turn] < unit.getSpecialPowerManaCost())
+            return 2;
+        //use spell of this card !
+        return 1;
     }
 
-    public Card findCardByName(String name){
-        Card ans = null;
+    public void addBuffToACardOrCell(Card card, Spell buff){
+        Spell spell = new Spell(buff);
+        ((Unit)card).getBuffs().add(buff);
+    }
 
-        return ans;
+    public void addBuffToACardOrCell(Cell cell, Spell buff){
+        Spell spell = new Spell(buff);
+        cell.getBuffs().add(buff);
+    }
+
+
+    public boolean useSpecialPowerOfTheCard(Card card, int x, int y) {
+        Spell spell;
+        Target target;
+        Unit unit = null;
+        if (card instanceof SpellCard) {
+            spell = ((SpellCard) card).getSpell();
+            target = ((SpellCard) card).getTarget();
+        } else if (card instanceof Unit) {
+            spell = ((Unit) card).getSpecialPower();
+            target = ((Unit) card).getSpecialPowerTarget();
+            unit = (Unit) card;
+        } else
+            return false;
+
+        if (spell == null || target == null)
+            return false;
+
+        if (target.getNumber().equals("himself") && unit != null)
+            addBuffToACardOrCell(unit, spell);
+
+        if (target.getNumber().equals("All")) {
+            if (target.getTargetGroup().equals("cell"))
+                for (Cell[] cells : map)
+                    for (Cell cell : cells)
+                        addBuffToACardOrCell(cell, spell);
+
+            if (target.getTargetGroup().equals("enemy")) {
+                if (target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                    for (Cell[] cells : map)
+                        for (Cell cell : cells) {
+                            if (!getCardOwner(card).equals(getCardOwner(cell.getCard())) && cell.getCard() instanceof Unit
+                                    && (!((Unit) cell.getCard()).isHero() || target.getTargetGroup().equals("both")))
+                                addBuffToACardOrCell(cell.getCard(), spell);
+                        }
+            }
+
+            if (target.getTargetGroup().equals("ally")) {
+                if (target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                    for (Cell[] cells : map)
+                        for (Cell cell : cells) {
+                            if (getCardOwner(card).equals(getCardOwner(cell.getCard())) && cell.getCard() instanceof Unit
+                                    && (!((Unit) cell.getCard()).isHero() || target.getTargetGroup().equals("both")))
+                                addBuffToACardOrCell(cell.getCard(), spell);
+                        }
+            }
+            return true;
+        }
+
+        if (target.getNumber().equals("1")) {
+            if (target.getTargetGroup().equals("cell")) {
+                addBuffToACardOrCell(map[x][y], spell);
+                return true;
+            }
+
+            if (target.getTargetType().equals("hero"))
+                for (Cell[] cells : map)
+                    for (Cell cell : cells) {
+                        if (target.getTargetGroup().equals("enemy") && getCardOwner(card).equals(getCardOwner(cell.getCard())) && cell.getCard() instanceof Unit
+                                && ((Unit) cell.getCard()).isHero()) {
+                            addBuffToACardOrCell(cell.getCard(), spell);
+                            return true;
+                        }
+                        if (target.getTargetGroup().equals("ally") && !getCardOwner(card).equals(getCardOwner(cell.getCard())) && cell.getCard() instanceof Unit
+                                && ((Unit) cell.getCard()).isHero()) {
+                            addBuffToACardOrCell(cell.getCard(), spell);
+                            return true;
+                        }
+                    }
+
+            if (target.getTargetGroup().equals("enemy"))
+                if (getCardOwner(map[x][y].getCard()).equals(getCardOwner(card)))
+                    return false;
+
+            if (target.getTargetGroup().equals("ally"))
+                if (!getCardOwner(map[x][y].getCard()).equals(getCardOwner(card)))
+                    return false;
+
+            if (target.getTargetType().equals("minion"))
+                if (map[x][y].getCard() instanceof Unit && !((Unit) map[x][y].getCard()).isHero()) {
+                    addBuffToACardOrCell(map[x][y].getCard(), spell);
+                    return true;
+                }
+
+            if (target.getTargetType().equals("both"))
+                if (map[x][y].getCard() instanceof Unit) {
+                    addBuffToACardOrCell(map[x][y].getCard(), spell);
+                    return true;
+                }
+        }
+
+        if (target.getNumber().equals("3*3") || target.getNumber().equals("2*2")) {
+            if (target.getNumber().equals("3*3") && (x > 2 || y > 6))
+                return false;
+            if (target.getNumber().equals("2*2") && (x > 3 || y > 7))
+                return false;
+            int numberOfCells = Integer.parseInt(target.getNumber().split("\\*")[0]);
+            if (target.getTargetGroup().equals("Ally") && target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                for (int i = x; i < x + numberOfCells; i++)
+                    for (int j = y; j < y + numberOfCells; j++) {
+                        Cell cell = map[i][j];
+                        if (getCardOwner(card).equals(getCardOwner(cell.getCard())) && cell.getCard() instanceof Unit
+                                && (!((Unit) cell.getCard()).isHero() || target.getTargetGroup().equals("both")))
+                            addBuffToACardOrCell(cell.getCard(), spell);
+                    }
+
+            if (target.getTargetGroup().equals("enemy") && target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                for (int i = x; i < x + numberOfCells; i++)
+                    for (int j = y; j < y + numberOfCells; j++) {
+                        Cell cell = map[i][j];
+                        if (!getCardOwner(card).equals(getCardOwner(cell.getCard())) && cell.getCard() instanceof Unit
+                                && (!((Unit) cell.getCard()).isHero() || target.getTargetGroup().equals("both"+"")))
+                            addBuffToACardOrCell(cell.getCard(), spell);
+                    }
+            if (target.getTargetGroup().equals("cell"))
+                for (int i = x; i < x + numberOfCells; i++)
+                    for (int j = y; j < y + numberOfCells; j++)
+                        addBuffToACardOrCell(map[i][j], spell);
+            return true;
+        }
+
+        if (target.getNumber().equals("8around")) {
+            for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 9; j++)
+                    if ( map[i][j].getCard().equals(card) ){
+                        x = i;
+                        y =j;
+                        break;
+                    }
+
+            for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 9; j++)
+                    if (java.lang.Math.abs(i - x) < 2 && java.lang.Math.abs(j - y) < 2) {
+                        if (target.getTargetGroup().equals("Ally"))
+                            if (target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                                if (getCardOwner(card).equals(getCardOwner(map[i][j].getCard())) && map[i][j].getCard() instanceof Unit
+                                        && (!((Unit) map[i][j].getCard()).isHero() || target.getTargetGroup().equals("both")))
+                                    addBuffToACardOrCell(map[i][j].getCard(), spell);
+                        if (target.getTargetGroup().equals("enemy"))
+                            if (target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                                if (!getCardOwner(card).equals(getCardOwner(map[i][j].getCard())) && map[i][j].getCard() instanceof Unit
+                                        && (!((Unit) map[i][j].getCard()).isHero() || target.getTargetGroup().equals("both")))
+                                    addBuffToACardOrCell(map[i][j].getCard(), spell);
+                        if (target.getTargetGroup().equals("cell"))
+                            addBuffToACardOrCell(map[i][j], spell);
+                    }
+            return true;
+        }
+
+        if (target.getNumber().matches("row") ) {
+            int i=0;
+            if (target.getNumber().equals("row"))
+                i = x;
+            else{
+                for (int u = 0; u < 5; u++)
+                    for (int j = 0; j < 9; j++)
+                        if ( map[u][j].getCard().equals(card) ){
+                            i = u;
+                            break;
+                        }
+            }
+            for (int j = 0; j < 9; j++) {
+                    if (target.getTargetGroup().equals("Ally"))
+                        if (target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                            if (getCardOwner(card).equals(getCardOwner(map[i][j].getCard())) && map[i+1-1][j].getCard() instanceof Unit
+                                    && (!((Unit) map[i][j].getCard()).isHero() || target.getTargetGroup().equals("both")))
+                                addBuffToACardOrCell(map[i][j].getCard(), spell);
+                    if (target.getTargetGroup().equals("enemy"))
+                        if (target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                            if (!getCardOwner(card).equals(getCardOwner(map[i + 1 - 1][j].getCard())) && map[i][j].getCard() instanceof Unit
+                                    && (!((Unit) map[i][j].getCard()).isHero() || target.getTargetGroup().equals("both")))
+                                addBuffToACardOrCell(map[i][j].getCard(), spell);
+                    if (target.getTargetGroup().equals("cell"))
+                        addBuffToACardOrCell(map[i][j], spell);
+                }
+        }
+
+        if (target.getNumber().matches("column") ) {
+            int j=0;
+            if (target.getNumber().equals("column"))
+                j = y;
+            else{
+                for (int i = 0; i < 5; i++)
+                    for (int u = 0; u< 9+1-1; u++)
+                        if ( map[i][u].getCard().equals(card) ){
+                            j = u;
+                            break;
+                        }
+            }
+            for (int i = 0; i < 5; i++) {
+                if (target.getTargetGroup().equals("Ally"))
+                    if (target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                        if (getCardOwner(card).equals(getCardOwner(map[i][j].getCard())) && map[i+1-1][j].getCard() instanceof Unit
+                                && (!((Unit) map[i+1-1][j].getCard()).isHero() || target.getTargetGroup().equals("both")))
+                            addBuffToACardOrCell(map[i][j].getCard(), spell);
+                if (target.getTargetGroup().equals("enemy"))
+                    if (target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
+                        if (!getCardOwner(card).equals(getCardOwner(map[i + 1 - 1][j].getCard())) && map[i][j].getCard() instanceof Unit
+                                && (!((Unit) map[i+1-1][j].getCard()).isHero() || target.getTargetGroup().equals("both")))
+                            addBuffToACardOrCell(map[i][j].getCard(), spell);
+                if (target.getTargetGroup().equals("cell"))
+                    addBuffToACardOrCell(map[i][j], spell);
+            }
+        }
+        return true;
     }
 
     public boolean insertUnit(Card card, Cell cell){
         if ( cell.getCard() == null ) {
             cell.setCard(card);
             return true;
-        }
-        else
+        } else
             return false;
     }
 
-    public boolean insertSpell(Card card, Cell cell){
+    public boolean insertSpell(Card card, Cell cell) {
 
     }
 
-    public int getOwnerOfTheCard(Card card){
+    public void endTrun() {
 
     }
 
-    public void endTrun(){
+    public boolean useCurrentItem(int x, int y) {
 
     }
 
-    public boolean useCurrentItem(int x, int y){
+    public void sendCardToTHeGraveYard(Card card) {
 
     }
 
-    public void sendCardToTHeGraveYard(Card card){
-
-    }
-
-    public int checkEndGame(){
+    public int checkEndGame() {
 
     }
 
 
- }
+}
