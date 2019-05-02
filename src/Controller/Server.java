@@ -278,22 +278,21 @@ public class Server {
             return false;
         else {
             for (Cell[] cells : this.currentGame.getMap())
-                for (Cell cell : cells) {
+                for (Cell cell : cells)
                     if (cell.getCard().getCardID() == cardID && this.currentGame.getCardOwner(cell.getCard()).equals
                             (this.currentGame.getPlayersOfGame()[this.currentGame.getTurn()])) {
                         this.currentGame.setCurrentCard(cell.getCard());
                         return true;
                     }
-                }
         }
         return false;
     }
 
-    public boolean selectItem(int cardID){
-        for(int i = 0; i < currentGame.getCollectableItems()[currentGame.getTurn()].size(); i++){
-            if()
-        }
-    }
+//    public boolean selectItem(int cardID){
+//        for(int i = 0; i < currentGame.getCollectableItems()[currentGame.getTurn()].size(); i++){
+//            if()
+//        }
+//    }
 
     public String getCurrentItemInfo(){
         Item item = currentGame.getCurrentItem();
@@ -349,12 +348,36 @@ public class Server {
         currentGame.comboAttack(comboAttackers,opponentCardID);
         return "Combo Attack was successful !";
     }
+    public String getCollectablesInfo(){
+        String ans = "";
+        ArrayList<Item> items = currentGame.getCollectableItems()[currentGame.getTurn()];
+        for(int i = 0 ; i < items.size() ; i++)
+            ans = ans.concat( i+1 + ". Name : " + items.get(i).getName() + "\n");
+        return ans;
+    }
+    public String getNextCardInfo(){
+        Card card = currentGame.getDecksOfPLayers()[currentGame.getTurn()].get(0);
+        return "Name : " + card.getName() + " , CardID : " + card.getCardID();
+    }
+    public String getInfoCardInGraveyard(int cardID){
+        Card card = currentGame.searchCardByIDinGraveyard(cardID);
+        if(card == null)
+            return "This Card Does not exists in the graveyard !!!";
+        return "Card Name : " + card.getName();
+    }
+    public String getCardsInfoGraveyard(){
+        String ans = "";
+        ArrayList<Card> cards = currentGame.getGraveYard();
+        for(int i = 0 ; i < cards.size() ; i++)
+            ans = ans.concat(i+1 + ". Name : " + cards.get(i).getName() + " , CardID : " + cards.get(i).getCardID());
+        return ans;
+    }
     //////////////////////////// END ARMAN ////////////////////////////////
 
-    public int useSpecialPower(int x, int y) {
+    public int useSpecialPowerOfHero(int x, int y) {
         if (this.currentGame.getCurrentCard() == null || !(this.currentGame.getCurrentCard() instanceof Unit))
             return 4;
-        return this.currentGame.useSpecialPower(x, y);
+        return this.currentGame.useSpecialPowerOfHero(x, y);
     }
 
     public ArrayList<Card> showHand() {
@@ -380,7 +403,11 @@ public class Server {
         }
         else if(card instanceof SpellCard)
             return insertSpell(card, x, y);
+        else{
+            return "Invalid card name";
+        }
     }
+
     public String insertUnit(Card card, int x, int y) {
         if (currentGame.getMap()[x][y].getCard() != null)
             return "Invalid target";
@@ -406,7 +433,7 @@ public class Server {
             currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
             return card.getName() + " with " + card.getCardID() + " inserted to " + "(" + x + "," + ")";
         }
-        else if(currentGame.useSpecialPowerOfTheCard(card, x, y))
+        else
             return "Invalid target";
     }
 
@@ -430,6 +457,14 @@ public class Server {
             answer.concat(collectables.get(i).getName() + "\n");
         }
         return answer;
+    }
+
+    public Item showCurrentItemInfo() {
+
+    }
+
+    public boolean useCurrentItem(int x, int y) {
+
     }
 
     public void showNextCard() {
