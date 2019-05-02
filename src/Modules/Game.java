@@ -247,16 +247,18 @@ public class Game {
         return null;
     }
     public int[] coordinationOfHero(){
+        int[] ans = new int[2];
         for(int i = 0; i < 5; i++)
             for(int j = 0; j < 9; j++) {
                 if (this.map[i][j].getCard() instanceof Unit && ((Unit) this.map[i][j].getCard()).isHero() &&
                         getCardOwner(this.map[i][j].getCard()).getUsername().equals(this.playersOfGame[this.turn].getUsername())) {
-                    int[] ans = new int[2];
                     ans[0] = i;
                     ans[1] = j;
+                    return ans;
                 }
 
             }
+        return ans;
     }
 
     public boolean isNearHero(int x, int y){
@@ -635,14 +637,6 @@ public class Game {
             }
         }
         return true;
-    }
-
-    public boolean insertUnit(Card card, Cell cell){
-        if ( cell.getCard() == null ) {
-            cell.setCard(card);
-            return true;
-        } else
-            return false;
     }
 
     public boolean insertSpell(Card card, Cell cell) {
