@@ -39,6 +39,9 @@ public class Game {
         for (int i = 0; i < 2; i++) {
             decksOfPLayers[i] = new ArrayList<>();
             decksOfPLayers[i].addAll(playersOfGame[i].getMainDeck().getCards());
+//            for ( Card card : decksOfPLayers[i] )
+//                if ( card instanceof Unit && ((Unit)card).isHero() )
+//                    decksOfPLayers[i].remove(card);
             primaryCards[i] = new ArrayList<>();
             primaryCards[i].addAll(decksOfPLayers[i]);
             collectableItems[i] = new ArrayList<>();
@@ -307,7 +310,7 @@ public class Game {
         for (int i = 0; i < 5; i++)
             for (int j = 0; j < 9; j++) {
                 boolean flag = false;
-                if (this.currentCard.getCardID() == map[i][j].getCard().getCardID()) {
+                if ( map[i][j].getCard() != null && this.currentCard.getCardID() == map[i][j].getCard().getCardID()) {
                     priviousX = i;
                     priviousY = j;
                     flag = true;
@@ -319,28 +322,44 @@ public class Game {
             return 3;
         if (java.lang.Math.abs(priviousX - x) == 2 && java.lang.Math.abs(priviousY - y) > 0)
             return 3;
-        if (java.lang.Math.abs(priviousX - x) > 0 || java.lang.Math.abs(priviousY - y) == 2)
+        if (java.lang.Math.abs(priviousX - x) > 0 && java.lang.Math.abs(priviousY - y) == 2)
             return 3;
         if (map[x][y].getCard() != null)
             return 3;
-        if (x - priviousX == 2 && map[x + 1][y] != null)
+        if (x - priviousX == 2 && map[priviousX + 1][priviousY].getCard() != null)
             return 3;
-        if (priviousX - x == 2 && map[x - 1][y] != null)
+        if (priviousX - x == 2 && map[priviousX - 1][priviousY].getCard() != null)
             return 3;
-        if (y - priviousY == 2 && map[x][y + 1] != null)
+        if (y - priviousY == 2 && map[priviousX][priviousY + 1].getCard() != null)
             return 3;
-        if (priviousY - y == 2 && map[x][y - 1] != null)
+        if (priviousY - y == 2 && map[priviousX][priviousY - 1].getCard() != null)
             return 3;
 
         Unit unit = (Unit) this.currentCard;
-        if (!unit.isCanMove())
+        if (unit.isHasBeenMovedThisRound())
             return 2;
-        for (Spell buff : unit.getBuffs())
-            if (buff.isStun())
-                return 5;
 
-        map[priviousX][priviousY] = null;
+        boolean stun=false;
+        boolean canBeStunned=true;
+
+        for ( Spell spell : unit.getBuffs() )
+            if (spell.isStun()) {
+                stun = true;
+                break;
+            }
+
+        for ( Spell spell : unit.getBuffs() )
+            if ( !spell.isCanBeStun() ){
+                canBeStunned = false;
+                break;
+            }
+
+        if ( stun && canBeStunned )
+            return 5;
+
+        map[priviousX][priviousY].setCard(null);
         map[x][y].setCard(currentCard);
+        unit.setHasBeenMovedThisRound(true);
         return this.currentCard.getCardID();
     }
 

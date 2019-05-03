@@ -16,7 +16,7 @@ public class Unit extends Card {
     private int specialPowerManaCost;
     private String description;
     private boolean canCombo;
-    private boolean canMove;
+    private boolean hasBeenMovedThisRound;
     private ArrayList<Spell> buffs;
 
     {
@@ -50,14 +50,6 @@ public class Unit extends Card {
         return canCombo;
     }
 
-    public boolean isCanMove() {
-        return canMove;
-    }
-
-    public void setCanMove(boolean canMove) {
-        this.canMove = canMove;
-    }
-
     public boolean getCanCombo() {
         return this.canCombo;
     }
@@ -73,8 +65,6 @@ public class Unit extends Card {
     public void setDescription(String str) {
         this.description = str;
     }
-
-    private boolean hasBeenMovedThisRound;
 
     public boolean isHasBeenMovedThisRound() {
         return hasBeenMovedThisRound;

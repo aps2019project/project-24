@@ -8,8 +8,12 @@ public class Shop{
 
     public Shop(){
         cards = new ArrayList<>();
+        Spell spell = new Spell();
+        spell.setStun(true);
+        spell.setCanBeStun(true);
         //////////////////// HERO 1 ///////////////////
         Unit hero1 = new Unit();
+        hero1.getBuffs().add(spell);
         hero1.setCardID(512312);
         hero1.setName("HeroNumberOne");
         hero1.setPrice(5500);
@@ -21,7 +25,6 @@ public class Shop{
         spellHero1.setAttackChange(2);
         uHero1.setSpecialPower(spellHero1);
         uHero1.setRange(2);
-        uHero1.setBuffs(new ArrayList<>());
         uHero1.setManaCost(0);
         uHero1.setIsHero(true);
         uHero1.setHasFlag(false);
@@ -34,8 +37,8 @@ public class Shop{
         uHero1.setSpecialPowerManaCost(3);
         uHero1.setDescription("Hero1 : This hero is like Changiz !");
         uHero1.setCanCombo(true);
-        uHero1.setCanMove(true);
-        uHero1.setBuffs(new ArrayList<>());
+        uHero1.setHasBeenMovedThisRound(false);
+        //uHero1.setBuffs(new ArrayList<>());
         //////////////////// HERO 2 ///////////////////
         Unit hero2 = new Unit();
         hero2.setCardID(41232);
@@ -62,7 +65,7 @@ public class Shop{
         uHero2.setSpecialPowerManaCost(4);
         uHero2.setDescription("Hero2 : This hero Fucks Enemy's Units !");
         uHero2.setCanCombo(true);
-        uHero2.setCanMove(true);
+        uHero2.setHasBeenMovedThisRound(false);
         uHero2.setBuffs(new ArrayList<>());
         //////////////////// HERO 3 ///////////////////
         Unit hero3 = new Unit();
@@ -90,7 +93,7 @@ public class Shop{
         uHero3.setSpecialPowerManaCost(0);
         uHero3.setDescription("Hero3 : This hero Doesnt give a shit on buffs !");
         uHero3.setCanCombo(true);
-        uHero3.setCanMove(true);
+        uHero3.setHasBeenMovedThisRound(false);
         uHero3.setBuffs(new ArrayList<>());
         //////////////////// Minion 1 ///////////////////
         Unit minion1 = new Unit();
@@ -118,7 +121,7 @@ public class Shop{
         uMinion1.setSpecialPowerManaCost(1);
         uMinion1.setDescription("Minion1 : This Minion is Mini Changiz !");
         uMinion1.setCanCombo(true);
-        uMinion1.setCanMove(true);
+        uMinion1.setHasBeenMovedThisRound(false);
         uMinion1.setBuffs(new ArrayList<>());
         //////////////////// Minion 2 ///////////////////
         Unit minion2 = new Unit();
@@ -146,7 +149,7 @@ public class Shop{
         uMinion2.setSpecialPowerManaCost(2);
         uMinion2.setDescription("Minion2 : This Minion Almost Fucks Enemy's Units !");
         uMinion2.setCanCombo(false);
-        uMinion2.setCanMove(true);
+        uMinion2.setHasBeenMovedThisRound(false);
         uMinion2.setBuffs(new ArrayList<>());
         //////////////////// Minion 3 ///////////////////
         Unit minion3 = new Unit();
@@ -174,7 +177,7 @@ public class Shop{
         uMinion3.setSpecialPowerManaCost(4);
         uMinion3.setDescription("Minion3 : This Minion Doesnt give a shit on buffs !");
         uMinion3.setCanCombo(true);
-        uMinion3.setCanMove(true);
+        uMinion3.setHasBeenMovedThisRound(false);
         uMinion3.setBuffs(new ArrayList<>());
         cards.add(hero1);
         cards.add(hero2);

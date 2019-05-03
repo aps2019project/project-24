@@ -148,9 +148,10 @@ public class Viewer {
                         isInGraveYard = true;
                     else if(input.toLowerCase().matches("help"))
                         showHelpInGame();
-                    else if(input.toLowerCase().matches("move to \\d \\d")){
+                    else if(input.toLowerCase().matches("move to \\d \\d"))
                         moveCurrentCard(Integer.parseInt(input.split(" ")[2]) , Integer.parseInt(input.split(" ")[3]) );
-                    }
+                    else if(input.toLowerCase().matches("select card \\d+"))
+                        select(Integer.parseInt(input.split("\\s")[2]));
                     ///////////////////////////// END ARMAN ////////////////////////////////
                     else if(input.toLowerCase().matches("show info"))
                         showCurrentItemInfo();

@@ -293,7 +293,7 @@ public class Server {
         else {
             for (Cell[] cells : this.currentGame.getMap())
                 for (Cell cell : cells)
-                    if (cell.getCard().getCardID() == cardID && this.currentGame.getCardOwner(cell.getCard()).equals
+                    if ( cell.getCard() != null && cell.getCard().getCardID() == cardID && this.currentGame.getCardOwner(cell.getCard()).equals
                             (this.currentGame.getPlayersOfGame()[this.currentGame.getTurn()])) {
                         this.currentGame.setCurrentCard(cell.getCard());
                         return true;
