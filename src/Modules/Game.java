@@ -21,6 +21,7 @@ public class Game {
     private Card currentCard;
     private Item currentItem;
     private boolean areWeInTheGraveYard;
+    private int[] manaOfTheStartOfTheTrun;
 
     //////////////////////////// ARMAN ////////////////////////////////
     private HashMap<Card,Boolean> didCardAttack;
@@ -32,6 +33,7 @@ public class Game {
         playersOfGame = new Player[2];
         playersOfGame[0] = player1;
         playersOfGame[1] = player2;
+        manaOfTheStartOfTheTrun = new int[2];
         this.turn = 0;
         decksOfPLayers = new ArrayList[2];
         primaryCards = new ArrayList[2];
@@ -70,10 +72,15 @@ public class Game {
         this.areWeInTheGraveYard = false;
         this.graveYard = new ArrayList<>();
         this.manaOfPlayers = new int[2];
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++) {
             manaOfPlayers[i] = 5;
+            manaOfTheStartOfTheTrun[i] = 5;
+        }
         map[2][0].setCard(getPlayerHero(0));
-        map[2][8].setCard(getPlayerHero(1));
+        map[2][2].setCard(getPlayerHero(1));
+        didCardAttack = new HashMap<>();
+        didCardAttack.put(getPlayerHero(0),false);
+        didCardAttack.put(getPlayerHero(1),false);
     }
 
     public Player[] getPlayersOfGame() {
@@ -370,7 +377,7 @@ public class Game {
         int[] coord = new int[2];
         for(int i = 0 ; i < 5 ; i++)
             for(int j = 0 ; j < 9 ; j++)
-                if(this.map[i][j].getCard().equals(card)){
+                if(this.map[i][j].getCard() != null && this.map[i][j].getCard().equals(card)){
                     coord[0] = i;
                     coord[1] = j;
                     return coord;
@@ -390,7 +397,7 @@ public class Game {
         int xDistance = Math.abs(coordsCurrentUnit[0]-coordsOpponentUnit[0]);
         int yDistance = Math.abs(coordsCurrentUnit[1]-coordsOpponentUnit[1]);
         int distance = Math.max(xDistance,yDistance);
-        if(distance == ((Unit)attackerCard).getRange())
+        if(distance == ((Unit)attackerCard).getRange() || (distance <= ((Unit)attackerCard).getRange() && ((Unit)attackerCard).getAttackType().equals("melee") ))
             return true;
         return false;
     }
@@ -713,10 +720,40 @@ public class Game {
 //
 //    }
 //
-//    public void endTrun() {
-//
-//    }
-//
+    public void endTurn(){
+        manaOfTheStartOfTheTrun[turn] ++;
+        if ( turn == 0 )
+            for ( Cell[] cells : map )
+                for ( Cell cell : cells )
+                    for ( int i=0; i<cell.getBuffs().size(); i++ ) {
+                        Spell spell = cell.getBuffs().get(i);
+                        spell.setRounds(spell.getRounds() - 1);
+                        if ( spell.getRounds() == 0 ){
+                            cell.getBuffs().remove(i);
+                            i --;
+                        }
+                    }
+        for ( Cell[] cells : map )
+            for ( Cell cell : cells )
+                if ( cell.getCard() != null && cell.getCard() instanceof Unit && getCardOwner(cell.getCard()).equals(playersOfGame[turn]) )
+                    for ( int i=0; i<((Unit) cell.getCard()).getBuffs().size(); i++ ) {
+                        Spell spell = ((Unit) cell.getCard()).getBuffs().get(i);
+                        spell.setRounds(spell.getRounds() - 1);
+                        if ( spell.getRounds() == 0 ){
+                            cell.getBuffs().remove(i);
+                            i --;
+                        }
+                    }
+        if ( handsOfPlayers[turn].size() < 5 )
+            if ( decksOfPLayers[turn].size() > 0 ) {
+                handsOfPlayers[turn].add(decksOfPLayers[turn].get(0));
+                decksOfPLayers[turn].remove(0);
+            }
+
+        turn = (turn + 1 ) % 2;
+        manaOfPlayers[turn] = manaOfTheStartOfTheTrun[turn];
+    }
+
 //    public boolean useCurrentItem(int x, int y) {
 //
 //    }
