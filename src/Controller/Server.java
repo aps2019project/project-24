@@ -406,8 +406,11 @@ public class Server {
     }
 
     public Card getNextCard() {
-        Card card = currentGame.getDecksOfPLayers()[currentGame.getTurn()].get(0);
-        return card;
+        if(currentGame.getDecksOfPLayers()[currentGame.getTurn()].size() != 0) {
+            Card card = currentGame.getDecksOfPLayers()[currentGame.getTurn()].get(0);
+            return card;
+        }
+        else return null;
     }
 
     public String insert(String cardName, int x, int y){
@@ -439,6 +442,8 @@ public class Server {
             currentGame.getMap()[x][y].setCard(card);
             currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
             currentGame.decreaseManaOfPlayers(((Unit) card).getManaCost());
+            if ( ((Unit) card).getSpecialPower() != null && ((Unit)card).getSpecialPowerCastTime().equals("onRespawn"))
+                this.currentGame.useSpecialPowerOfTheCard(card, x, y);
             return "Insert successful";
         }
 

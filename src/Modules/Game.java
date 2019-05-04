@@ -39,11 +39,13 @@ public class Game {
         for (int i = 0; i < 2; i++) {
             decksOfPLayers[i] = new ArrayList<>();
             decksOfPLayers[i].addAll(playersOfGame[i].getMainDeck().getCards());
-//            for ( Card card : decksOfPLayers[i] )
-//                if ( card instanceof Unit && ((Unit)card).isHero() )
-//                    decksOfPLayers[i].remove(card);
             primaryCards[i] = new ArrayList<>();
             primaryCards[i].addAll(decksOfPLayers[i]);
+            for ( Card card : decksOfPLayers[i] )
+                if ( card instanceof Unit && ((Unit)card).isHero() ) {
+                    decksOfPLayers[i].remove(card);
+                    break;
+                }
             collectableItems[i] = new ArrayList<>();
             Collections.shuffle(decksOfPLayers[i]);
         }
@@ -394,6 +396,8 @@ public class Game {
     }
     public void unitLost(Card card){
         int x = cardCoordination(card)[0] , y = cardCoordination(card)[1];
+        if ( ((Unit)card).getSpecialPowerCastTime().equals("onDeath") )
+            useSpecialPowerOfTheCard(card, x, y);
         this.map[x][y].setCard(null);
         this.graveYard.add(card);
     }
@@ -422,6 +426,10 @@ public class Game {
     public void attack(int opponentCardID){
         Unit attacker = (Unit)this.currentCard;
         Unit defender = (Unit)findCardByID(opponentCardID);
+        if ( attacker.getSpecialPower() != null && attacker.getSpecialPowerCastTime().equals("onAttack") )
+            useSpecialPowerOfTheCard(attacker, cardCoordination(attacker)[0], cardCoordination(attacker)[1]);
+        if ( defender.getSpecialPower() != null && defender.getSpecialPowerCastTime().equals("onDefend") )
+            useSpecialPowerOfTheCard(defender, cardCoordination(attacker)[0], cardCoordination(attacker)[1]);
         defender.setHP(defender.getHP() - attacker.getAttackPower());
         if(canCounterAttack(defender,attacker))
             attacker.setHP(attacker.getHP() - defender.getAttackPower());

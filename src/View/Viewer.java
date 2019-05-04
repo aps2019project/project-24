@@ -773,8 +773,12 @@ public class Viewer {
         for(int i = 0; i < hand.size(); i++)
             System.out.println(hand.get(i).getName());
         Card nextCard = controller.getNextCard();
-        System.out.println("next card : " + nextCard.getName());
+        if(nextCard == null)
+            System.out.println("next card : nothing");
+        else
+            System.out.println("next card : " + nextCard.getName());
     }
+
 //    public void showCollectables(){
 //        System.out.println(controller.showCollectables());
 //    }
