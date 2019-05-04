@@ -502,9 +502,17 @@ public class Server {
 //
 //    }
 //
-//    public void endGame() {
-//
-//    }
+    public String checkEndGame() {
+        int indexOfWinner = 0;
+        String checkEndGame = currentGame.checkEndGame();
+        if(currentGame.getPlayersOfGame()[1].getUsername().equals(checkEndGame))
+            indexOfWinner = 1;
+        int time = 1;
+        new EndedMatches(currentGame.getPlayersOfGame()[0], currentGame.getPlayersOfGame()[1], currentGame.getPlayersOfGame()[indexOfWinner], time);
+        ///////////////////////////time cherte int nabayd bashe bayad az in saat maata bashe
+        currentGame = null;
+        return checkEndGame;
+    }
 
 
 }

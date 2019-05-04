@@ -1,6 +1,9 @@
 package Modules;
 
+import java.util.ArrayList;
+
 public class EndedMatches {
+    ArrayList<EndedMatches> endedMatches;
     private Player player1;
     private Player player2;
     private Player winner;
@@ -14,6 +17,7 @@ public class EndedMatches {
         p2.getListOfMatches().add(this);
         p1.getListOfMatches().add(this);
     }
+
     public Player getPlayer1() {
         return player1;
     }
