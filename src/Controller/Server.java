@@ -327,7 +327,7 @@ public class Server {
             return "Card with CardID : " + currentGame.getCurrentCard().getCardID() + " can't attack !";
         else if(!currentGame.isInAttackRange(currentGame.getCurrentCard(),opponentCardID))
             return "Opponent minion is unavailable for attack !";
-        else if(!currentGame.isUnitDisarm(currentGame.getCurrentCard()))
+        else if(currentGame.isUnitDisarm(currentGame.getCurrentCard()))
             return "This Unit is Disarm or Stunned and Cant attack !";
         else {
             currentGame.attack(opponentCardID);
@@ -474,7 +474,7 @@ public class Server {
     }
 
     public void endTurn() {
-
+        currentGame.endTurn();
     }
 
     public String showCollectables() {

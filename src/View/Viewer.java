@@ -152,11 +152,15 @@ public class Viewer {
                         moveCurrentCard(Integer.parseInt(input.split(" ")[2]) , Integer.parseInt(input.split(" ")[3]) );
                     else if(input.toLowerCase().matches("select card \\d+"))
                         select(Integer.parseInt(input.split("\\s")[2]));
+                    else if(input.toLowerCase().matches("end turn"))
+                        controller.endTurn();
                     ///////////////////////////// END ARMAN ////////////////////////////////
                     else if(input.toLowerCase().matches("show info"))
                         showCurrentItemInfo();
                     else if(input.toLowerCase().matches("Use \\[location \\d, \\d\\]"))
                         useItem(input);
+                    else
+                        System.out.println("Invalid Command !!!");
                 }
                 else{
                     ///////////////////////////// ARMAN ////////////////////////////////

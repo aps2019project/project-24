@@ -8,6 +8,12 @@ public class Cell {
     private Item item;
     private ArrayList<Spell> buffs;
 
+    public Cell(){
+        this.card = null;
+        this.item = null;
+        this.buffs = new ArrayList<>();
+    }
+
     public Card getCard() {
         return card;
     }

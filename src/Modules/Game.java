@@ -752,6 +752,8 @@ public class Game {
 
         turn = (turn + 1 ) % 2;
         manaOfPlayers[turn] = manaOfTheStartOfTheTrun[turn];
+        this.currentCard = null;
+        this.currentItem = null;
     }
 
 //    public boolean useCurrentItem(int x, int y) {
