@@ -397,7 +397,7 @@ public class Game {
         int xDistance = Math.abs(coordsCurrentUnit[0]-coordsOpponentUnit[0]);
         int yDistance = Math.abs(coordsCurrentUnit[1]-coordsOpponentUnit[1]);
         int distance = Math.max(xDistance,yDistance);
-        if(distance == ((Unit)attackerCard).getRange() || (distance <= ((Unit)attackerCard).getRange() && ((Unit)attackerCard).getAttackType().equals("melee") ))
+        if(distance == ((Unit)attackerCard).getRange() || (distance <= ((Unit)attackerCard).getRange() && ((Unit)attackerCard).getAttackType().equals("hybrid") ))
             return true;
         return false;
     }

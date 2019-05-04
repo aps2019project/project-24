@@ -370,6 +370,8 @@ public class Server {
         return ans;
     }
     public String getNextCardInfo(){
+        if(currentGame.getDecksOfPLayers()[currentGame.getTurn()].size() == 0)
+            return "Next Card : Nothing !";
         Card card = currentGame.getDecksOfPLayers()[currentGame.getTurn()].get(0);
         return "Name : " + card.getName() + " , CardID : " + card.getCardID();
     }
