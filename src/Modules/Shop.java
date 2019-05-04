@@ -212,10 +212,10 @@ public class Shop{
 
     public void sellWithName(Player seller, String name){
         for(int i = 0; i < seller.getCollection().size(); i++){
-            if(seller.getCollection().get(i).getName() == name){
+            if(seller.getCollection().get(i).getName().equals(name)){
                 cards.add(seller.getCollection().get(i));
-                seller.removeCard(seller.getCollection().get(i));
                 seller.increaseMoney(seller.getCollection().get(i).getPrice());
+                seller.removeCard(seller.getCollection().get(i));
                 break;
             }
         }
