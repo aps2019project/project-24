@@ -9,7 +9,7 @@ public class Shop{
     public Shop(){
         cards = new ArrayList<>();
         Spell spell = new Spell();
-        spell.setStun(true);
+        //spell.setStun(true);
         spell.setCanBeStun(true);
         //////////////////// HERO 1 ///////////////////
         Unit hero1 = new Unit();

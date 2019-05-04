@@ -21,6 +21,7 @@ public class Game {
     private Card currentCard;
     private Item currentItem;
     private boolean areWeInTheGraveYard;
+    private int[] manaOfTheStartOfTheTrun;
 
     //////////////////////////// ARMAN ////////////////////////////////
     private HashMap<Card,Boolean> didCardAttack;
@@ -32,6 +33,7 @@ public class Game {
         playersOfGame = new Player[2];
         playersOfGame[0] = player1;
         playersOfGame[1] = player2;
+        manaOfTheStartOfTheTrun = new int[2];
         this.turn = 0;
         decksOfPLayers = new ArrayList[2];
         primaryCards = new ArrayList[2];
@@ -70,8 +72,10 @@ public class Game {
         this.areWeInTheGraveYard = false;
         this.graveYard = new ArrayList<>();
         this.manaOfPlayers = new int[2];
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++) {
             manaOfPlayers[i] = 5;
+            manaOfTheStartOfTheTrun[i] = 5;
+        }
         map[2][0].setCard(getPlayerHero(0));
         map[2][8].setCard(getPlayerHero(1));
     }
@@ -713,10 +717,40 @@ public class Game {
 //
 //    }
 //
-//    public void endTrun() {
-//
-//    }
-//
+    public void endTurn(){
+        manaOfTheStartOfTheTrun[turn] ++;
+        if ( turn == 0 )
+            for ( Cell[] cells : map )
+                for ( Cell cell : cells )
+                    for ( int i=0; i<cell.getBuffs().size(); i++ ) {
+                        Spell spell = cell.getBuffs().get(i);
+                        spell.setRounds(spell.getRounds() - 1);
+                        if ( spell.getRounds() == 0 ){
+                            cell.getBuffs().remove(i);
+                            i --;
+                        }
+                    }
+        for ( Cell[] cells : map )
+            for ( Cell cell : cells )
+                if ( cell.getCard() != null && cell.getCard() instanceof Unit && getCardOwner(cell.getCard()).equals(playersOfGame[turn]) )
+                    for ( int i=0; i<((Unit) cell.getCard()).getBuffs().size(); i++ ) {
+                        Spell spell = ((Unit) cell.getCard()).getBuffs().get(i);
+                        spell.setRounds(spell.getRounds() - 1);
+                        if ( spell.getRounds() == 0 ){
+                            cell.getBuffs().remove(i);
+                            i --;
+                        }
+                    }
+        if ( handsOfPlayers[turn].size() < 5 )
+            if ( decksOfPLayers[turn].size() > 0 ) {
+                handsOfPlayers[turn].add(decksOfPLayers[turn].get(0));
+                decksOfPLayers[turn].remove(0);
+            }
+
+        turn = (turn + 1 ) % 2;
+        manaOfPlayers[turn] = manaOfTheStartOfTheTrun[turn];
+    }
+
 //    public boolean useCurrentItem(int x, int y) {
 //
 //    }
