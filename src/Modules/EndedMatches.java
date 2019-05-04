@@ -6,6 +6,14 @@ public class EndedMatches {
     private Player winner;
     private int time;
 
+    public EndedMatches(Player p1,Player p2,Player winner,int time){
+        this.player1 = p1;
+        this.player2 = p2;
+        this.winner = winner;
+        this.time = time;
+        p2.getListOfMatches().add(this);
+        p1.getListOfMatches().add(this);
+    }
     public Player getPlayer1() {
         return player1;
     }

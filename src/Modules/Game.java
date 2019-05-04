@@ -73,7 +73,10 @@ public class Game {
         for (int i = 0; i < 2; i++)
             manaOfPlayers[i] = 5;
         map[2][0].setCard(getPlayerHero(0));
-        map[2][8].setCard(getPlayerHero(1));
+        map[2][2].setCard(getPlayerHero(1));
+        didCardAttack = new HashMap<>();
+        didCardAttack.put(getPlayerHero(0),false);
+        didCardAttack.put(getPlayerHero(1),false);
     }
 
     public Player[] getPlayersOfGame() {
@@ -370,7 +373,7 @@ public class Game {
         int[] coord = new int[2];
         for(int i = 0 ; i < 5 ; i++)
             for(int j = 0 ; j < 9 ; j++)
-                if(this.map[i][j].getCard().equals(card)){
+                if(this.map[i][j].getCard() != null && this.map[i][j].getCard().equals(card)){
                     coord[0] = i;
                     coord[1] = j;
                     return coord;
@@ -390,7 +393,7 @@ public class Game {
         int xDistance = Math.abs(coordsCurrentUnit[0]-coordsOpponentUnit[0]);
         int yDistance = Math.abs(coordsCurrentUnit[1]-coordsOpponentUnit[1]);
         int distance = Math.max(xDistance,yDistance);
-        if(distance == ((Unit)attackerCard).getRange())
+        if(distance == ((Unit)attackerCard).getRange() || (distance <= ((Unit)attackerCard).getRange() && ((Unit)attackerCard).getAttackType().equals("melee") ))
             return true;
         return false;
     }
