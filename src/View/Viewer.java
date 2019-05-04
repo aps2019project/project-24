@@ -1,6 +1,7 @@
 package View;
 
 import java.lang.reflect.Array;
+import java.sql.SQLOutput;
 import java.util.*;
 
 import Controller.*;
@@ -825,6 +826,12 @@ public class Viewer {
     }
 
     public void endGame() {
+        if(controller.checkEndGame().equals("nothing happen"))
+            return;
+        else {
+            System.out.println("player" + controller.checkEndGame() + "won");
+            menuMode = 1;
+        }
 
     }
 

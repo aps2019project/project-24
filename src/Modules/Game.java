@@ -725,9 +725,16 @@ public class Game {
 //
 //    }
 //
-//    public int checkEndGame() {
-//
-//    }
+    public String checkEndGame() {
+        if(this.gameMode.equals("heroMode")){
+            if(((Unit)(this.getPlayerHero(0))).getHP() <= 0)
+                return this.playersOfGame[1].getUsername();/////////////////player 1 won////////////
+            if(((Unit)(this.getPlayerHero(1))).getHP() <= 0)
+                return this.playersOfGame[0].getUsername();/////////////////player 0 won////////////
+        }
+
+        return "nothing happen";
+    }
 
 
 }
