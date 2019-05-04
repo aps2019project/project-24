@@ -507,6 +507,8 @@ public class Viewer {
 
     public void showCardsInShop() {
         ArrayList<Card> cardsInShop = controller.getCardsInShop();
+        if(cardsInShop == null)
+            System.out.println("shop is empty");
         System.out.println("Heroes :");
         int counter = 0;
         for (int i = 0; i < cardsInShop.size(); i++) {
@@ -553,7 +555,7 @@ public class Viewer {
     }
 
     public void sellCardWithID(int cardID) {
-        ArrayList<Card> cardsInCollection = controller.cardsInCollection();
+        ArrayList<Card> cardsInCollection = controller.cardsInCollection    ();
         boolean found = false;
         for (int i = 0; i < cardsInCollection.size(); i++) {
             if (cardsInCollection.get(i).getCardID() == cardID) {

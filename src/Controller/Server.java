@@ -55,12 +55,10 @@ public class Server {
 //================================= Shop functions ===================================//
 
     public String searchCardInShop(String cardName) {
-        for (int i = 0; i < shop.getCards().size(); i++) {
-            if (shop.getCards().get(i).getName().equals(cardName)) {
+        for (int i = 0; i < shop.getCards().size(); i++)
+            if (shop.getCards().get(i).getName().equals(cardName))
                 return shop.getCards().get(i).getCardID() + "";
-            }
-        }
-        return "couldnt find card in collection";
+        return "couldnt find card in shop";
     }
 
     public String  searchCardInCollection(String cardName) {
