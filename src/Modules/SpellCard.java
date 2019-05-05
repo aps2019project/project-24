@@ -6,7 +6,6 @@ public class SpellCard extends Card {
     private String description;
     private Target target;
     private Spell spell;
-    private ArrayList<String> recipe;
     private int manaCost;
 
     public int getManaCost() {
@@ -23,14 +22,6 @@ public class SpellCard extends Card {
 
     public void setSpell(Spell spell) {
         this.spell = spell;
-    }
-
-    public ArrayList<String> getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(ArrayList<String> recipe) {
-        this.recipe = recipe;
     }
 
     public String getDescription() {

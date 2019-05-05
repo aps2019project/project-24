@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import View.*;
 
-
 public class Game {
     private Player[] playersOfGame;
     private int turn;
