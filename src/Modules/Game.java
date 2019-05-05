@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import View.*;
 
+
 public class Game {
     private Player[] playersOfGame;
     private int turn;
@@ -476,6 +477,57 @@ public class Game {
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 
+    public void applyEffectsOfTheBuffOfCard(Card  card, Spell spell){
+        Unit unit = (Unit)card;
+        boolean deBuff = false;
+        for ( Spell buff : unit.getBuffs() )
+            if ( buff.isDeBuff() || !buff.isCanBeBuffed() ){
+                deBuff = true;
+                break;
+            }
+
+        for ( int i=0; i<unit.getBuffs().size(); i++ )
+            if ( !unit.getBuffs().get(i).isPositive() ) {
+                unit.getBuffs().remove(i);
+                i--;
+            }
+
+            boolean canBePoinsoned = true;
+            for ( Spell buff : unit.getBuffs() )
+                if ( !buff.isCanBePoisoned() ) {
+                    canBePoinsoned = false;
+                    break;
+                }
+            if (spell.isPoison() && canBePoinsoned)
+                unit.setHP(unit.getHP() - 1);
+            if ( spell.getWeakness() == 1 )
+                unit.setAttackPower(unit.getAttackPower()-1);
+            if ( spell.getWeakness() == -1 )
+                unit.setHP(unit.getHP()-1 );
+            for ( Spell cellBuff : map[cardCoordination(card)[0]][cardCoordination(card)[1]].getBuffs() )
+                if ( cellBuff.isFire() ){
+                    unit.setHP(unit.getHP()-1);
+                    break;
+                }
+            unit.setHP(unit.getHP()-spell.getAttack());
+            if ( getCardOwner(card).equals(playersOfGame[0]) ) {
+                manaOfPlayers[0] += spell.getChangeMana();
+            } else {
+                manaOfPlayers[1] += spell.getChangeMana();
+                spell.setChangeMana(0);
+            }
+
+            unit.setHP(unit.getHP()+spell.getHPChanger());
+            unit.setAttackPower(unit.getAttackPower()+spell.getAttackChange());
+    }
+
+    public void removeEffectsOfTheBuffsOfCard(Card  card, Spell spell){
+        Unit unit = (Unit)card;
+        if (spell.getWeakness() == 1 )
+            unit.setAttackPower(unit.getAttackPower()+1);
+        unit.setAttackPower(unit.getAttackPower()+spell.getAttackChange());
+    }
+
     public int useSpecialPowerOfHero(int x, int y) {
         Unit unit = (Unit) this.currentCard;
         if (!unit.isHero())
@@ -495,7 +547,16 @@ public class Game {
 
     public void addBuffToACardOrCell(Card card, Spell buff){
         Spell spell = new Spell(buff);
-        ((Unit)card).getBuffs().add(buff);
+        boolean canGetNegativeBuff = true;
+        for ( Spell sspell : ((Unit)card).getBuffs() )
+            if ( !spell.isCanBeBuffed() ){
+                canGetNegativeBuff = false;
+                break;
+            }
+        if ( spell.isPositive() || canGetNegativeBuff  ) {
+            ((Unit) card).getBuffs().add(buff);
+            applyEffectsOfTheBuffOfCard(card, buff);
+        }
         if ( ((Unit) card).getSpecialPowerCastTime().equals("onDefend"))
             useSpecialPowerOfTheCard(card, 0, 0);
     }
@@ -740,6 +801,7 @@ public class Game {
                         Spell spell = ((Unit) cell.getCard()).getBuffs().get(i);
                         spell.setRounds(spell.getRounds() - 1);
                         if ( spell.getRounds() == 0 ){
+                            removeEffectsOfTheBuffsOfCard(cell.getCard(), spell);
                             cell.getBuffs().remove(i);
                             i --;
                         }
@@ -751,6 +813,11 @@ public class Game {
             }
 
         turn = (turn + 1 ) % 2;
+        for ( Cell[] cells : map )
+            for ( Cell cell : cells )
+                if ( cell.getCard() != null && cell.getCard() instanceof Unit && getCardOwner(cell.getCard()).equals(playersOfGame[turn]) )
+                    for ( Spell spell : ((Unit)cell.getCard()).getBuffs() )
+                        applyEffectsOfTheBuffOfCard(cell.getCard(), spell);
         manaOfPlayers[turn] = manaOfTheStartOfTheTrun[turn];
         this.currentCard = null;
         this.currentItem = null;

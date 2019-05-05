@@ -5,8 +5,7 @@ public class Spell {
     private boolean stun;
     private boolean disarm;
     private boolean poison;
-    private int weakness;
-    private boolean dispel;
+    private int weakness; // 1 attackPower , -1 hp
     private boolean fire;
     private int attackChange;
     private int HPChanger;
@@ -20,6 +19,7 @@ public class Spell {
     private int changeMana;
     private int rounds;
     private String recipe;
+    private boolean positive;
 
     public Spell(){
 
@@ -35,7 +35,6 @@ public class Spell {
         this.changeMana = spell.changeMana;
         this.deBuff = spell.deBuff;
         this.disarm = spell.disarm;
-        this.dispel = spell.dispel;
         this.fire = spell.fire;
         this.holyBuff = spell.holyBuff;
         this.HPChanger = spell.HPChanger;
@@ -44,6 +43,15 @@ public class Spell {
         this.rounds = spell.rounds;
         this.stun = spell.stun;
         this.weakness = spell.weakness;
+        this.poison = spell.positive;
+    }
+
+    public boolean isPositive() {
+        return positive;
+    }
+
+    public void setPositive(boolean positive) {
+        this.positive = positive;
     }
 
     public int getRounds() {
@@ -108,14 +116,6 @@ public class Spell {
 
     public void setRecipe(String recipe) {
         this.recipe = recipe;
-    }
-
-    public boolean isDispel() {
-        return dispel;
-    }
-
-    public void setDispel(boolean dispel) {
-        this.dispel = dispel;
     }
 
     public int getAttackChange() {
