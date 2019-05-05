@@ -1,0 +1,33 @@
+{
+  "isFlag": false,
+  "isCollectAble": false,
+  "isUseAble": true,
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 2,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": false,
+    "canBeStun": false,
+    "canBePoisoned": false,
+    "canBeBuffed": false,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "target": {
+    "number": "himself",
+    "targetGroup": "ally",
+    "targetType": "hero"
+  },
+  "description": "this is description",
+  "price": 6500,
+  "name": "Item1",
+  "cardID": 64123
+}

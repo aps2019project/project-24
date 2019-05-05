@@ -1,0 +1,31 @@
+{
+  "description": "This is Description",
+  "target": {
+    "number": "himself",
+    "targetGroup": "ally",
+    "targetType": "hero"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": false,
+    "canBeStun": false,
+    "canBePoisoned": false,
+    "canBeBuffed": false,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "manaCost": 2,
+  "price": 2000,
+  "name": "SpellCard1",
+  "cardID": 123123
+}

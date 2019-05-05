@@ -1,0 +1,62 @@
+{
+  "attackPower": 10,
+  "HP": 100,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 2,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": false,
+    "canBeStun": false,
+    "canBePoisoned": false,
+    "canBeBuffed": false,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "attackType": "range",
+  "range": 2,
+  "manaCost": 0,
+  "isHero": true,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "ally",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "castAble",
+  "specialPowerManaCost": 3,
+  "description": "Hero1 : This hero is like Changiz !",
+  "canCombo": true,
+  "hasBeenMovedThisRound": false,
+  "buffs": [
+    {
+      "stun": false,
+      "disarm": false,
+      "poison": false,
+      "weakness": 0,
+      "fire": false,
+      "attackChange": 0,
+      "HPChanger": 0,
+      "holyBuff": false,
+      "canBeDisarm": false,
+      "canBeStun": true,
+      "canBePoisoned": false,
+      "canBeBuffed": false,
+      "deBuff": false,
+      "attack": 0,
+      "changeMana": 0,
+      "rounds": 0,
+      "positive": false
+    }
+  ],
+  "price": 5500,
+  "name": "HeroNumberOne",
+  "cardID": 512312
+}
