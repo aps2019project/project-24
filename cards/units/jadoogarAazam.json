@@ -1,0 +1,42 @@
+{
+  "attackPower": 6,
+  "HP": 6,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 2,
+    "HPChanger": 0,
+    "holyBuff": true,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 5,
+    "changeMana": 0,
+    "rounds": 1000,
+    "positive": true
+  },
+  "attackType": "ranged",
+  "range": 5,
+  "manaCost": 6,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "8around",
+    "targetGroup": "ally",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "onAttack",
+  "specialPowerManaCost": 0,
+  "description": "ê—ê ”›Ìœ",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 550,
+  "name": "jadogarAazam",
+  "cardID": 2026
+}

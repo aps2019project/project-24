@@ -1,0 +1,20 @@
+{
+  "attackPower": 8,
+  "HP": 16,
+  "specialPower": null,
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 6,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "onAttack",
+  "specialPowerManaCost": 0,
+  "description": "‘«Â“«œÂ  Ê—«‰Ì",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 300,
+  "name": "divGorazSavar",
+  "cardID": 2016
+}

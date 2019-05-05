@@ -1,0 +1,42 @@
+{
+  "attackPower": 6,
+  "HP":24,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 5,
+    "changeMana": 0,
+    "rounds": 1,
+    "positive": false
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 9,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "specialPowerCastTime": "onAttack",
+  "specialPowerManaCost": 0,
+  "description": "ÅÂ·Ê«‰ ›«—”",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 600,
+  "name": "PahlevanFars",
+  "cardID": 2005
+}

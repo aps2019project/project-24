@@ -1,0 +1,42 @@
+{
+  "attackPower": 14,
+  "HP": 10,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": false,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": true
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 6,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "himself",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "onDefend",
+  "specialPowerManaCost": 0,
+  "description": "ê—«“ ÊÕ‘Ì",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 500,
+  "name": "gorazVahshi",
+  "cardID": 2028
+}

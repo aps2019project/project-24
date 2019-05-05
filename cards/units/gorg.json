@@ -1,0 +1,42 @@
+{
+  "attackPower": 1,
+  "HP": 6,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 6,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 3,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "onAttack",
+  "specialPowerManaCost": 0,
+  "description": "ê—ê",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 400,
+  "name": "gorgSefid",
+  "cardID": 2024
+}

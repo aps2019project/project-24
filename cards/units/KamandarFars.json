@@ -1,0 +1,20 @@
+﻿{
+  "attackPower": 4,
+  "HP": 6,
+  "specialPower": null,
+  "attackType": "range",
+  "range": 2,
+  "manaCost": 2,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "",
+  "specialPowerManaCost": 0,
+  "description": "کماندار فارس",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 300,
+  "name": "KamandarFars",
+  "cardID": 2001
+}

@@ -1,0 +1,20 @@
+{
+  "attackPower": 22,
+  "HP": 12,
+  "specialPower": null,
+  "attackType": "ranged",
+  "range": 7,
+  "manaCost": 9,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "",
+  "specialPowerManaCost": 0,
+  "description": "€Ê· ”‰ê«‰œ«“",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 300,
+  "name": "qoolSangAndaz",
+  "cardID": 2014
+}

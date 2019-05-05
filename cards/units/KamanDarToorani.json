@@ -1,0 +1,20 @@
+{
+  "attackPower": 4,
+  "HP": 3,
+  "specialPower": null,
+  "attackType": "ranged",
+  "range": 5,
+  "manaCost": 1,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "",
+  "specialPowerManaCost": 0,
+  "description": "ò„«‰œ«—  Ê—«‰Ì",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 500,
+  "name": "KamanDarToorani",
+  "cardID": 2007
+}

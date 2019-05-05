@@ -1,0 +1,20 @@
+{
+  "attackPower": 2,
+  "HP": 4,
+  "specialPower": null,
+  "attackType": "ranged",
+  "range": 7,
+  "manaCost": 1,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "",
+  "specialPowerManaCost": 0,
+  "description": "ﬁ·«»”‰ê œ«—  Ê—«‰Ì",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 600,
+  "name": "QolabsangDarToorani",
+  "cardID": 2008
+}
