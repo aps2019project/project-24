@@ -1,6 +1,15 @@
 package Modules;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
+
+import cardBuilder.CardBuilder;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+
+import java.nio.file.*;
+import java.io.IOException;
+import java.io.FileReader;
 
 public class Shop{
     private ArrayList<Card> cards;
@@ -12,32 +21,32 @@ public class Shop{
         //spell.setStun(true);
         spell.setCanBeStun(true);
         //////////////////// HERO 1 ///////////////////
-        Unit hero1 = new Unit();
-        hero1.getBuffs().add(spell);
-        hero1.setCardID(512312);
-        hero1.setName("HeroNumberOne");
-        hero1.setPrice(5500);
-        Unit uHero1 = hero1;
-        uHero1.setHP(100);
-        uHero1.setAttackPower(10);
-        uHero1.setAttackType("range");
-        Spell spellHero1 = new Spell();
-        spellHero1.setAttackChange(2);
-        uHero1.setSpecialPower(spellHero1);
-        uHero1.setRange(2);
-        uHero1.setManaCost(0);
-        uHero1.setIsHero(true);
-        uHero1.setHasFlag(false);
+//        Unit hero1 = new Unit();
+//        hero1.getBuffs().add(spell);
+//        hero1.setCardID(512312);
+//        hero1.setName("HeroNumberOne");
+//        hero1.setPrice(5500);
+//        Unit uHero1 = hero1;
+//        uHero1.setHP(100);
+//        uHero1.setAttackPower(10);
+//        uHero1.setAttackType("range");
+//        Spell spellHero1 = new Spell();
+//        spellHero1.setAttackChange(2);
+//        uHero1.setSpecialPower(spellHero1);
+//        uHero1.setRange(2);
+//        uHero1.setManaCost(0);
+//        uHero1.setIsHero(true);
+//        uHero1.setHasFlag(false);
         Target t1 = new Target();
         t1.setNumber("1");
         t1.setTargetGroup("ally");
-        t1.setTargetType("minion");
-        uHero1.setSpecialPowerTarget(t1);
-        uHero1.setSpecialPowerCastTime("castAble");
-        uHero1.setSpecialPowerManaCost(3);
-        uHero1.setDescription("Hero1 : This hero is like Changiz !");
-        uHero1.setCanCombo(true);
-        uHero1.setHasBeenMovedThisRound(false);
+       t1.setTargetType("minion");
+//        uHero1.setSpecialPowerTarget(t1);
+//        uHero1.setSpecialPowerCastTime("castAble");
+//        uHero1.setSpecialPowerManaCost(3);
+//        uHero1.setDescription("Hero1 : This hero is like Changiz !");
+//        uHero1.setCanCombo(true);
+//        uHero1.setHasBeenMovedThisRound(false);
         //uHero1.setBuffs(new ArrayList<>());
         //////////////////// HERO 2 ///////////////////
         Unit hero2 = new Unit();
@@ -179,12 +188,39 @@ public class Shop{
         uMinion3.setCanCombo(true);
         uMinion3.setHasBeenMovedThisRound(false);
         uMinion3.setBuffs(new ArrayList<>());
-        cards.add(hero1);
+
         cards.add(hero2);
         cards.add(hero3);
         cards.add(minion1);
         cards.add(minion2);
         cards.add(minion3);
+
+
+        // GSON FUCKING MAKER !!!!!!!!!!!
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        String json = gson.toJson(hero1);
+//        FileWriter fileWriter = null;
+//        try {
+//            fileWriter = new FileWriter("hero1.json");
+//            fileWriter.write(json.toString());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }finally {
+//            try {
+//                if (fileWriter != null) {
+//                    fileWriter.flush();
+//                    fileWriter.close();
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        // GSON FUCKING READER !!!!!!!!!!!!!!!!!!!!!!
+        Unit hero1 = null;
+
+        hero1 = CardBuilder.loadAUnitFromJsonFile("hero1");
+        cards.add(hero1);
+        // System.out.println(json.toString());
     }
 
     public ArrayList<Card> getCards(){
