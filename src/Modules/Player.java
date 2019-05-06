@@ -12,6 +12,15 @@ public class Player {
     private ArrayList<EndedMatches> listOfMatches;
     private String password;
     private int numberOfWins;
+    private ArrayList<Unit> units;
+    private ArrayList<SpellCard> spellcards;
+    private ArrayList<Item> items;
+
+    {
+        this.units = new ArrayList<>();
+        this.spellcards = new ArrayList<>();
+        this.items = new ArrayList<>();
+    }
     public Player(String username , String password){
         this.username = username;
         this.password = password;
@@ -23,6 +32,31 @@ public class Player {
         this.listOfMatches = new ArrayList<>();
         players.add(this);
     }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(ArrayList<Unit> units) {
+        this.units = units;
+    }
+
+    public ArrayList<SpellCard> getSpellcards() {
+        return spellcards;
+    }
+
+    public void setSpellcards(ArrayList<SpellCard> spellcards) {
+        this.spellcards = spellcards;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
     public static Player getPlayerObj(String username){
         for(int i = 0 ; i < players.size() ; i++)
             if(players.get(i).getUsername().equals(username))

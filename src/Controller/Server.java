@@ -3,7 +3,9 @@ package Controller;
 
 import View.*;
 import Modules.*;
+import cardBuilder.CardBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Server {
@@ -12,6 +14,21 @@ public class Server {
     private Game currentGame;
     private ArrayList<Game> allGames;
     private Viewer viewer;
+
+    public Server(){
+        File folder = new File(".\\.\\");
+        File[] listOfFiles = folder.listFiles();
+        if ( listOfFiles != null )
+        for (File file : listOfFiles) {
+            if ( file.getName().matches("\\w+\\.(json)")) {
+                Player player = CardBuilder.loadAPlayerFromJsonFile(file.getName().substring(0, file.getName().length() - 5));
+//                if ( player.getCollection().size() > 0 && ( player.getCollection().get(0) ) instanceof Card )
+  //                  System.out.println("salam");
+                Player.getPlayers().add(player);
+            }
+        }
+    }
+
 
     public ArrayList<Player> getAllPlayers() {
         return Player.getPlayers();
@@ -46,6 +63,8 @@ public class Server {
     }
 
     public void save() {
+        for ( Player player : Player.getPlayers() )
+            CardBuilder.createJsonFileFromTheObject(player);
     }
 
     public void logOut() {
@@ -606,5 +625,11 @@ public class Server {
         }
     }
 
+    public Game getCurrentGame() {
+        return currentGame;
+    }
 
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
+    }
 }

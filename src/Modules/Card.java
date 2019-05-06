@@ -4,6 +4,16 @@ public class Card {
     private int price;
     private String name;
     private int cardID;
+    private int typeOfCard;// 0 , 1 , 2
+//                           unit , spellcard , item
+
+    public int getTypeOfCard() {
+        return typeOfCard;
+    }
+
+    public void setTypeOfCard(int typeOfCard) {
+        this.typeOfCard = typeOfCard;
+    }
 
     public int getPrice() {
         return price;
