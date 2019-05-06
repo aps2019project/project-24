@@ -1,0 +1,63 @@
+{
+  "attackPower": 3,
+  "HP": 35,
+  "specialPowerCoolDown": 0,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": true,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 50000,
+    "positive": false
+  },
+  "attackType": "hybrid",
+  "range": 3,
+  "manaCost": 0,
+  "isHero": true,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "ally",
+    "targetType": "hero"
+  },
+  "specialPowerCastTime": "castAble",
+  "specialPowerManaCost": 0,
+  "description": "اسفندیار",
+  "canCombo": true,
+  "hasBeenMovedThisRound": false,
+  "buffs": [
+    {
+      "stun": false,
+      "disarm": false,
+      "poison": false,
+      "weakness": 0,
+      "fire": false,
+      "attackChange": 0,
+      "HPChanger": 0,
+      "holyBuff": false,
+      "canBeDisarm": true,
+      "canBeStun": true,
+      "canBePoisoned": true,
+      "canBeBuffed": true,
+      "deBuff": false,
+      "attack": 0,
+      "changeMana": 0,
+      "rounds": 0,
+      "positive": false
+    }
+  ],
+  "price": 12000,
+  "name": "Esfandiar",
+  "cardID": 3009
+}

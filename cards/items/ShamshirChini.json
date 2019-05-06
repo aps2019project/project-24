@@ -1,14 +1,14 @@
 {
   "isFlag": false,
-  "isCollectAble": false,
-  "isUseAble": true,
+  "isCollectAble": true,
+  "isUseAble": false,
   "spell": {
     "stun": false,
     "disarm": false,
     "poison": false,
     "weakness": 0,
     "fire": false,
-    "attackChange": 0,
+    "attackChange": 5,
     "HPChanger": 0,
     "holyBuff": false,
     "canBeDisarm": true,
@@ -19,15 +19,15 @@
     "attack": 0,
     "changeMana": 0,
     "rounds": 0,
-    "positive": false
+    "positive": true
   },
   "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
+    "number": "ALL",
+    "targetGroup": "meleeally",
+    "targetType": "both"
   },
   "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "price": 0,
+  "name": "ShamshirChini",
+  "cardID": 4020
 }

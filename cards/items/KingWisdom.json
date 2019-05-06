@@ -17,17 +17,17 @@
     "canBeBuffed": true,
     "deBuff": false,
     "attack": 0,
-    "changeMana": 0,
-    "rounds": 0,
-    "positive": false
+    "changeMana": 1,
+    "rounds": 50000,
+    "positive": true
   },
   "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
+    "number": "null",
+    "targetGroup": "null",
+    "targetType": "null"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "در همه نوبت ها مانا بکی زیاد می شود.",
+  "price": 9000,
+  "name": "KingWisdom",
+  "cardID": 4014
 }

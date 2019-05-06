@@ -1,7 +1,7 @@
 {
   "isFlag": false,
-  "isCollectAble": false,
-  "isUseAble": true,
+  "isCollectAble": true,
+  "isUseAble": false,
   "spell": {
     "stun": false,
     "disarm": false,
@@ -9,7 +9,7 @@
     "weakness": 0,
     "fire": false,
     "attackChange": 0,
-    "HPChanger": 0,
+    "HPChanger": 6,
     "holyBuff": false,
     "canBeDisarm": true,
     "canBeStun": true,
@@ -19,15 +19,15 @@
     "attack": 0,
     "changeMana": 0,
     "rounds": 0,
-    "positive": false
+    "positive": true
   },
   "target": {
-    "number": "himself",
+    "number": "1random",
     "targetGroup": "ally",
-    "targetType": "hero"
+    "targetType": "both"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "سطح سلامتی یک نفر را ۶ واحد افزایش می دهد.",
+  "price": 0,
+  "name": "NooshDaroo",
+  "cardID": 4004
 }

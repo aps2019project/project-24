@@ -439,13 +439,30 @@ public class Server {
         if (currentGame.getMap()[x][y].getCard() != null)
             return "Invalid target";
         else if (!currentGame.isNearHero(x, y))
-            return "Invalid target";/////////////////////////unit o faghat mishe nazdik hero gozasht
+            return "Invalid target";
         else if (currentGame.getManaOfPlayers()[currentGame.getTurn()] < ((Unit) card).getManaCost())
             return "You dont have enough mana";
         else {
             currentGame.getMap()[x][y].setCard(card);
             currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
             currentGame.decreaseManaOfPlayers(((Unit) card).getManaCost());
+            Cell currentCell = currentGame.getMap()[x][y];
+            if(currentCell.getItems().size() != 0){
+                for(int i = 0; i < currentCell.getItems().size(); i++){
+                    if(currentCell.getItems().get(i).isFlag()){
+                        if(currentGame.getGameMode().equals("flagHolding"))
+                            currentGame.increaseRoundsPlayerHasTheFlag();
+                        if(currentGame.getGameMode().equals("flagsCollecting"))
+                            currentGame.increaseCountOfFlagsInFlagsCollecting();
+                        ((Unit)card).setHasFlag(true);
+                        ((Unit)card).addFlag(currentCell.getItems().get(i));
+                    }
+                    if(currentCell.getItems().get(i).isCollectAble()){
+                        currentGame.addCollectableItems(currentCell.getItems().get(i));
+                    }
+                }
+                currentCell.setItems(null);
+            }
             if ( ((Unit) card).getSpecialPower() != null && ((Unit)card).getSpecialPowerCastTime().equals("onRespawn"))
                 this.currentGame.useSpecialPowerOfTheCard(card, x, y);
             return "Insert successful";

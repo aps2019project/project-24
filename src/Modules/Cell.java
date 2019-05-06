@@ -5,20 +5,30 @@ import java.util.ArrayList;
 
 public class Cell {
     private Card card;
-    private Item item;
+    private ArrayList<Item> items;
     private ArrayList<Spell> buffs;
 
     public Cell(){
         this.card = null;
-        this.item = null;
+        this.items = null;
         this.buffs = new ArrayList<>();
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
     }
 
     public Card getCard() {
         return card;
     }
-    public Item getItem(){ return item; }
-    public void setItem(Item item){ this.item = item; }
     public void setCard(Card card) {
         this.card = card;
     }

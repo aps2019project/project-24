@@ -8,7 +8,7 @@
     "poison": false,
     "weakness": 0,
     "fire": false,
-    "attackChange": 0,
+    "attackChange": -2,
     "HPChanger": 0,
     "holyBuff": false,
     "canBeDisarm": true,
@@ -22,12 +22,12 @@
     "positive": false
   },
   "target": {
-    "number": "himself",
-    "targetGroup": "ally",
+    "number": "1",
+    "targetGroup": "rangehybridenemy",
     "targetType": "hero"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "از قهرمان حریف ۲ واحد قدرت ضربه کم می کند اگر range یا hybrid بود.",
+  "price": 3500,
+  "name": "ParSimorgh",
+  "cardID": 4006
 }
