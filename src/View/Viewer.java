@@ -696,7 +696,6 @@ public class Viewer {
                 break;
             default:
                 System.out.println("card " + ans + " moved to " + x + " " + y);
-                endGame();
                 break;
 
         }
@@ -704,7 +703,9 @@ public class Viewer {
 
     //////////////////////////// ARMAN ////////////////////////////////
     public void attack(int opponentCardID){
+        System.out.println("salam");
         System.out.println(controller.attack(opponentCardID));
+        endGame();
     }
 
     public void comboAttack(int opponentCardID, ArrayList<Integer> comboAttackers){

@@ -449,7 +449,7 @@ public class Game {
                     collectableItems[turn].add(map[x][y].getItems().get(i));
                 }
             }
-            map[x][y].setItems(null);
+            map[x][y].setItems(new ArrayList<>());
         }
 
 

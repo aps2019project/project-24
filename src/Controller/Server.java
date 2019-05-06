@@ -176,6 +176,7 @@ public class Server {
 
     public boolean deckHasHero(String keyword) {
         Deck d = Collection.searchDeck(currentPlayer, keyword);
+        if ( d != null )
         for (int i = 0; i < d.getCards().size(); i++)
             if (d.getCards().get(i) instanceof Unit && ((Unit) d.getCards().get(i)).isHero())
                 return true;
@@ -589,19 +590,19 @@ public class Server {
 //    }
 //
     public String checkEndGame() {
-        if(currentGame.checkEndGame().equals("nothing happen")){
+        if( currentGame.checkEndGame().equals("nothing happen")){
             return "nothing happen";
         }
         else {
             int indexOfWinner = 0;
-            String checkEndGame = currentGame.checkEndGame();
-            if (currentGame.getPlayersOfGame()[1].getUsername().equals(checkEndGame))
+            String endGameCheckerSTR = currentGame.checkEndGame();
+            if (currentGame.getPlayersOfGame()[1].getUsername().equals(endGameCheckerSTR))
                 indexOfWinner = 1;
             int time = 1;
             new EndedMatches(currentGame.getPlayersOfGame()[0], currentGame.getPlayersOfGame()[1], currentGame.getPlayersOfGame()[indexOfWinner], time);
             ///////////////////////////time cherte int nabayd bashe bayad az in saat maata bashe
             currentGame = null;
-            return checkEndGame;
+            return endGameCheckerSTR;
         }
     }
 
