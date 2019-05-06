@@ -1,5 +1,6 @@
 package Modules;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
@@ -12,13 +13,22 @@ import java.io.IOException;
 import java.io.FileReader;
 
 public class Shop{
+
     private ArrayList<Card> cards;
     private Player player;
 
     public Shop(){
         cards = new ArrayList<>();
-        Unit hero1 = CardBuilder.loadAUnitFromJsonFile("HeroNumberOne");
-        cards.add(hero1);
+        File folder = new File(".\\.\\cards\\units");
+        File[] listOfFiles = folder.listFiles();
+            for (File file : listOfFiles)
+                for (int i = 0; i < 10; i++) {
+                    Unit unit = CardBuilder.loadAUnitFromJsonFile(file.getName().substring(0,file.getName().length()-5));
+                    unit.setCardID(unit.getCardID() * 10 + i);
+                    if ( unit.getSpecialPower() == null )
+                        unit.setSpecialPower(new Spell("default"));
+                    cards.add(unit);
+                }
     }
 
     public ArrayList<Card> getCards(){

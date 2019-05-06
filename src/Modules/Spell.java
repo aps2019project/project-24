@@ -46,6 +46,28 @@ public class Spell {
         this.poison = spell.positive;
     }
 
+    public Spell(String s){
+        if ( s.equals("default")){
+            this.stun = false;
+                    this.disarm = false;
+                    this.poison = false;
+                    this.weakness = 0;
+                    this.fire =  false;
+                    this.attackChange = 0;
+                    this.HPChanger = 0;
+                    this.holyBuff = false;
+                    this.canBeDisarm = true;
+                    this.canBeStun = true;
+                    this.canBePoisoned = true;
+                    this.canBeBuffed = true;
+                    this.deBuff =  false;
+                    this.attack = 0;
+                    this.changeMana = 0;
+                    this.rounds = 0;
+                    this.positive = false;
+        }
+    }
+
     public boolean isPositive() {
         return positive;
     }
