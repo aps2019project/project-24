@@ -24,7 +24,7 @@ public class Shop{
             for (File file : listOfFiles)
                 for (int i = 0; i < 10; i++) {
                     Unit unit = CardBuilder.loadAUnitFromJsonFile(file.getName().substring(0,file.getName().length()-5));
-                    unit.setCardID(unit.getCardID() * 10 + i);
+                    unit.setCardID(unit.getCardID() * 100 + i);
                     if ( unit.getSpecialPower() == null )
                         unit.setSpecialPower(new Spell("default"));
                     unit.setTypeOfCard(0);
@@ -35,7 +35,7 @@ public class Shop{
         for (File file : listOfFiles)
             for (int i = 0; i < 10; i++) {
                 SpellCard spell = CardBuilder.loadASpellCardFromJsonFile(file.getName().substring(0,file.getName().length()-5));
-                spell.setCardID(spell.getCardID() * 10 + i);
+                spell.setCardID(spell.getCardID() * 100 + i);
                 spell.setTypeOfCard(1);
                 cards.add(spell);
             }
@@ -44,7 +44,7 @@ public class Shop{
         for (File file : listOfFiles)
             for (int i = 0; i < 10; i++) {
                 Item item = CardBuilder.loadAnItemFromJsonFile(file.getName().substring(0,file.getName().length()-5), 0);
-                item.setCardID(item.getCardID() * 10 + i);
+                item.setCardID(item.getCardID() * 100 + i);
                 item.setTypeOfCard(2);
                 cards.add(item);
             }

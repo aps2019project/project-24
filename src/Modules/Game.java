@@ -39,15 +39,15 @@ public class Game {
     //////////////////////////// End ARMAN ////////////////////////////////
 
     public Game(Player player1, Player player2, String gameMode){
-        for(int j = 0 ; j < 2 ; j++){
-            for(int i = 0 ; i < getDecksOfPLayers()[j].size() ; i++){
-                if(getDecksOfPLayers()[j].get(i) instanceof Item) {
-                    mainItem[j] = (Item) getDecksOfPLayers()[j].get(i);
-                    getDecksOfPLayers()[j].remove(i);
-                    break;
-                }
-            }
-        }
+//        for(int j = 0 ; j < 2 ; j++){
+//            for(int i = 0 ; i < getDecksOfPLayers()[j].size() ; i++){
+//                if(getDecksOfPLayers()[j].get(i) instanceof Item) {
+//                    mainItem[j] = (Item) getDecksOfPLayers()[j].get(i);
+//                    getDecksOfPLayers()[j].remove(i);
+//                    break;
+//                }
+//            }
+//        }
         playersOfGame = new Player[2];
         playersOfGame[0] = player1;
         playersOfGame[1] = player2;
