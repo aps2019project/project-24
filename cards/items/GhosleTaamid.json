@@ -27,7 +27,7 @@
     "targetType": "hero"
   },
   "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "price": 20000,
+  "name": "GhosleTaamid",
+  "cardID": 4019
 }

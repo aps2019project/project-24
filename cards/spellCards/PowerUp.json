@@ -1,0 +1,31 @@
+{
+  "description": "یک buff power با ۶ واحد افزایش قدرت ضربه اعمال میکند.",
+  "target": {
+    "number": "1",
+    "targetGroup": "ally",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 6,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 999999,
+    "positive": true
+  },
+  "manaCost": 2,
+  "price": 2500,
+  "name": "PowerUp",
+  "cardID": 1014
+}

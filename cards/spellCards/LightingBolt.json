@@ -1,8 +1,8 @@
 {
-  "description": "This is Description",
+  "description": "۸ واحد به قهرمان دشمن ضربه میزند",
   "target": {
-    "number": "himself",
-    "targetGroup": "ally",
+    "number": "1",
+    "targetGroup": "enemy",
     "targetType": "hero"
   },
   "spell": {
@@ -12,12 +12,12 @@
     "weakness": 0,
     "fire": false,
     "attackChange": 0,
-    "HPChanger": 0,
+    "HPChanger": -8,
     "holyBuff": false,
-    "canBeDisarm": false,
-    "canBeStun": false,
-    "canBePoisoned": false,
-    "canBeBuffed": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
     "deBuff": false,
     "attack": 0,
     "changeMana": 0,
@@ -25,7 +25,7 @@
     "positive": false
   },
   "manaCost": 2,
-  "price": 2000,
-  "name": "SpellCard1",
-  "cardID": 123123
+  "price": 1250,
+  "name": "LightingBolt",
+  "cardID": 1007
 }

@@ -1,7 +1,10 @@
 {
-  "isFlag": false,
-  "isCollectAble": false,
-  "isUseAble": true,
+  "description": "به همه ی نیروهای دشمن به اندازه ی ۶ واحد ضربه وارد میکند.",
+  "target": {
+    "number": "column",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
   "spell": {
     "stun": false,
     "disarm": false,
@@ -9,7 +12,7 @@
     "weakness": 0,
     "fire": false,
     "attackChange": 0,
-    "HPChanger": 0,
+    "HPChanger": -6,
     "holyBuff": false,
     "canBeDisarm": true,
     "canBeStun": true,
@@ -21,13 +24,8 @@
     "rounds": 0,
     "positive": false
   },
-  "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
-  },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "manaCost": 4,
+  "price": 1500,
+  "name": "AllAttack",
+  "cardID": 1016
 }

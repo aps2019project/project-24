@@ -10,7 +10,7 @@
     "fire": false,
     "attackChange": 0,
     "HPChanger": 0,
-    "holyBuff": false,
+    "holyBuff": true,
     "canBeDisarm": true,
     "canBeStun": true,
     "canBePoisoned": true,
@@ -18,16 +18,16 @@
     "deBuff": false,
     "attack": 0,
     "changeMana": 0,
-    "rounds": 0,
-    "positive": false
+    "rounds": 12,
+    "positive": true
   },
   "target": {
-    "number": "himself",
+    "number": "1",
     "targetGroup": "ally",
     "targetType": "hero"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "در قهرمان خودی ۱۲ holy buff فعال می کند.",
+  "price": 4000,
+  "name": "NamoosSepar",
+  "cardID": 4002
 }

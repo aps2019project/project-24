@@ -17,17 +17,17 @@
     "canBeBuffed": true,
     "deBuff": false,
     "attack": 0,
-    "changeMana": 0,
-    "rounds": 0,
-    "positive": false
+    "changeMana": 1,
+    "rounds": 3,
+    "positive": true
   },
   "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
+    "number": "null",
+    "targetGroup": "null",
+    "targetType": "null"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "مانا را در ۳ نوبت اول یکی زیاد می کند.",
+  "price": 300,
+  "name": "TajeDanayi",
+  "cardID": 4001
 }

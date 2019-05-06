@@ -1,0 +1,43 @@
+{
+  "attackPower": 2,
+  "HP": 30,
+  "specialPowerCoolDown": 2,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": -4,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "attackType": "ranged",
+  "range": 6,
+  "manaCost": 0,
+  "isHero": true,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "hisrow",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "specialPowerCastTime": "castAble",
+  "specialPowerManaCost": 2,
+  "description": "آرش",
+  "canCombo": true,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 10000,
+  "name": "Arash",
+  "cardID": 3007
+}

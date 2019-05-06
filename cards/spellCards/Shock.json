@@ -1,9 +1,12 @@
 {
-  "isFlag": false,
-  "isCollectAble": false,
-  "isUseAble": true,
+  "description": "برای ۲ نوبت stun میشود.",
+  "target": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
   "spell": {
-    "stun": false,
+    "stun": true,
     "disarm": false,
     "poison": false,
     "weakness": 0,
@@ -18,16 +21,11 @@
     "deBuff": false,
     "attack": 0,
     "changeMana": 0,
-    "rounds": 0,
+    "rounds": 2,
     "positive": false
   },
-  "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
-  },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "manaCost": 1,
+  "price": 1200,
+  "name": "Shock",
+  "cardID": 1020
 }

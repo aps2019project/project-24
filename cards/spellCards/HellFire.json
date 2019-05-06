@@ -1,13 +1,16 @@
 {
-  "isFlag": false,
-  "isCollectAble": false,
-  "isUseAble": true,
+  "description": "برای دو نوبت در خانه های مورد هدف اثر خانه ی آتشین را ایجاد میکند.",
+  "target": {
+    "number": "2*2",
+    "targetGroup": "both",
+    "targetType": "both"
+  },
   "spell": {
     "stun": false,
     "disarm": false,
     "poison": false,
     "weakness": 0,
-    "fire": false,
+    "fire": true,
     "attackChange": 0,
     "HPChanger": 0,
     "holyBuff": false,
@@ -18,16 +21,11 @@
     "deBuff": false,
     "attack": 0,
     "changeMana": 0,
-    "rounds": 0,
+    "rounds": 2,
     "positive": false
   },
-  "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
-  },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "manaCost": 3,
+  "price": 600,
+  "name": "HellFire",
+  "cardID": 1006
 }

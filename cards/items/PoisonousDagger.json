@@ -5,7 +5,7 @@
   "spell": {
     "stun": false,
     "disarm": false,
-    "poison": false,
+    "poison": true,
     "weakness": 0,
     "fire": false,
     "attackChange": 0,
@@ -22,12 +22,12 @@
     "positive": false
   },
   "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "both"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "روی نیروی تصادفی دشمن poison buff اعمال می شود",
+  "price": 7000,
+  "name": "PoisonousDagger",
+  "cardID": 4016
 }

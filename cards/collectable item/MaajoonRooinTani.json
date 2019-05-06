@@ -1,7 +1,7 @@
 {
   "isFlag": false,
-  "isCollectAble": false,
-  "isUseAble": true,
+  "isCollectAble": true,
+  "isUseAble": false,
   "spell": {
     "stun": false,
     "disarm": false,
@@ -10,7 +10,7 @@
     "fire": false,
     "attackChange": 0,
     "HPChanger": 0,
-    "holyBuff": false,
+    "holyBuff": true,
     "canBeDisarm": true,
     "canBeStun": true,
     "canBePoisoned": true,
@@ -18,16 +18,16 @@
     "deBuff": false,
     "attack": 0,
     "changeMana": 0,
-    "rounds": 0,
-    "positive": false
+    "rounds": 10,
+    "positive": true
   },
   "target": {
-    "number": "himself",
+    "number": "1random",
     "targetGroup": "ally",
-    "targetType": "hero"
+    "targetType": "both"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "معجون رویین تنی",
+  "price": 0,
+  "name": "MaajoonRooinTani",
+  "cardID": 4009
 }

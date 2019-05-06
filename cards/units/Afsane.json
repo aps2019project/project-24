@@ -1,0 +1,43 @@
+{
+  "attackPower": 3,
+  "HP": 40,
+  "specialPowerCoolDown": 2,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": true,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 50000,
+    "positive": false
+  },
+  "attackType": "ranged",
+  "range": 3,
+  "manaCost": 0,
+  "isHero": true,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "specialPowerCastTime": "castAble",
+  "specialPowerManaCost": 1,
+  "description": "افسانه",
+  "canCombo": true,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 11000,
+  "name": "Afsane",
+  "cardID": 3008
+}

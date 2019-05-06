@@ -1,10 +1,13 @@
 {
-  "isFlag": false,
-  "isCollectAble": false,
-  "isUseAble": true,
+  "description": "برای یک نوبت disarm میشوند.",
+  "target": {
+    "number": "all",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
   "spell": {
     "stun": false,
-    "disarm": false,
+    "disarm": true,
     "poison": false,
     "weakness": 0,
     "fire": false,
@@ -18,16 +21,11 @@
     "deBuff": false,
     "attack": 0,
     "changeMana": 0,
-    "rounds": 0,
+    "rounds": 1,
     "positive": false
   },
-  "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
-  },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "manaCost": 9,
+  "price": 2000,
+  "name": "AllDisarm",
+  "cardID": 1010
 }

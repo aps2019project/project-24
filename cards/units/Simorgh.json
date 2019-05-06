@@ -1,0 +1,63 @@
+{
+  "attackPower": 4,
+  "HP": 50,
+  "specialPowerCoolDown": 8,
+  "specialPower": {
+    "stun": true,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 1,
+    "positive": false
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 0,
+  "isHero": true,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "ALL",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "specialPowerCastTime": "castAble",
+  "specialPowerManaCost": 5,
+  "description": "سیمرغ",
+  "canCombo": true,
+  "hasBeenMovedThisRound": false,
+  "buffs": [
+    {
+      "stun": false,
+      "disarm": false,
+      "poison": false,
+      "weakness": 0,
+      "fire": false,
+      "attackChange": 0,
+      "HPChanger": 0,
+      "holyBuff": false,
+      "canBeDisarm": true,
+      "canBeStun": true,
+      "canBePoisoned": true,
+      "canBeBuffed": true,
+      "deBuff": false,
+      "attack": 0,
+      "changeMana": 0,
+      "rounds": 0,
+      "positive": false
+    }
+  ],
+  "price": 9000,
+  "name": "Simorgh",
+  "cardID": 3002
+}

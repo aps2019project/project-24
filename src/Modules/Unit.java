@@ -18,9 +18,20 @@ public class Unit extends Card {
     private boolean canCombo;
     private boolean hasBeenMovedThisRound;
     private ArrayList<Spell> buffs;
+    private ArrayList<Item> flags;
+    private int specialPowerCoolDown;
+
+    public ArrayList<Item> getFlags() {
+        return flags;
+    }
+
+    public void addFlag(Item flag) {
+        flags.add(flag);
+    }
 
     {
         buffs = new ArrayList<>();
+        flags = new ArrayList<>();
     }
 
     public void setIsHero(boolean b){ this.isHero = b; }

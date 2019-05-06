@@ -1,0 +1,31 @@
+{
+  "description": "یک باف weakness با ۴ واحد کاهش سطح قدرت ضربه در یک نیرو اعمال میکند.",
+  "target": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 4,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 999999,
+    "positive": true
+  },
+  "manaCost": 1,
+  "price": 1000,
+  "name": "Weakening",
+  "cardID": 1017
+}
