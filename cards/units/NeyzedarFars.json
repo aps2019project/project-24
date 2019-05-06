@@ -1,0 +1,20 @@
+{
+  "attackPower": 3,
+  "HP": 5,
+  "specialPower": null,
+  "attackType": "hybrid",
+  "range": 3,
+  "manaCost": 1,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "",
+  "specialPowerManaCost": 0,
+  "description": "نيزه دار فارس",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 400,
+  "name": "NeyzedarFars",
+  "cardID": 2003
+}

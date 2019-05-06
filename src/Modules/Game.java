@@ -22,6 +22,9 @@ public class Game {
     private Item currentItem;
     private boolean areWeInTheGraveYard;
     private int[] manaOfTheStartOfTheTrun;
+    private int countsOfRoundsToWinInFlagHoldingMode;
+    private int[] countOfFlagsInFlagsCollecting;
+    private int[] roundsPlayerHasTheFlag;
 
     //////////////////////////// ARMAN ////////////////////////////////
     private HashMap<Card,Boolean> didCardAttack;
@@ -34,6 +37,9 @@ public class Game {
         playersOfGame[0] = player1;
         playersOfGame[1] = player2;
         manaOfTheStartOfTheTrun = new int[2];
+        roundsPlayerHasTheFlag = new int[2];
+        countOfFlagsInFlagsCollecting = new int[2];
+        this.countsOfRoundsToWinInFlagHoldingMode = countsOfRoundsToWinInFlagHoldingMode;
         this.turn = 0;
         decksOfPLayers = new ArrayList[2];
         primaryCards = new ArrayList[2];
@@ -81,6 +87,46 @@ public class Game {
         didCardAttack = new HashMap<>();
         didCardAttack.put(getPlayerHero(0),false);
         didCardAttack.put(getPlayerHero(1),false);
+    }
+
+    public void setPrimaryCards(ArrayList<Card>[] primaryCards) {
+        this.primaryCards = primaryCards;
+    }
+
+    public int[] getCountOfFlagsInFlagsCollecting() {
+        return countOfFlagsInFlagsCollecting;
+    }
+
+    public void increaseCountOfFlagsInFlagsCollecting() {
+        countOfFlagsInFlagsCollecting[turn]++;
+    }
+
+    public void setManaOfPlayers(int[] manaOfPlayers) {
+        this.manaOfPlayers = manaOfPlayers;
+    }
+
+    public int[] getManaOfTheStartOfTheTrun() {
+        return manaOfTheStartOfTheTrun;
+    }
+
+    public void setManaOfTheStartOfTheTrun(int[] manaOfTheStartOfTheTrun) {
+        this.manaOfTheStartOfTheTrun = manaOfTheStartOfTheTrun;
+    }
+
+    public int getCountsOfRoundsToWinInFlagHoldingMode() {
+        return countsOfRoundsToWinInFlagHoldingMode;
+    }
+
+    public void setCountsOfRoundsToWinInFlagHoldingMode(int countsOfRoundsToWinInFlagHoldingMode) {
+        this.countsOfRoundsToWinInFlagHoldingMode = countsOfRoundsToWinInFlagHoldingMode;
+    }
+
+    public int[] getRoundsPlayerHasTheFlag() {
+        return roundsPlayerHasTheFlag;
+    }
+
+    public void increaseRoundsPlayerHasTheFlag() {
+        roundsPlayerHasTheFlag[turn]++;
     }
 
     public Player[] getPlayersOfGame() {
@@ -167,8 +213,8 @@ public class Game {
         return collectableItems;
     }
 
-    public void setCollectableItems(ArrayList<Item>[] collectableItems) {
-        this.collectableItems = collectableItems;
+    public void addCollectableItems(Item item) {
+        collectableItems[turn].add(item);
     }
 
     public Item getCurrentItem() {
@@ -208,10 +254,11 @@ public class Game {
         int[] coord = new int[2];
         for (int i = 0; i < 5; i++)
             for (int j = 0; j < 9; j++)
-                if (this.map[i][j].getItem().isFlag()) {
-                    coord[0] = i;
-                    coord[1] = j;
-                }
+                for(int k = 0; k < map[i][j].getItems().size(); k++)
+                    if (this.map[i][j].getItems().get(k).isFlag()) {
+                        coord[0] = i;
+                        coord[1] = j;
+                    }
         return coord;
     }
 
@@ -234,11 +281,12 @@ public class Game {
         ArrayList<String> ans = new ArrayList<>();
         for (int i = 0; i < 5; i++)
             for (int j = 0; j < 9; j++)
-                if (this.map[i][j].getItem().isFlag())
-                    if (this.getFlagOwner(i, j) != null) {
-                        Card card = this.map[i][j].getCard();
-                        ans.add("Team " + this.getFlagOwner(i, j).getUsername() + " : Soldier " + card.getName() + " Has Flag !");
-                    }
+                for (int k = 0; k < map[i][j].getItems().size(); k++)
+                    if (this.map[i][j].getItems().get(k).isFlag())
+                        if (this.getFlagOwner(i, j) != null) {
+                            Card card = this.map[i][j].getCard();
+                            ans.add("Team " + this.getFlagOwner(i, j).getUsername() + " : Soldier " + card.getName() + " Has Flag !");
+                        }
         return ans;
     }
 
@@ -369,6 +417,24 @@ public class Game {
         map[priviousX][priviousY].setCard(null);
         map[x][y].setCard(currentCard);
         unit.setHasBeenMovedThisRound(true);
+        if(map[x][y].getItems() != null ){
+            for(int i = 0; i < map[x][y].getItems().size(); i++){
+                if(map[x][y].getItems().get(i).isFlag()){
+                    if(this.gameMode.equals("flagHolding"))
+                        increaseRoundsPlayerHasTheFlag();
+                    if(this.gameMode.equals("flagsCollecting"))
+                        increaseCountOfFlagsInFlagsCollecting();
+                    ((Unit)currentCard).setHasFlag(true);
+                    ((Unit)currentCard).addFlag(map[x][y].getItems().get(i));
+                }
+                else if(map[x][y].getItems().get(i).isCollectAble()){
+                    collectableItems[turn].add(map[x][y].getItems().get(i));
+                }
+            }
+            map[x][y].setItems(null);
+        }
+
+
         return this.currentCard.getCardID();
     }
 
@@ -405,6 +471,26 @@ public class Game {
         int x = cardCoordination(card)[0] , y = cardCoordination(card)[1];
         if ( ((Unit)card).getSpecialPowerCastTime().equals("onDeath") )
             useSpecialPowerOfTheCard(card, x, y);
+        if(((Unit)card).getHasFlag()) {
+            if(map[x][y].getItems().size() != 0) {
+                Item ownItem = map[x][y].getItems().get(0);
+                map[x][y].setItems(((Unit)card).getFlags());
+                map[x][y].addItem(ownItem);
+            }
+            else{
+                map[x][y].setItems(((Unit)card).getFlags());
+            }
+
+            Player lostUnitOwner = getCardOwner(card);
+            int indexOfPlayer = 0;
+            if(lostUnitOwner.getUsername().equals(this.playersOfGame[1].getUsername()))
+                indexOfPlayer = 1;
+            if(this.gameMode.equals("flagHolding"))
+                roundsPlayerHasTheFlag[indexOfPlayer] = 0;
+            else if(this.gameMode.equals("flagsCollecting"))
+                countOfFlagsInFlagsCollecting[indexOfPlayer] -= ((Unit)card).getFlags().size();
+
+        }
         this.map[x][y].setCard(null);
         this.graveYard.add(card);
     }
@@ -775,12 +861,12 @@ public class Game {
         return true;
     }
 
-
-//    public boolean insertSpell(Card card, Cell cell) {
-//
-//    }
-//
     public void endTurn(){
+        if(roundsPlayerHasTheFlag[0] >= 1)
+            roundsPlayerHasTheFlag[0]++;
+        if(roundsPlayerHasTheFlag[1] >= 1)
+            roundsPlayerHasTheFlag[1]++;
+
         manaOfTheStartOfTheTrun[turn] ++;
         if ( turn == 0 )
             for ( Cell[] cells : map )
@@ -822,14 +908,6 @@ public class Game {
         this.currentItem = null;
     }
 
-//    public boolean useCurrentItem(int x, int y) {
-//
-//    }
-//
-//    public void sendCardToTHeGraveYard(Card card) {
-//
-//    }
-//
     public String checkEndGame() {
         if(this.gameMode.equals("heroMode")){
             if(((Unit)(this.getPlayerHero(0))).getHP() <= 0)
@@ -837,9 +915,18 @@ public class Game {
             if(((Unit)(this.getPlayerHero(1))).getHP() <= 0)
                 return this.playersOfGame[0].getUsername();/////////////////player 0 won////////////
         }
-
+        if(this.gameMode.equals("flagHolding")){
+            if(roundsPlayerHasTheFlag[0] - 1 >= countsOfRoundsToWinInFlagHoldingMode)
+                return this.playersOfGame[0].getUsername();///////player 0 won
+            else if(roundsPlayerHasTheFlag[1] - 1 >= countsOfRoundsToWinInFlagHoldingMode)
+                return this.playersOfGame[1].getUsername();///////player 1 won
+        }
+        if(this.gameMode.equals("flagsCollecting")){
+            if(countOfFlagsInFlagsCollecting[0] == numberOfFlagsToWin)
+                return this.playersOfGame[0].getUsername();//////////player 0 won
+            if(countOfFlagsInFlagsCollecting[1] == numberOfFlagsToWin)
+                return this.playersOfGame[1].getUsername();//////////player 1 won
+        }
         return "nothing happen";
     }
-
-
 }

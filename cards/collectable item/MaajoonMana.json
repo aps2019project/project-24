@@ -1,7 +1,7 @@
 {
   "isFlag": false,
-  "isCollectAble": false,
-  "isUseAble": true,
+  "isCollectAble": true,
+  "isUseAble": false,
   "spell": {
     "stun": false,
     "disarm": false,
@@ -17,17 +17,17 @@
     "canBeBuffed": true,
     "deBuff": false,
     "attack": 0,
-    "changeMana": 0,
+    "changeMana": 3,
     "rounds": 0,
-    "positive": false
+    "positive": true
   },
   "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
+    "number": "null",
+    "targetGroup": "null",
+    "targetType": "null"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "مانا را ۳ واحد افزایش می دهد.",
+  "price": 0,
+  "name": "MaajoonMana",
+  "cardID": 4008
 }

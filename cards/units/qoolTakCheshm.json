@@ -1,0 +1,42 @@
+{
+  "attackPower": 11,
+  "HP": 12,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 2,
+    "changeMana": 0,
+    "rounds": 1,
+    "positive": false
+  },
+  "attackType": "hybrid",
+  "range": 3,
+  "manaCost": 7,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "8around",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "onDeath",
+  "specialPowerManaCost": 0,
+  "description": "��� ʘ ���",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 500,
+  "name": "qoolTakCheshm",
+  "cardID": 2017
+}

@@ -8,7 +8,7 @@
     "poison": false,
     "weakness": 0,
     "fire": false,
-    "attackChange": 0,
+    "attackChange": 1,
     "HPChanger": 0,
     "holyBuff": false,
     "canBeDisarm": true,
@@ -19,15 +19,15 @@
     "attack": 0,
     "changeMana": 0,
     "rounds": 0,
-    "positive": false
+    "positive": true
   },
   "target": {
-    "number": "himself",
+    "number": "1",
     "targetGroup": "ally",
-    "targetType": "hero"
+    "targetType": "both"
   },
   "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "price": 25000,
+  "name": "SoulEater",
+  "cardID": 4018
 }

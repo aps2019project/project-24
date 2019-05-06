@@ -1,0 +1,63 @@
+{
+  "attackPower": 4,
+  "HP": 50,
+  "specialPowerCoolDown": 2,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 4,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 50000,
+    "positive": true
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 0,
+  "isHero": true,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "ally",
+    "targetType": "hero"
+  },
+  "specialPowerCastTime": "castAble",
+  "specialPowerManaCost": 1,
+  "description": "دیو سفید",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [
+    {
+      "stun": false,
+      "disarm": false,
+      "poison": false,
+      "weakness": 0,
+      "fire": false,
+      "attackChange": 0,
+      "HPChanger": 0,
+      "holyBuff": false,
+      "canBeDisarm": true,
+      "canBeStun": true,
+      "canBePoisoned": true,
+      "canBeBuffed": true,
+      "deBuff": false,
+      "attack": 0,
+      "changeMana": 0,
+      "rounds": 0,
+      "positive": false
+    }
+  ],
+  "price": 8000,
+  "name": "DiveSefid",
+  "cardID": 3001
+}

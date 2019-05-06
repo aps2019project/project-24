@@ -4,7 +4,7 @@
   "isUseAble": true,
   "spell": {
     "stun": false,
-    "disarm": false,
+    "disarm": true,
     "poison": false,
     "weakness": 0,
     "fire": false,
@@ -22,12 +22,12 @@
     "positive": false
   },
   "target": {
-    "number": "himself",
-    "targetGroup": "ally",
-    "targetType": "hero"
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "both"
   },
-  "description": "this is description",
-  "price": 6500,
-  "name": "Item1",
-  "cardID": 64123
+  "description": "برای یک نوبت نیروی حریف disarm می شود.",
+  "price": 15000,
+  "name": "ShockHammer",
+  "cardID": 4017
 }

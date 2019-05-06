@@ -1,13 +1,13 @@
 {
-  "attackPower": 10,
-  "HP": 100,
+  "attackPower": 14,
+  "HP": 10,
   "specialPower": {
     "stun": false,
     "disarm": false,
     "poison": false,
     "weakness": 0,
     "fire": false,
-    "attackChange": 2,
+    "attackChange": 0,
     "HPChanger": 0,
     "holyBuff": false,
     "canBeDisarm": false,
@@ -18,25 +18,25 @@
     "attack": 0,
     "changeMana": 0,
     "rounds": 0,
-    "positive": false
+    "positive": true
   },
-  "attackType": "range",
-  "range": 2,
-  "manaCost": 0,
-  "isHero": true,
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 8,
+  "isHero": false,
   "hasFlag": false,
   "specialPowerTarget": {
-    "number": "1",
-    "targetGroup": "ally",
+    "number": "himself",
+    "targetGroup": "enemy",
     "targetType": "minion"
   },
-  "specialPowerCastTime": "castAble",
-  "specialPowerManaCost": 3,
-  "description": "Hero1 : This hero is like Changiz !",
-  "canCombo": true,
+  "specialPowerCastTime": "onDdefend",
+  "specialPowerManaCost": 0,
+  "description": "پيران",
+  "canCombo": false,
   "hasBeenMovedThisRound": false,
   "buffs": [],
-  "price": 5500,
-  "name": "HeroNumberOne",
-  "cardID": 512312
+  "price": 400,
+  "name": "piran",
+  "cardID": 2029
 }
