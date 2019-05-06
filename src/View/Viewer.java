@@ -748,7 +748,13 @@ public class Viewer {
         Cell[][] map = controller.getGameMap();
         for (int i = 0; i < 5; i++){
             for (int j = 0; j < 9; j++) {
-                if (map[i][j].getCard() == null)
+                boolean isFlag = false;
+                for(int k = 0 ; k < map[i][j].getItems().size() ; k++)
+                    if(map[i][j].getItems().get(k).isFlag())
+                        isFlag = true;
+                if(isFlag)
+                    System.out.println("F");
+                else if (map[i][j].getCard() == null)
                     System.out.print("_");
                 else if(map[i][j].getCard() instanceof Unit && ((Unit)map[i][j].getCard()).isHero())
                     System.out.print("H");
