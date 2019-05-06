@@ -391,10 +391,53 @@ public class Server {
     public Cell[][] getGameMap(){
         return currentGame.getMap();
     }
+
     public void newGame(){
         Player p1 = Player.getPlayers().get(0);
         Player p2 = Player.getPlayers().get(1);
-        currentGame = new Game(p1,p2,"heroMode",2);
+        currentGame = new Game(p1,p2,"heroMode");
+    }
+
+    public String getCurrentPlayerName(){return currentPlayer.getUsername();}
+
+    public boolean isValidMainDeck(String name){
+        Player p = Player.getPlayerObj(name);
+        String deckName = p.getMainDeck().getName();
+        if(isDeckValid(deckName))
+            return true;
+        return false;
+    }
+
+    public void startSinglePlayer(String gameMode){
+        Player p1 = currentPlayer;
+        Player p2 = new Player("PlayerAI","admin");
+        String mode = "";
+        if(gameMode.equals("heromode"))
+            mode = "heroMode";
+        else if(gameMode.equals("flagholding"))
+            mode = "flagHolding";
+        else
+            mode = "flagsCollecting";
+        currentGame = new Game(p1,p2,mode);
+    }
+
+    public boolean isValidPlayer(String name){
+        if(Player.getPlayerObj(name) == null)
+            return false;
+        return true;
+    }
+
+    public void startMultiPlayer(String name1 , String name2 , String gameMode){
+        Player p1 = Player.getPlayerObj(name1);
+        Player p2 = Player.getPlayerObj(name2);
+        String mode = "";
+        if(gameMode.equals("heromode"))
+            mode = "heroMode";
+        else if(gameMode.equals("flagholding"))
+            mode = "flagHolding";
+        else
+            mode = "flagsCollecting";
+        currentGame = new Game(p1,p2,mode);
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 
