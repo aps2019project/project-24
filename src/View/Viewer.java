@@ -703,7 +703,6 @@ public class Viewer {
 
     //////////////////////////// ARMAN ////////////////////////////////
     public void attack(int opponentCardID){
-        System.out.println("salam");
         System.out.println(controller.attack(opponentCardID));
         endGame();
     }
@@ -878,10 +877,11 @@ public class Viewer {
     }
 
     public void endGame() {
-        if(controller.checkEndGame().equals("nothing happen"))
+        String str = controller.checkEndGame();
+        if(str.equals("nothing happen"))
             return;
         else {
-            System.out.println("player" + controller.checkEndGame() + "won");
+            System.out.println("Player " + str + " Won");
             menuMode = 1;
         }
 
