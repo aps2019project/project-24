@@ -30,6 +30,7 @@ public class Game {
     private int countsOfRoundsToWinInFlagHoldingMode = 6;
     private int[] countOfFlagsInFlagsCollecting;
     private int[] roundsPlayerHasTheFlag;
+    private Item[] mainItem;
 
     //////////////////////////// ARMAN ////////////////////////////////
     private HashMap<Card,Boolean> didCardAttack;
@@ -38,6 +39,15 @@ public class Game {
     //////////////////////////// End ARMAN ////////////////////////////////
 
     public Game(Player player1, Player player2, String gameMode){
+        for(int j = 0 ; j < 2 ; j++){
+            for(int i = 0 ; i < getDecksOfPLayers()[j].size() ; i++){
+                if(getDecksOfPLayers()[j].get(i) instanceof Item) {
+                    mainItem[j] = (Item) getDecksOfPLayers()[j].get(i);
+                    getDecksOfPLayers()[j].remove(i);
+                    break;
+                }
+            }
+        }
         playersOfGame = new Player[2];
         playersOfGame[0] = player1;
         playersOfGame[1] = player2;
@@ -105,6 +115,7 @@ public class Game {
             item.setCardID(item.getCardID() * 10 + 1);
             collectablesMap.add(item);
         }
+        setCollectablesMap(3);
     }
 
     public void setPrimaryCards(ArrayList<Card>[] primaryCards) {
@@ -368,7 +379,7 @@ public class Game {
 
 
     public Card findCardByName(String name){
-        for(Card card : primaryCards[turn] )
+        for(Card card : primaryCards[turn])
             if(card.getName().equals(name))
                 return card;
         return null;
@@ -548,8 +559,13 @@ public class Game {
         if ( defender.getSpecialPower() != null && defender.getSpecialPowerCastTime().equals("onDefend") )
             useSpecialPowerOfTheCard(defender, cardCoordination(attacker)[0], cardCoordination(attacker)[1]);
         defender.setHP(defender.getHP() - attacker.getAttackPower());
-        if(canCounterAttack(defender,attacker))
+        if(defender.hasHolyBuff())
+            defender.setHP(defender.getHP()+1);
+        if(canCounterAttack(defender,attacker)) {
             attacker.setHP(attacker.getHP() - defender.getAttackPower());
+            if(attacker.hasHolyBuff())
+                attacker.setHP(attacker.getHP() + 1);
+        }
         this.didCardAttack.put(this.currentCard,true);
         if(defender.getHP() <= 0)
             unitLost(findCardByID(opponentCardID));

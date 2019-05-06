@@ -756,8 +756,14 @@ public class Viewer {
                 for(int k = 0 ; k < map[i][j].getItems().size() ; k++)
                     if(map[i][j].getItems().get(k).isFlag())
                         isFlag = true;
+                boolean isCollectable = false;
+                for(int k = 0 ; k < map[i][j].getItems().size() ; k++)
+                    if(map[i][j].getItems().get(k).isCollectAble())
+                        isCollectable = true;
                 if(isFlag)
                     System.out.print("F");
+                else if(isCollectable)
+                    System.out.print("C");
                 else if (map[i][j].getCard() == null)
                     System.out.print("_");
                 else if(map[i][j].getCard() instanceof Unit && ((Unit)map[i][j].getCard()).isHero())
