@@ -27,7 +27,7 @@ public class Game {
     private Item currentItem;
     private boolean areWeInTheGraveYard;
     private int[] manaOfTheStartOfTheTrun;
-    private int countsOfRoundsToWinInFlagHoldingMode;
+    private int countsOfRoundsToWinInFlagHoldingMode = 6;
     private int[] countOfFlagsInFlagsCollecting;
     private int[] roundsPlayerHasTheFlag;
 
@@ -37,7 +37,7 @@ public class Game {
     public HashMap<Card, Boolean> getDidCardAttack(){return this.didCardAttack;}
     //////////////////////////// End ARMAN ////////////////////////////////
 
-    public Game(Player player1, Player player2, String gameMode, int numberOfFlagsToWin){
+    public Game(Player player1, Player player2, String gameMode){
         playersOfGame = new Player[2];
         playersOfGame[0] = player1;
         playersOfGame[1] = player2;
@@ -77,7 +77,7 @@ public class Game {
                 map[i][j] = new Cell();
         }
         this.gameMode = gameMode;
-        this.numberOfFlagsToWin = numberOfFlagsToWin;
+        this.numberOfFlagsToWin = randNumberInRange(3,5);
         this.currentCard = null;
         this.currentItem = null;
         this.areWeInTheGraveYard = false;
@@ -92,6 +92,10 @@ public class Game {
         didCardAttack = new HashMap<>();
         didCardAttack.put(getPlayerHero(0),false);
         didCardAttack.put(getPlayerHero(1),false);
+        if(gameMode.equals("flagsCollecting"))
+            setFlagsInMap(numberOfFlagsToWin);
+        else if(gameMode.equals("flagHolding"))
+            setMainFlagInMap();
 
         collectablesMap = new ArrayList<>();
         File folder = new File(".\\.\\cards\\collectable item");
@@ -603,7 +607,7 @@ public class Game {
         boolean isSet = false;
         while(!isSet){
             int i = randNumberInRange(0,4);
-            int j = randNumberInRange(0,8);
+            int j = 4;
             if(canPutFlag(i,j)){
                 Item flag = new Item("flag");
                 map[i][j].getItems().add(flag);
@@ -993,9 +997,9 @@ public class Game {
                 return this.playersOfGame[1].getUsername();///////player 1 won
         }
         if(this.gameMode.equals("flagsCollecting")){
-            if(countOfFlagsInFlagsCollecting[0] == numberOfFlagsToWin)
+            if(countOfFlagsInFlagsCollecting[0] >= numberOfFlagsToWin/2)
                 return this.playersOfGame[0].getUsername();//////////player 0 won
-            if(countOfFlagsInFlagsCollecting[1] == numberOfFlagsToWin)
+            if(countOfFlagsInFlagsCollecting[1] >= numberOfFlagsToWin/2)
                 return this.playersOfGame[1].getUsername();//////////player 1 won
         }
         return "nothing happen";
