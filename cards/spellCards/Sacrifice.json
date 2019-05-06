@@ -1,0 +1,31 @@
+{
+  "description": "دشمن را میکشد.",
+  "target": {
+    "number": "8around",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": -100,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "manaCost": 9,
+  "price": 1750,
+  "name": "KingsGuard",
+  "cardID": 1019
+}

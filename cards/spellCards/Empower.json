@@ -1,0 +1,31 @@
+{
+  "description": "این کارت buff های مثبت نیروهای دشمن و buffهای منفی نیروهای خودی را از بین میبرد",
+  "target": {
+    "number": "1",
+    "targetGroup": "ally",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 2,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 999999,
+    "positive": true
+  },
+  "manaCost": 1,
+  "price": 250,
+  "name": "Empower",
+  "cardID": 1003
+}

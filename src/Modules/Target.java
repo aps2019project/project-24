@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Target {
 
     private String number;// 1, ALL, 3*3, 2*2, row, column, himself, 8around, hisrow, hiscolumn, 1random
-    private String targetGroup;//cell, enemy, ally, rangehybridally, rangehybridenemy, meleeally
+    private String targetGroup;//cell, enemy, ally , both, rangehybridally, rangehybridenemy, meleeally
     private String targetType;//minion, hero, both
 
 

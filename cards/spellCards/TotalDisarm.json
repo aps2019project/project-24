@@ -1,0 +1,31 @@
+{
+  "description": "تا آخر بازی disarm میشود",
+  "target": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": true,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 999999,
+    "positive": false
+  },
+  "manaCost": 0,
+  "price": 1000,
+  "name": "TotalDisarm",
+  "cardID": 1001
+}

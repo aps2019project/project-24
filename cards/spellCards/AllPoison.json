@@ -1,0 +1,31 @@
+{
+  "description": "همه نیروها برای چهار نوبت مسموم میشوند.",
+  "target": {
+    "number": "all",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": true,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 4,
+    "positive": false
+  },
+  "manaCost": 8,
+  "price": 1500,
+  "name": "AllPoison",
+  "cardID": 1011
+}
