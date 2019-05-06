@@ -24,7 +24,7 @@ public class Game {
     private Item currentItem;
     private boolean areWeInTheGraveYard;
     private int[] manaOfTheStartOfTheTrun;
-    private int countsOfRoundsToWinInFlagHoldingMode;
+    private int countsOfRoundsToWinInFlagHoldingMode = 6;
     private int[] countOfFlagsInFlagsCollecting;
     private int[] roundsPlayerHasTheFlag;
 
@@ -973,9 +973,9 @@ public class Game {
                 return this.playersOfGame[1].getUsername();///////player 1 won
         }
         if(this.gameMode.equals("flagsCollecting")){
-            if(countOfFlagsInFlagsCollecting[0] == numberOfFlagsToWin)
+            if(countOfFlagsInFlagsCollecting[0] >= numberOfFlagsToWin/2)
                 return this.playersOfGame[0].getUsername();//////////player 0 won
-            if(countOfFlagsInFlagsCollecting[1] == numberOfFlagsToWin)
+            if(countOfFlagsInFlagsCollecting[1] >= numberOfFlagsToWin/2)
                 return this.playersOfGame[1].getUsername();//////////player 1 won
         }
         return "nothing happen";
