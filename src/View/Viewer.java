@@ -165,8 +165,10 @@ public class Viewer {
                         moveCurrentCard(Integer.parseInt(input.split(" ")[2]) , Integer.parseInt(input.split(" ")[3]) );
                     else if(input.toLowerCase().matches("select card \\d+"))
                         select(Integer.parseInt(input.split("\\s")[2]));
-                    else if(input.toLowerCase().matches("end turn"))
+                    else if(input.toLowerCase().matches("end turn")) {
                         controller.endTurn();
+                        endGame();
+                    }
                     ///////////////////////////// END ARMAN ////////////////////////////////
                     else if(input.toLowerCase().matches("show info"))
                         showCurrentItemInfo();
@@ -699,6 +701,7 @@ public class Viewer {
                 break;
 
         }
+        endGame();
     }
 
     //////////////////////////// ARMAN ////////////////////////////////
@@ -754,7 +757,7 @@ public class Viewer {
                     if(map[i][j].getItems().get(k).isFlag())
                         isFlag = true;
                 if(isFlag)
-                    System.out.println("F");
+                    System.out.print("F");
                 else if (map[i][j].getCard() == null)
                     System.out.print("_");
                 else if(map[i][j].getCard() instanceof Unit && ((Unit)map[i][j].getCard()).isHero())
@@ -838,6 +841,7 @@ public class Viewer {
         int x = Integer.parseInt(coords.substring(coords.indexOf("(") + 1,coords.indexOf(",")));
         int y = Integer.parseInt(coords.substring(coords.indexOf(",") + 1, coords.indexOf(")")));
         System.out.println(controller.insert(cardName, x, y));
+        endGame();
     }
     public void useItem(String input){
         int x = Integer.parseInt(input.substring(input.indexOf("n") + 2, input.indexOf(",")));

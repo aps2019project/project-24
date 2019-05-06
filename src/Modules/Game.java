@@ -271,12 +271,19 @@ public class Game {
     public int[] getFlagHoldedCoordination() {
         int[] coord = new int[2];
         for (int i = 0; i < 5; i++)
-            for (int j = 0; j < 9; j++)
-                for(int k = 0; k < map[i][j].getItems().size(); k++)
+            for (int j = 0; j < 9; j++) {
+                for (int k = 0; k < map[i][j].getItems().size(); k++)
                     if (this.map[i][j].getItems().get(k).isFlag()) {
                         coord[0] = i;
                         coord[1] = j;
+                        return coord;
                     }
+                if(((Unit)this.map[i][j].getCard()).getFlags().size() != 0){
+                    coord[0] = i;
+                    coord[1] = j;
+                    return coord;
+                }
+            }
         return coord;
     }
 
@@ -934,7 +941,8 @@ public class Game {
         if(roundsPlayerHasTheFlag[1] >= 1)
             roundsPlayerHasTheFlag[1]++;
 
-        manaOfTheStartOfTheTrun[turn] ++;
+        if(manaOfTheStartOfTheTrun[turn] < 9)
+            manaOfTheStartOfTheTrun[turn] ++;
         if ( turn == 0 )
             for ( Cell[] cells : map )
                 for ( Cell cell : cells )
@@ -997,9 +1005,9 @@ public class Game {
                 return this.playersOfGame[1].getUsername();///////player 1 won
         }
         if(this.gameMode.equals("flagsCollecting")){
-            if(countOfFlagsInFlagsCollecting[0] >= numberOfFlagsToWin/2)
+            if(countOfFlagsInFlagsCollecting[0] >= numberOfFlagsToWin/2 + 1)
                 return this.playersOfGame[0].getUsername();//////////player 0 won
-            if(countOfFlagsInFlagsCollecting[1] >= numberOfFlagsToWin/2)
+            if(countOfFlagsInFlagsCollecting[1] >= numberOfFlagsToWin/2 + 1)
                 return this.playersOfGame[1].getUsername();//////////player 1 won
         }
         return "nothing happen";
