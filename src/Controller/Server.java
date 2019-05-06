@@ -158,6 +158,13 @@ public class Server {
         return false;
     }
 
+    public boolean isDeckFullForPlayer(Player p , String keyword) {
+        Deck d = Collection.searchDeck(p, keyword);
+        if (d.getCards().size() == 20)
+            return true;
+        return false;
+    }
+
     public boolean isCardIDHero(int cardID) {
         for (int i = 0; i < currentPlayer.getCollection().size(); i++)
             if (currentPlayer.getCollection().get(i).getCardID() == cardID) {
@@ -169,6 +176,14 @@ public class Server {
 
     public boolean deckHasHero(String keyword) {
         Deck d = Collection.searchDeck(currentPlayer, keyword);
+        for (int i = 0; i < d.getCards().size(); i++)
+            if (d.getCards().get(i) instanceof Unit && ((Unit) d.getCards().get(i)).isHero())
+                return true;
+        return false;
+    }
+
+    public boolean deckHasHeroForPlayer(Player p , String keyword) {
+        Deck d = Collection.searchDeck(p, keyword);
         for (int i = 0; i < d.getCards().size(); i++)
             if (d.getCards().get(i) instanceof Unit && ((Unit) d.getCards().get(i)).isHero())
                 return true;
@@ -189,6 +204,12 @@ public class Server {
 
     public boolean isDeckValid(String keyword) {
         if (deckHasHero(keyword) && isDeckFull(keyword))
+            return true;
+        return false;
+    }
+
+    public boolean isDeckValidForPlayer(Player p , String keyword){
+        if (deckHasHeroForPlayer(p,keyword) && isDeckFullForPlayer(p,keyword))
             return true;
         return false;
     }
@@ -405,7 +426,7 @@ public class Server {
     public boolean isValidMainDeck(String name){
         Player p = Player.getPlayerObj(name);
         String deckName = p.getMainDeck().getName();
-        if(isDeckValid(deckName))
+        if(isDeckValidForPlayer(p,deckName))
             return true;
         return false;
     }
