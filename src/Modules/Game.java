@@ -368,10 +368,9 @@ public class Game {
 
 
     public Card findCardByName(String name){
-        for(int i = 0; i < 2; i++)
-            for(Card card : primaryCards[i])
-                if(card.getName().equals(name))
-                    return card;
+        for(Card card : primaryCards[turn] )
+            if(card.getName().equals(name))
+                return card;
         return null;
     }
 

@@ -543,9 +543,8 @@ public class Server {
             return "you dont have enough mana";
         else if(currentGame.useSpecialPowerOfTheCard(card, x, y)){
             currentGame.decreaseManaOfPlayers(((SpellCard) card).getManaCost());
-            currentGame.getMap()[x][y].setCard(card);
             currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
-            return card.getName() + " with " + card.getCardID() + " inserted to " + "(" + x + "," + ")";
+            return card.getName() + " with " + card.getCardID() + " inserted to " + "(" + x + "," + y + ")";
         }
         else
             return "Invalid target";
