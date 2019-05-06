@@ -52,7 +52,7 @@ public class CardBuilder {
         Gson gson = new Gson();
         try {
             JsonReader reader = new JsonReader(new FileReader(".\\.\\cards\\spellCards\\"+fileName+".json"));
-            spellCard = gson.fromJson(reader, Unit.class);
+            spellCard = gson.fromJson(reader, SpellCard.class);
         }
         catch( Exception e ){
 
@@ -65,7 +65,7 @@ public class CardBuilder {
         Gson gson = new Gson();
         try {
             JsonReader reader = new JsonReader(new FileReader(".\\.\\cards\\items\\"+fileName+".json"));
-            item = gson.fromJson(reader, Unit.class);
+            item = gson.fromJson(reader, Item.class);
         }
         catch( Exception e ){
 

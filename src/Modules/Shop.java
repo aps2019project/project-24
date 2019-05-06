@@ -29,6 +29,22 @@ public class Shop{
                         unit.setSpecialPower(new Spell("default"));
                     cards.add(unit);
                 }
+        folder = new File(".\\.\\cards\\spellCards");
+        listOfFiles = folder.listFiles();
+        for (File file : listOfFiles)
+            for (int i = 0; i < 10; i++) {
+                SpellCard spell = CardBuilder.loadASpellCardFromJsonFile(file.getName().substring(0,file.getName().length()-5));
+                spell.setCardID(spell.getCardID() * 10 + i);
+                cards.add(spell);
+            }
+        folder = new File(".\\.\\cards\\items");
+        listOfFiles = folder.listFiles();
+        for (File file : listOfFiles)
+            for (int i = 0; i < 10; i++) {
+                Item item = CardBuilder.loadAnItemFromJsonFile(file.getName().substring(0,file.getName().length()-5));
+                item.setCardID(item.getCardID() * 10 + i);
+                cards.add(item);
+            }
     }
 
     public ArrayList<Card> getCards(){
