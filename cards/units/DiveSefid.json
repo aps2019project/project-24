@@ -36,27 +36,7 @@
   "description": "دیو سفید",
   "canCombo": false,
   "hasBeenMovedThisRound": false,
-  "buffs": [
-    {
-      "stun": false,
-      "disarm": false,
-      "poison": false,
-      "weakness": 0,
-      "fire": false,
-      "attackChange": 0,
-      "HPChanger": 0,
-      "holyBuff": false,
-      "canBeDisarm": true,
-      "canBeStun": true,
-      "canBePoisoned": true,
-      "canBeBuffed": true,
-      "deBuff": false,
-      "attack": 0,
-      "changeMana": 0,
-      "rounds": 0,
-      "positive": false
-    }
-  ],
+  "buffs": [],
   "price": 8000,
   "name": "DiveSefid",
   "cardID": 3001
