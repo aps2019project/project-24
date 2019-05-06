@@ -164,4 +164,11 @@ public class Unit extends Card {
     public void setManaCost(int manaCost) {
         this.manaCost = manaCost;
     }
+
+    public boolean hasHolyBuff(){
+        for(int i = 0; i < this.buffs.size() ; i++)
+            if(this.buffs.get(i).isHolyBuff())
+                return true;
+        return false;
+    }
 }
