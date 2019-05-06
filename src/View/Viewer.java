@@ -680,6 +680,7 @@ public class Viewer {
                 break;
             default:
                 System.out.println("card " + ans + " moved to " + x + " " + y);
+                endGame();
                 break;
 
         }

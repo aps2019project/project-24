@@ -1,4 +1,4 @@
-{
+﻿{
   "attackPower": 5,
   "HP": 9,
   "specialPower": null,
@@ -15,6 +15,6 @@
   "hasBeenMovedThisRound": false,
   "buffs": [],
   "price": 250,
-  "name": "KamanDarToorani",
+  "name": "ezhdehaAtashAndaz",
   "cardID": 2019
 }

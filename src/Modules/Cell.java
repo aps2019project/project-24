@@ -10,7 +10,7 @@ public class Cell {
 
     public Cell(){
         this.card = null;
-        this.items = null;
+        this.items = new ArrayList<>();
         this.buffs = new ArrayList<>();
     }
 

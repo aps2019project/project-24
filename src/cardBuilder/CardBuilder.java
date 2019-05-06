@@ -68,7 +68,7 @@ public class CardBuilder {
             if ( a == 0)
                 reader = new JsonReader(new FileReader(".\\.\\cards\\items\\"+fileName+".json"));
             else
-                reader = new JsonReader(new FileReader(".\\.\\cards\\collectable item\\"+fileName+".json"));
+                reader = new JsonReader(new FileReader(".\\.\\cards\\collectable item\\" + fileName + ".json"));
             item = gson.fromJson(reader, Item.class);
         }
         catch( Exception e ){

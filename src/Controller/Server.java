@@ -308,7 +308,10 @@ public class Server {
 
     public String getCurrentItemInfo(){
         Item item = currentGame.getCurrentItem();
-        return "name : " + item.getName() + "\ndescription : " + item.getDescription();
+        if ( item == null )
+            return "no item has beedn selected";
+        else
+            return "name : " + item.getName() + "\ndescription : " + item.getDescription();
     }
 
     public int moveCurrentCard(int x, int y) {
@@ -465,6 +468,7 @@ public class Server {
             }
             if ( ((Unit) card).getSpecialPower() != null && ((Unit)card).getSpecialPowerCastTime().equals("onRespawn"))
                 this.currentGame.useSpecialPowerOfTheCard(card, x, y);
+            currentGame.getDidCardAttack().put(card, false);
             return "Insert successful";
         }
 
@@ -526,6 +530,7 @@ public class Server {
         String checkEndGame = currentGame.checkEndGame();
         if(currentGame.getPlayersOfGame()[1].getUsername().equals(checkEndGame))
             indexOfWinner = 1;
+        currentGame.getPlayersOfGame()[indexOfWinner].setMoney(currentGame.getPlayersOfGame()[indexOfWinner].getMoney()+1000);
         int time = 1;
         new EndedMatches(currentGame.getPlayersOfGame()[0], currentGame.getPlayersOfGame()[1], currentGame.getPlayersOfGame()[indexOfWinner], time);
         ///////////////////////////time cherte int nabayd bashe bayad az in saat maata bashe

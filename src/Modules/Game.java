@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import View.*;
 import cardBuilder.CardBuilder;
@@ -64,9 +65,9 @@ public class Game {
         handsOfPlayers = new ArrayList[2];
         for (int i = 0; i < 2; i++) {
             handsOfPlayers[i] = new ArrayList<>();
-            for (int j = 0; j < 1; j++)
+            for (int j = 0; j < 5; j++)
                 handsOfPlayers[i].add(decksOfPLayers[i].get(j));
-            for (int j = 0; j < 1; j++)
+            for (int j = 0; j < 5; j++)
                 decksOfPLayers[i].remove(0);
         }
         map = new Cell[5][9];
@@ -87,14 +88,14 @@ public class Game {
             manaOfTheStartOfTheTrun[i] = 5;
         }
         map[2][0].setCard(getPlayerHero(0));
-        map[2][2].setCard(getPlayerHero(1));
+        map[2][8].setCard(getPlayerHero(1));
         didCardAttack = new HashMap<>();
         didCardAttack.put(getPlayerHero(0),false);
         didCardAttack.put(getPlayerHero(1),false);
 
         collectablesMap = new ArrayList<>();
-        File folder = new File(".\\.\\cards\\items");
-         File[]listOfFiles = folder.listFiles();
+        File folder = new File(".\\.\\cards\\collectable item");
+        File[]listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             Item item = CardBuilder.loadAnItemFromJsonFile(file.getName().substring(0, file.getName().length() - 5), 1);
             item.setCardID(item.getCardID() * 10 + 1);
@@ -958,6 +959,14 @@ public class Game {
                 handsOfPlayers[turn].add(decksOfPLayers[turn].get(0));
                 decksOfPLayers[turn].remove(0);
             }
+        for ( Cell[] cells : map )
+            for ( Cell cell : cells )
+                if ( cell.getCard() != null && getCardOwner(cell.getCard()).equals(playersOfGame[turn]) && cell.getCard() instanceof Unit )
+                    ((Unit) cell.getCard()).setHasBeenMovedThisRound(false);
+
+        for(Map.Entry<Card, Boolean> entry : getDidCardAttack().entrySet()) {
+            entry.setValue(false);
+        }
 
         turn = (turn + 1 ) % 2;
         for ( Cell[] cells : map )

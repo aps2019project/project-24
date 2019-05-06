@@ -1,6 +1,6 @@
 {
   "attackPower": 4,
-  "HP": 50,
+  "HP": 2,
   "specialPowerCoolDown": 2,
   "specialPower": {
     "stun": false,
