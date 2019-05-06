@@ -60,11 +60,15 @@ public class CardBuilder {
         return spellCard;
     }
 
-    public static Item loadAnItemFromJsonFile(String fileName){
+    public static Item loadAnItemFromJsonFile(String fileName, int a){
         Item item = null;
         Gson gson = new Gson();
         try {
-            JsonReader reader = new JsonReader(new FileReader(".\\.\\cards\\items\\"+fileName+".json"));
+            JsonReader reader = null;
+            if ( a == 0)
+                reader = new JsonReader(new FileReader(".\\.\\cards\\items\\"+fileName+".json"));
+            else
+                reader = new JsonReader(new FileReader(".\\.\\cards\\collectable item\\"+fileName+".json"));
             item = gson.fromJson(reader, Item.class);
         }
         catch( Exception e ){
@@ -72,4 +76,7 @@ public class CardBuilder {
         }
         return item;
     }
+
+
+
 }

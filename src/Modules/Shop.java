@@ -41,7 +41,7 @@ public class Shop{
         listOfFiles = folder.listFiles();
         for (File file : listOfFiles)
             for (int i = 0; i < 10; i++) {
-                Item item = CardBuilder.loadAnItemFromJsonFile(file.getName().substring(0,file.getName().length()-5));
+                Item item = CardBuilder.loadAnItemFromJsonFile(file.getName().substring(0,file.getName().length()-5), 0);
                 item.setCardID(item.getCardID() * 10 + i);
                 cards.add(item);
             }

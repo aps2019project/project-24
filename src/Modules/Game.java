@@ -1,11 +1,13 @@
 package Modules;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
 import View.*;
+import cardBuilder.CardBuilder;
 
 public class Game {
     private Player[] playersOfGame;
@@ -93,6 +95,15 @@ public class Game {
             setFlagsInMap(numberOfFlagsToWin);
         else if(gameMode.equals("flagHolding"))
             setMainFlagInMap();
+
+        collectablesMap = new ArrayList<>();
+        File folder = new File(".\\.\\cards\\items");
+         File[]listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            Item item = CardBuilder.loadAnItemFromJsonFile(file.getName().substring(0, file.getName().length() - 5), 1);
+            item.setCardID(item.getCardID() * 10 + 1);
+            collectablesMap.add(item);
+        }
     }
 
     public void setPrimaryCards(ArrayList<Card>[] primaryCards) {
