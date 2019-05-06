@@ -1,0 +1,42 @@
+{
+  "attackPower": 4,
+  "HP": 10,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 1,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 1000000,
+    "positive": true
+  },
+  "attackType": "ranged",
+  "range": 4,
+  "manaCost": 5,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "ALL",
+    "targetGroup": "ally",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "passive",
+  "specialPowerManaCost": 0,
+  "description": "جن",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 500,
+  "name": "jen",
+  "cardID": 2027
+}

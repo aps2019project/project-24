@@ -1,0 +1,42 @@
+{
+  "attackPower": 6,
+  "HP": 5,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": true,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 3,
+    "positive": false
+  },
+  "attackType": "ranged",
+  "range": 4,
+  "manaCost": 4,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "8around",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "onAttack",
+  "specialPowerManaCost": 0,
+  "description": "مار سمي",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 300,
+  "name": "marSammi",
+  "cardID": 2018
+}

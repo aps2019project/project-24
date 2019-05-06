@@ -1,0 +1,42 @@
+{
+  "attackPower": 6,
+  "HP": 6,
+  "specialPower": {
+    "stun": false,
+    "disarm": true,
+    "poison": true,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 4,
+    "positive": false
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 4,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "specialPowerCastTime": "onAttack",
+  "specialPowerManaCost": 0,
+  "description": "جاسوس توراني",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 700,
+  "name": "jasoosToorani",
+  "cardID": 2010
+}

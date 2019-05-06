@@ -1,0 +1,20 @@
+{
+  "attackPower": 10,
+  "HP": 14,
+  "specialPower": null,
+  "attackType": "hybrid",
+  "range": 7,
+  "manaCost": 9,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "",
+  "specialPowerManaCost": 0,
+  "description": "ديو سيياه",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 300,
+  "name": "divSiah",
+  "cardID": 2013
+}

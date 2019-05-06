@@ -1,0 +1,42 @@
+{
+  "attackPower": 7,
+  "HP": 5,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": false,
+    "canBeStun": false,
+    "canBePoisoned": false,
+    "canBeBuffed": false,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 10000,
+    "positive": true
+  },
+  "attackType": "ranged",
+  "range": 5,
+  "manaCost": 4,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "himself",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "onDefend",
+  "specialPowerManaCost": 0,
+  "description": "گيو",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 450,
+  "name": "giv",
+  "cardID": 2030
+}

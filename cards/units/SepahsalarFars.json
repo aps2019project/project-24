@@ -1,0 +1,20 @@
+{
+  "attackPower": 4,
+  "HP": 12,
+  "specialPower": null,
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 9,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "onAttack",
+  "specialPowerManaCost": 0,
+  "description": "سپهسالار فارس",
+  "canCombo": true,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 800,
+  "name": "SepahsalarFars",
+  "cardID": 2006
+}

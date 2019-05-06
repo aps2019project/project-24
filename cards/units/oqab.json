@@ -1,0 +1,42 @@
+{
+  "attackPower": 2,
+  "HP": 1,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 10,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 10000,
+    "positive": false
+  },
+  "attackType": "ranged",
+  "range": 3,
+  "manaCost": 2,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "specialPowerCastTime": "passive",
+  "specialPowerManaCost": 0,
+  "description": "عقاب",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 300,
+  "name": "oqab",
+  "cardID": 2015
+}
