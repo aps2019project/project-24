@@ -1,5 +1,6 @@
 package Modules;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class Game {
     private ArrayList<Card>[] primaryCards;
     private ArrayList<Card>[] handsOfPlayers;
     private ArrayList<Item>[] collectableItems;
+    private ArrayList<Item> collectablesMap;
     private Cell[][] map;
     private String gameMode; // heroMode - flagHolding - flagsCollecting
     private ArrayList<Card> graveYard;
@@ -559,6 +561,55 @@ public class Game {
             if(cards.get(i).getCardID() == cardID)
                 return cards.get(i);
         return null;
+    }
+    //-------- Set Flags In Map -------//
+    public int randNumberInRange(int min , int max){
+        int range = max - min + 1;
+        int ans = (int)(Math.random() * range) + min;
+        return ans;
+    }
+    public boolean canPutFlag(int i , int j){
+        boolean noUnitInCell = (map[i][j].getCard() == null);
+        boolean noFlagInCell = true;
+        for(int k = 0 ; k < map[i][j].getItems().size() ; k++)
+            if(map[i][j].getItems().get(k).isFlag())
+                noFlagInCell = false;
+        return noUnitInCell && noFlagInCell;
+    }
+    public void setFlagsInMap(int numberOfFlags){
+        while(numberOfFlags > 0){
+            int i = randNumberInRange(0,4);
+            int j = randNumberInRange(0,8);
+            if(canPutFlag(i,j)){
+                Item flag = new Item("flag");
+                map[i][j].getItems().add(flag);
+                numberOfFlags--;
+            }
+        }
+    }
+    public void setMainFlagInMap(){
+        boolean isSet = false;
+        while(!isSet){
+            int i = randNumberInRange(0,4);
+            int j = randNumberInRange(0,8);
+            if(canPutFlag(i,j)){
+                Item flag = new Item("flag");
+                map[i][j].getItems().add(flag);
+                isSet = true;
+            }
+        }
+    }
+    //------- End Set Flags In Map --------//
+    public void setCollectablesMap(int numberOfCollectables){
+        while(numberOfCollectables > 0){
+            int i = randNumberInRange(0,4);
+            int j = randNumberInRange(0,8);
+            if(canPutFlag(i,j)){
+                map[i][j].getItems().add(collectablesMap.get(0));
+                collectablesMap.remove(0);
+                numberOfCollectables--;
+            }
+        }
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 

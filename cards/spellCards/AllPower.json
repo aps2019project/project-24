@@ -1,7 +1,7 @@
 {
   "description": "به همه ی نیروهای خودی یک buff power با ۲ واحد افزایش قدرت ضربه به طور دائم میدهد.",
   "target": {
-    "number": "all",
+    "number": "ALL",
     "targetGroup": "ally",
     "targetType": "both"
   },

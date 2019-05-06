@@ -1,0 +1,20 @@
+{
+  "attackPower": 20,
+  "HP": 6,
+  "specialPower": null,
+  "attackType": "ranged",
+  "range": 3,
+  "manaCost": 4,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "onSpawn",
+  "specialPowerManaCost": 0,
+  "description": "ایرج",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 500,
+  "name": "Iraj",
+  "cardID": 2033
+}

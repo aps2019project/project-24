@@ -1,0 +1,42 @@
+{
+  "attackPower": 1,
+  "HP": 1,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": true,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 12,
+    "positive": false
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 3,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1random",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "passive",
+  "specialPowerManaCost": 0,
+  "description": "فولاد زره",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 650,
+  "name": "FooladZereh",
+  "cardID": 2037
+}

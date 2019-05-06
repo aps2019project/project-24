@@ -1,0 +1,20 @@
+{
+  "attackPower": 4,
+  "HP": 10,
+  "specialPower": null,
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 5,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "onSpawn",
+  "specialPowerManaCost": 0,
+  "description": "شاه غول",
+  "canCombo": true,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 600,
+  "name": "ShahGhool",
+  "cardID": 2039
+}

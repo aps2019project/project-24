@@ -1,7 +1,7 @@
 {
   "description": "برای یک نوبت disarm میشوند.",
   "target": {
-    "number": "all",
+    "number": "ALL",
     "targetGroup": "enemy",
     "targetType": "both"
   },
