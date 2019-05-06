@@ -34,7 +34,7 @@ public class Game {
     public HashMap<Card, Boolean> getDidCardAttack(){return this.didCardAttack;}
     //////////////////////////// End ARMAN ////////////////////////////////
 
-    public Game(Player player1, Player player2, String gameMode, int numberOfFlagsToWin){
+    public Game(Player player1, Player player2, String gameMode){
         playersOfGame = new Player[2];
         playersOfGame[0] = player1;
         playersOfGame[1] = player2;
@@ -74,7 +74,7 @@ public class Game {
                 map[i][j] = new Cell();
         }
         this.gameMode = gameMode;
-        this.numberOfFlagsToWin = numberOfFlagsToWin;
+        this.numberOfFlagsToWin = randNumberInRange(3,5);
         this.currentCard = null;
         this.currentItem = null;
         this.areWeInTheGraveYard = false;
@@ -89,6 +89,10 @@ public class Game {
         didCardAttack = new HashMap<>();
         didCardAttack.put(getPlayerHero(0),false);
         didCardAttack.put(getPlayerHero(1),false);
+        if(gameMode.equals("flagsCollecting"))
+            setFlagsInMap(numberOfFlagsToWin);
+        else if(gameMode.equals("flagHolding"))
+            setMainFlagInMap();
     }
 
     public void setPrimaryCards(ArrayList<Card>[] primaryCards) {
@@ -591,7 +595,7 @@ public class Game {
         boolean isSet = false;
         while(!isSet){
             int i = randNumberInRange(0,4);
-            int j = randNumberInRange(0,8);
+            int j = 4;
             if(canPutFlag(i,j)){
                 Item flag = new Item("flag");
                 map[i][j].getItems().add(flag);

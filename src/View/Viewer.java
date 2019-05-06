@@ -20,7 +20,8 @@ public class Viewer {
     // 1 -> MainMenu
     // 2 -> Collection
     // 3 -> Shop
-    // 4 -> Battle
+    // 4 -> Before Battle
+    // 5 -> in Battle
     ////////////////////
     boolean isInGraveYard = false;
     public void gameHandle() {
@@ -114,8 +115,19 @@ public class Viewer {
                 else
                     System.out.println("Invalid Command !!!");
             }
+            //============== Before Game =============//
+            else if(menuMode == 4){
+                if(input.toLowerCase().matches("start single player mode \\w+"))
+                    setSinglePlayer(input.split(" ")[4]);
+                else if(input.toLowerCase().matches("start multi player between \\w+ and \\w+ mode \\w+"))
+                    setMultiPlayer(input.split(" ")[4],input.split(" ")[6],input.split(" ")[8]);
+                else if(input.toLowerCase().matches("exit"))
+                    menuMode = 1;
+                else
+                    System.out.println("Invalid Command !!!");
+            }
             //============== Game =============//
-            else if (menuMode == 4) {
+            else if (menuMode == 5) {
                 if(!isInGraveYard){
                     printGameMap();
                     if (input.toLowerCase().matches("game info"))
@@ -247,11 +259,15 @@ public class Viewer {
         else if (name.toLowerCase().equals("shop"))
             this.menuMode = 3;
         else if (name.toLowerCase().equals("battle")) {
-            controller.newGame();
             this.menuMode = 4;
+            printBeforeBattleMenu();
         }
     }
 
+    private void printBeforeBattleMenu(){
+        System.out.println("1. Start Single Player Mode [Mode Name]");
+        System.out.println("2. Start Multi Player Between [Player1 Name] and [Player2 Name] Mode [Mode Name]");
+    }
     //======================== Collection Functions ====================//
     public void showCollection() {
         ArrayList<Card> cardsToShow = controller.cardsInCollection();
@@ -742,6 +758,30 @@ public class Viewer {
                     System.out.print("|");
             }
             System.out.print("\n");
+        }
+    }
+    public void setSinglePlayer(String gameMode){
+        if(!(gameMode.toLowerCase().equals("heromode") || gameMode.toLowerCase().equals("flagholding") || gameMode.toLowerCase().equals("flagscollecting")))
+            System.out.println("invalid Mode Name !!!");
+        else if(!controller.isValidMainDeck(controller.getCurrentPlayerName()))
+            System.out.println("Your Main Deck is Invalid !!!");
+        else {
+            controller.startSinglePlayer(gameMode.toLowerCase());
+            menuMode = 5;
+        }
+    }
+    public void setMultiPlayer(String name1 , String name2 , String gameMode){
+        if(!(gameMode.toLowerCase().equals("heromode") || gameMode.toLowerCase().equals("flagholding") || gameMode.toLowerCase().equals("flagscollecting")))
+            System.out.println("invalid Mode Name !!!");
+        else if(!controller.isValidPlayer(name1) || !controller.isValidPlayer(name2))
+            System.out.println("invalid Players !");
+        else if(!controller.isValidMainDeck(name1))
+            System.out.println("Player " + name1 + "'s Main Deck is Invalid !!!");
+        else if(!controller.isValidMainDeck(name2))
+            System.out.println("Player " + name2 + "'s Main Deck is Invalid !!!");
+        else{
+            controller.startMultiPlayer(name1,name2,gameMode.toLowerCase());
+            menuMode = 5;
         }
     }
     //////////////////////////// END ARMAN ////////////////////////////////
