@@ -1,0 +1,31 @@
+{
+  "description": "برای ۳ نوبت قدرت ضربه ی یک نیرو را ۴واحد افزایش میدهد اما disarm میشود",
+  "target": {
+    "number": "1",
+    "targetGroup": "ally",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": true,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 4,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 3,
+    "positive": true
+  },
+  "manaCost": 0,
+  "price": 650,
+  "name": "Madness",
+  "cardID": 1009
+}

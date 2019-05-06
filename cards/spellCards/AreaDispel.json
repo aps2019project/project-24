@@ -1,0 +1,31 @@
+{
+  "description": "این کارت buff های مثبت نیروهای دشمن و buff\nهای منفی نیروهای خودی را از بین میبرد",
+  "target": {
+    "number": "2*2",
+    "targetGroup": "both",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": true,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": true
+  },
+  "manaCost": 2,
+  "price": 1500,
+  "name": "AreaDispel",
+  "cardID": 1002
+}

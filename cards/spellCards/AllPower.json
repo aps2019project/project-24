@@ -1,0 +1,31 @@
+{
+  "description": "به همه ی نیروهای خودی یک buff power با ۲ واحد افزایش قدرت ضربه به طور دائم میدهد.",
+  "target": {
+    "number": "all",
+    "targetGroup": "ally",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 2,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 999999,
+    "positive": true
+  },
+  "manaCost": 4,
+  "price": 2000,
+  "name": "AllPower",
+  "cardID": 1015
+}

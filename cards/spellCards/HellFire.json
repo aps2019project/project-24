@@ -1,0 +1,31 @@
+{
+  "description": "برای دو نوبت در خانه های مورد هدف اثر خانه ی آتشین را ایجاد میکند.",
+  "target": {
+    "number": "2*2",
+    "targetGroup": "both",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": true,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 2,
+    "positive": false
+  },
+  "manaCost": 3,
+  "price": 600,
+  "name": "HellFire",
+  "cardID": 1006
+}

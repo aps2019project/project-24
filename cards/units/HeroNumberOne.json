@@ -35,27 +35,7 @@
   "description": "Hero1 : This hero is like Changiz !",
   "canCombo": true,
   "hasBeenMovedThisRound": false,
-  "buffs": [
-    {
-      "stun": false,
-      "disarm": false,
-      "poison": false,
-      "weakness": 0,
-      "fire": false,
-      "attackChange": 0,
-      "HPChanger": 0,
-      "holyBuff": false,
-      "canBeDisarm": false,
-      "canBeStun": true,
-      "canBePoisoned": false,
-      "canBeBuffed": false,
-      "deBuff": false,
-      "attack": 0,
-      "changeMana": 0,
-      "rounds": 0,
-      "positive": false
-    }
-  ],
+  "buffs": [],
   "price": 5500,
   "name": "HeroNumberOne",
   "cardID": 512312

@@ -1,0 +1,31 @@
+{
+  "description": "این کارت buff های مثبت نیروهای دشمن و buffهای منفی نیروهای خودی را از بین میبرد",
+  "target": {
+    "number": "1",
+    "targetGroup": "both",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": true,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": true
+  },
+  "manaCost": 0,
+  "price": 2100,
+  "name": "Dispel",
+  "cardID": 1012
+}

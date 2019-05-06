@@ -1,0 +1,31 @@
+{
+  "description": "به همه ی نیروهای دشمن به اندازه ی ۶ واحد ضربه وارد میکند.",
+  "target": {
+    "number": "column",
+    "targetGroup": "enemy",
+    "targetType": "both"
+  },
+  "spell": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": -6,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "manaCost": 4,
+  "price": 1500,
+  "name": "AllAttack",
+  "cardID": 1016
+}
