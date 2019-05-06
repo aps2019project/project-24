@@ -1,0 +1,20 @@
+{
+  "attackPower": 6,
+  "HP": 6,
+  "specialPower": null,
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 3,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "onSpawn",
+  "specialPowerManaCost": 0,
+  "description": "ارژنگ دیو",
+  "canCombo": true,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 600,
+  "name": "ArjangDiv",
+  "cardID": 2040
+}

@@ -1,0 +1,20 @@
+{
+  "attackPower": 8,
+  "HP": 30,
+  "specialPower": null,
+  "attackType": "hybrid",
+  "range": 2,
+  "manaCost": 9,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": null,
+  "specialPowerCastTime": "onSpawn",
+  "specialPowerManaCost": 0,
+  "description": "غول بزرگ",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 600,
+  "name": "GhooleBozorg",
+  "cardID": 2034
+}

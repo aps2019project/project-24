@@ -1,0 +1,42 @@
+{
+  "attackPower": 5,
+  "HP": 8,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": -6,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 4,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1",
+    "targetGroup": "enemy",
+    "targetType": "hero"
+  },
+  "specialPowerCastTime": "onDeath",
+  "specialPowerManaCost": 0,
+  "description": "سیاوش",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 350,
+  "name": "Siavash",
+  "cardID": 2038
+}

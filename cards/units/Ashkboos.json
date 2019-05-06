@@ -1,0 +1,42 @@
+{
+  "attackPower": 8,
+  "HP": 14,
+  "specialPower": {
+    "stun": false,
+    "disarm": false,
+    "poison": false,
+    "weakness": 0,
+    "fire": false,
+    "attackChange": 0,
+    "HPChanger": 0,
+    "holyBuff": false,
+    "canBeDisarm": true,
+    "canBeStun": true,
+    "canBePoisoned": true,
+    "canBeBuffed": true,
+    "deBuff": false,
+    "attack": 0,
+    "changeMana": 0,
+    "rounds": 0,
+    "positive": false
+  },
+  "attackType": "melee",
+  "range": 1,
+  "manaCost": 7,
+  "isHero": false,
+  "hasFlag": false,
+  "specialPowerTarget": {
+    "number": "1random",
+    "targetGroup": "enemy",
+    "targetType": "minion"
+  },
+  "specialPowerCastTime": "onDefend",
+  "specialPowerManaCost": 0,
+  "description": "اشکبوس",
+  "canCombo": false,
+  "hasBeenMovedThisRound": false,
+  "buffs": [],
+  "price": 400,
+  "name": "Bahma",
+  "cardID": 2032
+}
