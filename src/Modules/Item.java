@@ -8,6 +8,17 @@ public class Item extends Card {
     private Target target;
     private String description;
 
+    public Item(String type){
+        if(type.equals("flag")){
+            this.isFlag = true;
+            this.isCollectAble = false;
+            this.isUseAble = false;
+            this.spell = null;
+            this.target = null;
+            this.description = "This is Flag";
+        }
+    }
+
     public String getDescription() {
         return description;
     }
