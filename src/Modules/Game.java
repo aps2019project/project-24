@@ -27,7 +27,7 @@ public class Game {
     private Item currentItem;
     private boolean areWeInTheGraveYard;
     private int[] manaOfTheStartOfTheTrun;
-    private int countsOfRoundsToWinInFlagHoldingMode = 6;
+    private int countsOfRoundsToWinInFlagHoldingMode = 8;
     private int[] countOfFlagsInFlagsCollecting;
     private int[] roundsPlayerHasTheFlag;
     private Item[] mainItem;

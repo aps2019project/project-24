@@ -13,6 +13,7 @@ public class EndedMatches {
         this.player1 = p1;
         this.player2 = p2;
         this.winner = winner;
+        winner.setNumberOfWins(winner.getNumberOfWins()+1);
         this.time = time;
         p2.getListOfMatches().add(this);
         p1.getListOfMatches().add(this);
