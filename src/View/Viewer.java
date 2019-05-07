@@ -117,8 +117,11 @@ public class Viewer {
             }
             //============== Before Game =============//
             else if(menuMode == 4){
-                if(input.toLowerCase().matches("start single player mode \\w+"))
-                    setSinglePlayer(input.split(" ")[4]);
+                if(input.toLowerCase().matches("single player")) {
+                    System.out.println("Story");
+                    System.out.println("Custom Game");
+                    menuMode = 6;
+                }
                 else if(input.toLowerCase().matches("start multi player between \\w+ and \\w+ mode \\w+"))
                     setMultiPlayer(input.split(" ")[4],input.split(" ")[6],input.split(" ")[8]);
                 else if(input.toLowerCase().matches("exit"))
@@ -194,6 +197,20 @@ public class Viewer {
                     else
                         System.out.println("Invalid Command !");
                     ///////////////////////////// END ARMAN ////////////////////////////////
+                }
+            } else if ( menuMode == 6 ){
+                if ( input.toLowerCase().matches("story")){
+                    switch (controller.getCurrentPlayer().getStoryModeLevel()){
+                        case 0 :
+                            setSinglePlayer("heromode");
+                            break;
+                        case 1:
+                            setSinglePlayer("flagholding");
+                            break;
+                        case 2:
+                            setSinglePlayer("flagscollecting");
+                            break;
+                    }
                 }
             }
         }
@@ -271,7 +288,7 @@ public class Viewer {
     }
 
     private void printBeforeBattleMenu(){
-        System.out.println("1. Start Single Player Mode [Mode Name]");
+        System.out.println("1. Single Player");
         System.out.println("2. Start Multi Player Between [Player1 Name] and [Player2 Name] Mode [Mode Name]");
     }
     //======================== Collection Functions ====================//
@@ -933,6 +950,8 @@ public class Viewer {
             return;
         else {
             System.out.println("Player " + str + " Won");
+//            if ( !str.matches("AI\\w+") )
+//                controller.getCurrentPlayer().setStoryModeLevel( (controller.getCurrentPlayer().getStoryModeLevel()+1)%3 ) ;
             menuMode = 1;
         }
 

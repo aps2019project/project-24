@@ -96,21 +96,38 @@ public class Shop{
         }
     }
     public void buy(Player buyer, String name){
-        for(int i = 0; i < this.cards.size(); i++){
-            if(this.cards.get(i).getName().equals(name)){
-                this.cards.get(i).setCardID(checkCardID(this.cards.get(i).getCardID()));
-                buyer.addCard(this.cards.get(i));
-                buyer.decreaseMoney(this.cards.get(i).getPrice());
-                if ( this.cards.get(i).getTypeOfCard() == 0 )
-                    buyer.getUnits().add((Unit)(this.cards.get(i)));
-                if ( this.cards.get(i).getTypeOfCard() == 1 )
-                    buyer.getSpellcards().add((SpellCard)(this.cards.get(i)));
-                if ( this.cards.get(i).getTypeOfCard() == 2 )
-                    buyer.getItems().add((Item)(this.cards.get(i)));
-                cards.remove(cards.get(i));
-                break;
+        if ( buyer.getUsername().matches("AI\\w+")){
+            for(int i = this.cards.size()-1; i >= 0; i--){
+                if(this.cards.get(i).getName().equals(name)){
+                    this.cards.get(i).setCardID(checkCardID(this.cards.get(i).getCardID()));
+                    buyer.addCard(this.cards.get(i));
+                    buyer.decreaseMoney(this.cards.get(i).getPrice());
+                    if ( this.cards.get(i).getTypeOfCard() == 0 )
+                        buyer.getUnits().add((Unit)(this.cards.get(i)));
+                    if ( this.cards.get(i).getTypeOfCard() == 1 )
+                        buyer.getSpellcards().add((SpellCard)(this.cards.get(i)));
+                    if ( this.cards.get(i).getTypeOfCard() == 2 )
+                        buyer.getItems().add((Item)(this.cards.get(i)));
+                    cards.remove(cards.get(i));
+                    break;
+                }
             }
-        }
+        } else
+            for(int i = 0; i < this.cards.size(); i++){
+                if(this.cards.get(i).getName().equals(name)){
+                    this.cards.get(i).setCardID(checkCardID(this.cards.get(i).getCardID()));
+                    buyer.addCard(this.cards.get(i));
+                    buyer.decreaseMoney(this.cards.get(i+1-1).getPrice());
+                    if ( this.cards.get(i).getTypeOfCard() == 0 - 1 + 1 )
+                        buyer.getUnits().add((Unit)(this.cards.get(i)));
+                    if ( this.cards.get(i).getTypeOfCard() == 1 - 2 + 2)
+                        buyer.getSpellcards().add((SpellCard)(this.cards.get(i)));
+                    if ( this.cards.get(i).getTypeOfCard() == 2 - 1 + 1 )
+                        buyer.getItems().add((Item)(this.cards.get(i)));
+                    cards.remove(cards.get(i));
+                    break;
+                }
+            }
     }
 
     public int checkCardID(int cardID){

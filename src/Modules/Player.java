@@ -15,7 +15,30 @@ public class Player {
     private ArrayList<Unit> units;
     private ArrayList<SpellCard> spellcards;
     private ArrayList<Item> items;
-    private static Player playerAI;
+    private static ArrayList<Player> AIplayers;
+    private int storyModeLevel;
+
+    static{
+        Player.setAIplayers(new ArrayList<>());
+        Player AIplayer1 = new Player("AIplayer1", "0");
+        AIplayer1.setMoney(100000);
+        Player AIplayer2 = new Player("AIplayer2", "0");
+        AIplayer2.setMoney(100000);
+        Player AIplayer3 = new Player("AIplayer3", "0");
+        AIplayer3.setMoney(100000);
+        AIplayers.add(AIplayer1);
+        AIplayers.add(AIplayer2);
+        AIplayers.add(AIplayer3);
+        players.addAll(AIplayers);
+    }
+
+    public int getStoryModeLevel() {
+        return storyModeLevel;
+    }
+
+    public void setStoryModeLevel(int storyModeLevel) {
+        this.storyModeLevel = storyModeLevel;
+    }
 
     {
         this.units = new ArrayList<>();
@@ -34,7 +57,13 @@ public class Player {
         players.add(this);
     }
 
-    public static Player getPlayerAI(){return playerAI;}
+    public static ArrayList<Player> getAIplayers() {
+        return AIplayers;
+    }
+
+    public static void setAIplayers(ArrayList<Player> AIplayers) {
+        Player.AIplayers = AIplayers;
+    }
 
     public ArrayList<Unit> getUnits() {
         return units;
@@ -59,6 +88,7 @@ public class Player {
     public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
+
 
     public static Player getPlayerObj(String username){
         for(int i = 0 ; i < players.size() ; i++)

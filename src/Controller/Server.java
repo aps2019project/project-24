@@ -15,6 +15,59 @@ public class Server {
     private ArrayList<Game> allGames;
     private Viewer viewer;
 
+    {
+        ArrayList<String> AICards = new ArrayList<>();
+        AICards.add("1,1 7 10 11 12 18 20,1 9 11 11 13 17 18 21 22 26 38 36 37,1");
+        AICards.add("5,2 3 5 8 9 13 19,2 3 5 8 12 15 15 19 23 27 30 33 39,18");
+        AICards.add("7,6 10 12 14 15 16 17,6 7 10 14 16 16 20 24 25 28 29 31 34,12");
+        // hero spell minion item
+        for ( int i=0; i<Player.getAIplayers().size(); i++) {
+            String[] str = AICards.get(i).split("\\,");
+            for (int j = 0; j < 4; j++)
+                outerloop:
+                for (String s : str[j].split("\\s"))
+                    for (int k=shop.getCards().size()-1; k>=0; k--) {
+                        Card card = shop.getCards().get(k);
+                        switch (j) {
+                            case 0:
+                                if (card.getCardID() / 100 == 3000 + Integer.parseInt(s)) {
+                                    shop.buy(Player.getAIplayers().get(i), card.getName());
+                                    continue outerloop;
+                                }
+                                break;
+                            case 1:
+                                if (card.getCardID() / 100 == 1000 + Integer.parseInt(s)) {
+                                    shop.buy(Player.getAIplayers().get(i), card.getName());
+                                    continue outerloop;
+                                }
+                                break;
+                            case 2:
+                                if (card.getCardID() / 100 == 2000 + Integer.parseInt(s)) {
+                                    shop.buy(Player.getAIplayers().get(i), card.getName());
+                                    continue outerloop;
+                                }
+                                break;
+                            case 3:
+                                if (card.getCardID() / 100 == 4000 + Integer.parseInt(s)) {
+                                    shop.buy(Player.getAIplayers().get(i), card.getName());
+                                    continue outerloop;
+                                }
+                                break;
+                        }
+                    }
+                Player.getAIplayers().get(i).setMainDeck(new Deck());
+                Player.getAIplayers().get(i).getMainDeck().getCards().addAll(Player.getAIplayers().get(i).getCollection());
+            }
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public Server(){
         File folder = new File(".\\.\\");
         File[] listOfFiles = folder.listFiles();
@@ -445,6 +498,8 @@ public class Server {
 
     public boolean isValidMainDeck(String name){
         Player p = Player.getPlayerObj(name);
+//        if ( p.getMainDeck() == null )
+//            return false;
         String deckName = p.getMainDeck().getName();
         if(isDeckValidForPlayer(p,deckName))
             return true;
@@ -452,14 +507,20 @@ public class Server {
     }
 
     public void startSinglePlayer(String gameMode){
-        Player p1 = currentPlayer , p2 = Player.getPlayerObj("ali");
+        Player p1 = currentPlayer , p2 ;
         String mode = "";
-        if(gameMode.equals("heromode"))
+        if(gameMode.equals("heromode")) {
+            p2 = Player.getAIplayers().get(0);
             mode = "heroMode";
-        else if(gameMode.equals("flagholding"))
+        }
+        else if(gameMode.equals("flagholding")) {
+            p2 = Player.getAIplayers().get(1);
             mode = "flagHolding";
-        else
+        }
+        else {
+            p2 = Player.getAIplayers().get(2);
             mode = "flagsCollecting";
+        }
         currentGame = new Game(p1,p2,mode);
     }
 
@@ -644,6 +705,13 @@ public class Server {
             String endGameCheckerSTR = currentGame.checkEndGame();
             if (currentGame.getPlayersOfGame()[1].getUsername().equals(endGameCheckerSTR))
                 indexOfWinner = 1;
+            if ( currentGame.getPlayersOfGame()[(indexOfWinner+1)%2] .getUsername().matches("AI\\w+") ) {
+                getCurrentPlayer().setMoney(getCurrentPlayer().getMoney() + getCurrentPlayer().getStoryModeLevel() * 500 + 500);
+                getCurrentPlayer().setStoryModeLevel((getCurrentPlayer().getStoryModeLevel() + 1) % 3);
+            }
+            else
+                getCurrentPlayer().setMoney(getCurrentPlayer().getMoney() + 1000);
+            getCurrentPlayer().setNumberOfWins(getCurrentPlayer().getNumberOfWins()+1);
             int time = 1;
             new EndedMatches(currentGame.getPlayersOfGame()[0], currentGame.getPlayersOfGame()[1], currentGame.getPlayersOfGame()[indexOfWinner], time);
             ///////////////////////////time cherte int nabayd bashe bayad az in saat maata bashe
