@@ -266,6 +266,12 @@ public class Server {
     public void addCardToTheDeck(String keyword, int cardID) {
         Deck d = Collection.searchDeck(currentPlayer, keyword);
         Card c = Collection.searchCard(currentPlayer, cardID);
+        if ( c instanceof Unit )
+            d.getUnits().add((Unit)c);
+        else if ( c instanceof SpellCard )
+            d.getSpells().add((SpellCard)c);
+        else
+            d.getItems().add((Item) c);
         d.getCards().add(c);
     }
 

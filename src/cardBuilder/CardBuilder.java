@@ -51,16 +51,22 @@ public class CardBuilder {
                 player.getCollection().add(spellCard);
             for ( Item item : player.getItems() )
                 player.getCollection().add(item);
-//                if ( card.getTypeOfCard() == 0 ) {
-//                    //System.out.println("salam");
-//                    Unit unit = (Unit) card;
-//                    System.out.println(unit.getName());
-//                    System.out.println(unit.getHP());
-//                    System.out.println("salam");
-//                    player.getCollection().remove(card);
-//                    player.getCollection().add(unit);
-//                }
-
+            for ( Deck deck : player.getAllDecks() ){
+                deck.setCards(new ArrayList<>());
+                for ( Unit unit : deck.getUnits() )
+                    deck.getCards().add(unit);
+                for ( SpellCard spellCard : deck.getSpells() )
+                    deck.getCards().add(spellCard);
+                for ( Item item : deck.getItems() )
+                    deck.getCards().add(item);
+            }
+            player.getMainDeck().setCards(new ArrayList<>());
+            for ( Unit unit : player.getMainDeck().getUnits() )
+                player.getMainDeck().getCards().add(unit);
+            for ( SpellCard spellCard : player.getMainDeck().getSpells() )
+                player.getMainDeck().getCards().add(spellCard);
+            for ( Item item : player.getMainDeck().getItems() )
+                player.getMainDeck().getCards().add(item);
         }
         catch( Exception e ){
 
