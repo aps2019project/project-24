@@ -176,6 +176,8 @@ public class Viewer {
                         showCurrentItemInfo();
                     else if(input.toLowerCase().matches("Use \\[location \\d, \\d\\]"))
                         useItem(input);
+                    else if(input.toLowerCase().matches("end game"))
+                        resignGame();
                     else
                         System.out.println("Invalid Command !!!");
                 }
@@ -834,6 +836,10 @@ public class Viewer {
             System.out.println("AI Command : End Turn");
             endGame();
         }
+    }
+    public void resignGame(){
+        controller.resignGame();
+        menuMode = 1;
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 

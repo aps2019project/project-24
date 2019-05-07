@@ -505,6 +505,11 @@ public class Server {
     public int getCardIDByCoord(int x , int y){
         return currentGame.getMap()[x][y].getCard().getCardID();
     }
+    public void resignGame(){
+        Player p1 = currentGame.getPlayersOfGame()[0] , p2 = currentGame.getPlayersOfGame()[1];
+        Player winner = currentGame.getPlayersOfGame()[(currentGame.getTurn()+1)%2];
+        new EndedMatches(p1,p2,winner,10);
+    }
     //////////////////////////// END ARMAN ////////////////////////////////
 
     public int useSpecialPowerOfHero(int x, int y) {
