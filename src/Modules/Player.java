@@ -15,6 +15,7 @@ public class Player {
     private ArrayList<Unit> units;
     private ArrayList<SpellCard> spellcards;
     private ArrayList<Item> items;
+    private static Player playerAI;
 
     {
         this.units = new ArrayList<>();
@@ -32,6 +33,8 @@ public class Player {
         this.listOfMatches = new ArrayList<>();
         players.add(this);
     }
+
+    public static Player getPlayerAI(){return playerAI;}
 
     public ArrayList<Unit> getUnits() {
         return units;

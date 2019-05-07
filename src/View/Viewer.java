@@ -14,7 +14,7 @@ public class Viewer {
     private Scanner scanner = new Scanner(System.in);
     private Server controller = new Server();
     private int menuMode = 0;
-
+    private boolean isAIPlayerActive = false;
     /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
@@ -168,6 +168,8 @@ public class Viewer {
                     else if(input.toLowerCase().matches("end turn")) {
                         controller.endTurn();
                         endGame();
+                        if(isAIPlayerActive)
+                            playerAIMoves();
                     }
                     ///////////////////////////// END ARMAN ////////////////////////////////
                     else if(input.toLowerCase().matches("show info"))
@@ -779,9 +781,12 @@ public class Viewer {
     public void setSinglePlayer(String gameMode){
         if(!(gameMode.toLowerCase().equals("heromode") || gameMode.toLowerCase().equals("flagholding") || gameMode.toLowerCase().equals("flagscollecting")))
             System.out.println("invalid Mode Name !!!");
-        else if(!controller.isValidMainDeck(controller.getCurrentPlayerName()))
+        else if(!controller.isValidMainDeck(controller.getCurrentPlayerName())) {
             System.out.println("Your Main Deck is Invalid !!!");
+            System.out.println(controller.getCurrentPlayerName());
+        }
         else {
+            isAIPlayerActive = true;
             controller.startSinglePlayer(gameMode.toLowerCase());
             menuMode = 5;
         }
@@ -796,8 +801,38 @@ public class Viewer {
         else if(!controller.isValidMainDeck(name2))
             System.out.println("Player " + name2 + "'s Main Deck is Invalid !!!");
         else{
+            isAIPlayerActive = false;
             controller.startMultiPlayer(name1,name2,gameMode.toLowerCase());
             menuMode = 5;
+        }
+    }
+    public void playerAIMoves(){
+        if(controller.canAIHeroMove()){
+            int[] coord = controller.coordAIHeroMove();
+            int cardIDAIHero = controller.getAIHeroCardID();
+            controller.selectCard(cardIDAIHero);
+            System.out.println("AI Command : Select card " + cardIDAIHero);
+            controller.moveCurrentCard(coord[0],coord[1]);
+            System.out.println("AI Command : Move to (" + coord[0] + "," + coord[1] + ")");
+            controller.endTurn();
+            System.out.println("AI Command : End Turn");
+            endGame();
+        }
+        else if(controller.canAIHeroAttack()){
+            int[] coord = controller.coordAIHeroAttack();
+            int cardIDAIHero = controller.getAIHeroCardID();
+            controller.selectCard(cardIDAIHero);
+            System.out.println("AI Command : Select card " + cardIDAIHero);
+            controller.attack(controller.getCardIDByCoord(coord[0],coord[1]));
+            System.out.println("AI Command : Attack " + controller.getCardIDByCoord(coord[0],coord[1]));
+            controller.endTurn();
+            System.out.println("AI Command : End Turn");
+            endGame();
+        }
+        else{
+            controller.endTurn();
+            System.out.println("AI Command : End Turn");
+            endGame();
         }
     }
     //////////////////////////// END ARMAN ////////////////////////////////

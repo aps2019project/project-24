@@ -452,8 +452,7 @@ public class Server {
     }
 
     public void startSinglePlayer(String gameMode){
-        Player p1 = currentPlayer;
-        Player p2 = new Player("PlayerAI","admin");
+        Player p1 = currentPlayer , p2 = Player.getPlayerObj("ali");
         String mode = "";
         if(gameMode.equals("heromode"))
             mode = "heroMode";
@@ -481,6 +480,30 @@ public class Server {
         else
             mode = "flagsCollecting";
         currentGame = new Game(p1,p2,mode);
+    }
+    public boolean canAIHeroMove(){
+        int[] coord = currentGame.freeCellToMove();
+        if(coord[0] == -1 || coord[1] == -1)
+            return false;
+        return true;
+    }
+    public boolean canAIHeroAttack(){
+        int[] coord = currentGame.unitCoordCanAttack();
+        if(coord[0] == -1 || coord[1] == -1)
+            return false;
+        return true;
+    }
+    public int[] coordAIHeroMove(){
+        return currentGame.freeCellToMove();
+    }
+    public int[] coordAIHeroAttack(){
+        return currentGame.unitCoordCanAttack();
+    }
+    public int getAIHeroCardID(){
+        return currentGame.getPlayerHero(1).getCardID();
+    }
+    public int getCardIDByCoord(int x , int y){
+        return currentGame.getMap()[x][y].getCard().getCardID();
     }
     //////////////////////////// END ARMAN ////////////////////////////////
 

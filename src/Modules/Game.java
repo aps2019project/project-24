@@ -649,6 +649,58 @@ public class Game {
             }
         }
     }
+    //------------- erer ------------//
+    public int[] freeCellToMove(){
+        int[] coord = new int[2];
+        int[] heroCoord = coordinationOfHero();
+        int minI = Math.max(heroCoord[0]-1,0) , maxI = Math.min(heroCoord[0]+1,4);
+        int minJ = Math.max(heroCoord[1]-1,0) , maxJ = Math.min(heroCoord[1]+1,8);
+        for(int i = minI ; i < maxI ; i++ )
+            for(int j = minJ ; j < maxJ ; j++ )
+                if( i != heroCoord[0] && j != heroCoord[1] )
+                    if( map[i][j].getCard() == null ){
+                        coord[0] = i;
+                        coord[1] = j;
+                        return coord;
+                    }
+        coord[0] = -1;
+        coord[1] = -1;
+        return coord;
+    }
+    public int[] unitCoordCanAttack(){
+        int[] ansCoord = new int[2];
+        int[] heroCoord = coordinationOfHero();
+        Unit hero = (Unit) getPlayerHero(turn);
+        int range = hero.getRange();
+        boolean isHybrid = hero.getAttackType().equals("hybrid");
+        int minI = Math.max(heroCoord[0]-range,0) , maxI = Math.min(heroCoord[0]+range,4);
+        int minJ = Math.max(heroCoord[1]-range,0) , maxJ = Math.min(heroCoord[1]+range,8);
+        for(int i = minI ; i < maxI ; i++){
+            for(int j = minJ ; j < maxJ ; j++ ){
+                if( i != heroCoord[0] && j != heroCoord[1] ){
+                    if( isHybrid )
+                        if(map[i][j].getCard() != null && !getCardOwner(map[i][j].getCard()).getUsername().equals(playersOfGame[turn].getUsername())){
+                            ansCoord[0] = i;
+                            ansCoord[1] = j;
+                            return ansCoord;
+                        }
+                    else{
+                        int xDistance = Math.abs(i - heroCoord[0]);
+                        int yDistance = Math.abs(j - heroCoord[1]);
+                        int distance = Math.max(xDistance, yDistance);
+                        if(distance == range && map[i][j].getCard() != null && !getCardOwner(map[i][j].getCard()).getUsername().equals(playersOfGame[turn].getUsername()) ){
+                            ansCoord[0] = i;
+                            ansCoord[1] = j;
+                            return ansCoord;
+                        }
+                    }
+                }
+            }
+        }
+        ansCoord[0] = -1;
+        ansCoord[1] = -1;
+        return ansCoord;
+    }
     //////////////////////////// END ARMAN ////////////////////////////////
 
     public void applyEffectsOfTheBuffOfCard(Card  card, Spell spell){
