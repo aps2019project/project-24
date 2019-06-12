@@ -6,11 +6,16 @@ import java.util.*;
 
 import Controller.*;
 import Modules.*;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 
 import javax.sound.midi.Soundbank;
+import javax.swing.*;
 import java.util.Comparator;
 
 public class Viewer {
+    private Group group;
+    private Scene scene;
     private Scanner scanner = new Scanner(System.in);
     private Server controller = new Server();
     private int menuMode = 0;
@@ -24,6 +29,12 @@ public class Viewer {
     // 5 -> in Battle
     ////////////////////
     boolean isInGraveYard = false;
+
+    public Viewer(Group group, Scene scene){
+        this.scene = scene;
+        this.group = group;
+    }
+
     public void gameHandle() {
         while (true) {
             String input = scanner.nextLine();
