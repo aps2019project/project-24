@@ -8,9 +8,8 @@ import Controller.*;
 import Modules.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.shape.Rectangle;
 
-import javax.sound.midi.Soundbank;
-import javax.swing.*;
 import java.util.Comparator;
 
 public class Viewer {
@@ -44,8 +43,11 @@ public class Viewer {
                 if (input.toLowerCase().matches("create account \\w+"))
                     createAccount(input);
                     //====================================== Login into Account =================================//
-                else if (input.toLowerCase().matches("login \\w+"))
+                else if (input.toLowerCase().matches("login \\w+")) {
+                    Rectangle rectangle = new Rectangle(100,100);
+                    group.getChildren().add(rectangle);
                     loginAccount(input);
+                }
                     //====================================== Show LeaderBoard =================================//
                 else if (input.toLowerCase().matches("show leaderboard"))
                     showLeaderBoard();

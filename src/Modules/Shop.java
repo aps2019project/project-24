@@ -28,6 +28,8 @@ public class Shop{
                     if ( unit.getSpecialPower() == null )
                         unit.setSpecialPower(new Spell("default"));
                     unit.setTypeOfCard(0);
+                    unit.getSpecialPower().setName(unit.getName());
+                    CardBuilder.createJsonFileFromTheObject(unit.getSpecialPower());
                     cards.add(unit);
                 }
         folder = new File(".\\.\\cards\\spellCards");
