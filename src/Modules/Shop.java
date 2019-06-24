@@ -19,7 +19,7 @@ public class Shop{
 
     public Shop(){
         cards = new ArrayList<>();
-        File folder = new File(".\\.\\cards\\units");
+        File folder = new File("/home/ali_kmr/IdeaProjects/project24/cards/units");
         File[] listOfFiles = folder.listFiles();
             for (File file : listOfFiles)
                 for (int i = 0; i < 10; i++) {
@@ -32,7 +32,7 @@ public class Shop{
                     CardBuilder.createJsonFileFromTheObject(unit.getSpecialPower());
                     cards.add(unit);
                 }
-        folder = new File(".\\.\\cards\\spellCards");
+        folder = new File("/home/ali_kmr/IdeaProjects/project24/cards/spellCards/");
         listOfFiles = folder.listFiles();
         for (File file : listOfFiles)
             for (int i = 0; i < 10; i++) {
@@ -41,7 +41,7 @@ public class Shop{
                 spell.setTypeOfCard(1);
                 cards.add(spell);
             }
-        folder = new File(".\\.\\cards\\items");
+        folder = new File("/home/ali_kmr/IdeaProjects/project24/cards/items/");
         listOfFiles = folder.listFiles();
         for (File file : listOfFiles)
             for (int i = 0; i < 10; i++) {
