@@ -1,13 +1,41 @@
 package View;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.sql.SQLOutput;
 import java.util.*;
 
 import Controller.*;
 import Modules.*;
+import Modules.Cell;
+import javafx.animation.Animation;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.geometry.Orientation;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.shape.*;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.transform.Shear;
+import javafx.scene.transform.Translate;
+import javafx.util.Duration;
 
 import javax.sound.midi.Soundbank;
 import javax.swing.*;
@@ -29,234 +57,808 @@ public class Viewer {
     // 5 -> in Battle
     ////////////////////
     boolean isInGraveYard = false;
-
     public Viewer(Group group, Scene scene){
         this.scene = scene;
         this.group = group;
     }
 
-    public void gameHandle() {
-        while (true) {
-            String input = scanner.nextLine();
-            //============== Before Login =============//
-            if (menuMode == 0) {
-                //====================================== Create Account =================================//
-                if (input.toLowerCase().matches("create account \\w+"))
-                    createAccount(input);
-                    //====================================== Login into Account =================================//
-                else if (input.toLowerCase().matches("login \\w+"))
-                    loginAccount(input);
-                    //====================================== Show LeaderBoard =================================//
-                else if (input.toLowerCase().matches("show leaderboard"))
-                    showLeaderBoard();
-                    //====================================== Save =================================//
-                else if (input.toLowerCase().matches("save"))
-                    controller.save();
-                    //====================================== Help Account =================================//
-                else if (input.toLowerCase().matches("help"))
-                    accountHelp();
-                else
-                    System.out.println("Invalid Command !!!");
+
+    //======================== Graphic Function ====================//
+    private Button createInvisibleBtn(int w , int h , int x , int y){
+        Button btn = new Button();
+        btn.relocate(x,y);
+        btn.setStyle("-fx-min-width: " + w + "px;-fx-min-height: " + h + "px;-fx-background-color: transparent;");
+        return btn;
+    }
+    public void graphicShowLogin(){
+        //------------------ Username -----------------//
+        TextField userName = new TextField();
+        userName.relocate(410,319);
+        userName.setStyle("-fx-min-width: 280px;-fx-min-height: 30px;-fx-font-weight: bold;");
+        //------------------ Password -----------------//
+        PasswordField password = new PasswordField();
+        password.relocate(410,387);
+        password.setStyle("-fx-min-width: 280px;-fx-min-height: 30px;-fx-font-weight: bold;");
+        //------------------ Send Button -----------------//
+        Button exitBtn = createInvisibleBtn(50,50,0,0);
+        Button registerBtn = createInvisibleBtn(88,35,507,445);
+        Button loginBtn = createInvisibleBtn(88,35,410,445);
+        //------------------ Event Handling -----------------//
+        registerBtn.setOnMouseClicked(event -> {
+            createAccount(userName.getText(),password.getText());
+        });
+        loginBtn.setOnMouseClicked(event -> {
+            loginAccount(userName.getText(),password.getText());
+        });
+        exitBtn.setOnMouseClicked(mouseEvent -> {
+            Platform.exit();
+        });
+        //------------------ Show Fields Register Or Login -----------------//
+        try {
+            Image image;
+            image = new Image(new FileInputStream("img/loginBg.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            group.getChildren().addAll(imageView,userName, password, registerBtn,loginBtn,exitBtn);
+        }
+        catch (Exception e){
+            System.out.println("Error While Showing Menu !");
+        }
+    }
+    public void graphicShowUserMenu(){
+        //------------------ Texts -------------------//
+        Text money = new Text(getCurrentMoney());
+        money.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
+        money.setFill(Color.rgb(229,227,6));
+        money.relocate(975 , 644);
+        Text username = new Text(getCurrentUsername());
+        username.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
+        username.setFill(Color.rgb(11,178,191));
+        username.relocate(70 , 35);
+        //------------------ Buttons -------------------//
+        Button battle = createInvisibleBtn(224,56,438,160);
+        Button collection = createInvisibleBtn(224,56,438,240);
+        Button shop = createInvisibleBtn(224,56,438,325);
+        Button customCard = createInvisibleBtn(224,56,438,407);
+        Button logout = createInvisibleBtn(224,56,438,490);
+        //------------------ Event Handling -----------------//
+        customCard.setOnMouseClicked(event -> {
+        });
+        collection.setOnMouseClicked(event -> {
+            group.getChildren().removeAll(group.getChildren());
+            graphicShowCollection();
+        });
+        shop.setOnMouseClicked(event -> {
+            group.getChildren().removeAll(group.getChildren());
+            graphicShowShop();
+        });
+        battle.setOnMouseClicked(mouseEvent -> {
+            this.menuMode = 5;
+            setMultiPlayer("arman","ariyan","heromode");
+            graphicShowGame();
+        });
+        logout.setOnMouseClicked(mouseEvent -> {
+            controller.logOut();
+            group.getChildren().removeAll(group.getChildren());
+            graphicShowLogin();
+            this.menuMode = 0;
+        });
+        //------------------ Show Fields Register Or Login -----------------//
+        try {
+            Image image;
+            image = new Image(new FileInputStream("img/userMenuBg.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            group.getChildren().addAll(imageView,battle,collection,logout,shop,money,username,customCard);
+        }
+        catch (Exception e){
+            System.out.println("Error While Showing Menu !");
+        }
+    }
+    public void graphicShowShop(){
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setMinSize(770,400);
+        scrollPane.setMaxSize(770,400);
+        scrollPane.relocate(140,170);
+        scrollPane.setStyle("-fx-background: transparent;-fx-background-color: transparent;");
+        Pane cardsList = new Pane();
+        cardsList.setStyle("-fx-background: transparent;-fx-background-color: transparent;");
+        scrollPane.setContent(cardsList);
+
+        //------------------ Search Box -----------------//
+        TextField searchBox = new TextField();
+        searchBox.setPromptText("Search ...");
+        searchBox.relocate(349,118);
+        searchBox.setStyle("-fx-min-width: 105px;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;");
+        //------------------ Texts -------------------//
+        Text money = new Text(getCurrentMoney());
+        money.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
+        money.setFill(Color.rgb(229,227,6));
+        money.relocate(960 , 629);
+        //------------------ Buttons -------------------//
+        Button shop = createInvisibleBtn(92,37,138,118);
+        Button collection = createInvisibleBtn(92,37,246,118);
+        Button search = createInvisibleBtn(48,37,459,118);
+        Button back = createInvisibleBtn(65,65,1027,9);
+        //------------------ Event Handling -----------------//
+        shop.setOnMouseClicked(event -> {
+            cardsList.getChildren().removeAll(cardsList.getChildren());
+            showCardsInShop(cardsList,money,"");
+            searchBox.setText("");
+        });
+        collection.setOnMouseClicked(event -> {
+            cardsList.getChildren().removeAll(cardsList.getChildren());
+            showCollectionInShop(cardsList,money);
+            searchBox.setText("");
+        });
+        search.setOnMouseClicked(mouseEvent -> {
+            cardsList.getChildren().removeAll(cardsList.getChildren());
+            showCardsInShop(cardsList,money,searchBox.getText());
+            searchBox.setText("");
+        });
+        searchBox.setOnKeyReleased(mouseEvent -> {
+            if(mouseEvent.getCode() == KeyCode.ENTER){
+                cardsList.getChildren().removeAll(cardsList.getChildren());
+                showCardsInShop(cardsList,money,searchBox.getText());
+                searchBox.setText("");
             }
-            //============== MainMenu =============//
-            else if (menuMode == 1) {
-                if (input.toLowerCase().matches("enter \\w+"))
-                    goToMenu(input.split(" ")[1]);
-                else if (input.toLowerCase().matches("exit"))
-                    this.menuMode = 0;
-                else if (input.toLowerCase().matches("help"))
-                    printMainMenu();
-                else if (input.toLowerCase().matches("logout")) {
-                    controller.logOut();
-                    this.menuMode = 0;
-                } else
-                    System.out.println("invalid Command !!!");
+        });
+        back.setOnMouseClicked(mouseEvent -> {
+            group.getChildren().removeAll(group.getChildren());
+            graphicShowUserMenu();
+        });
+        //------------------ Show Fields Register Or Login -----------------//
+        try {
+            Image image;
+            image = new Image(new FileInputStream("img/shopBg.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            group.getChildren().addAll(imageView,collection,shop,money,search,back,searchBox,scrollPane);
+        }
+        catch (Exception e){
+            System.err.println("Error While Showing Shop !");
+        }
+    }
+    private void labelMainDeckOff(Label mainDeck){
+        mainDeck.setText("Set as Main Deck");
+        mainDeck.setTextFill(Color.rgb(52, 152, 219));
+        mainDeck.setStyle("-fx-border-color: rgb(52, 152, 219);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
+    }
+    private void labelMainDeckOn(Label mainDeck){
+        mainDeck.setText("Main Deck");
+        mainDeck.setTextFill(Color.rgb(39, 174, 96));
+        mainDeck.setStyle("-fx-border-color: rgb(39, 174, 96);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
+    }
+    public void graphicShowCollection(){
+        ComboBox deckSelector = new ComboBox();
+        for(int i = 0 ; i < controller.getPlayerDecks().size() ; i++)
+            deckSelector.getItems().add(controller.getPlayerDecks().get(i).getName());
+        deckSelector.setMinWidth(120);
+        deckSelector.setVisibleRowCount(3);
+        deckSelector.relocate(256,120);
+
+        ScrollPane scrollPane1 = new ScrollPane();
+        scrollPane1.setMinSize(770,200);
+        scrollPane1.setMaxSize(770,200);
+        scrollPane1.relocate(140,170);
+        scrollPane1.setStyle("-fx-background: transparent;-fx-background-color: transparent;-fx-border-width: 2px;-fx-border-color: #34495e;-fx-border-style: solid;");
+        Pane deckList = new Pane();
+        deckList.setStyle("-fx-background: transparent;-fx-background-color: transparent;");
+        scrollPane1.setContent(deckList);
+        scrollPane1.setVisible(false);
+
+        ScrollPane scrollPane2 = new ScrollPane();
+        scrollPane2.setMinSize(770,200);
+        scrollPane2.setMaxSize(770,200);
+        scrollPane2.relocate(140,390);
+        scrollPane2.setStyle("-fx-background: transparent;-fx-background-color: transparent;-fx-border-width: 2px;-fx-border-color: #34495e;-fx-border-style: solid;");
+        Pane collectionList = new Pane();
+        deckList.setStyle("-fx-background: transparent;-fx-background-color: transparent;");
+        scrollPane2.setContent(collectionList);
+        scrollPane2.setVisible(false);
+
+
+        Label mainDeck = new Label();
+        mainDeck.relocate(385,122);
+        labelMainDeckOff(mainDeck);
+        mainDeck.setVisible(false);
+
+
+        Label removeDeck = new Label("Remove Deck");
+        removeDeck.relocate(500,122);
+        removeDeck.setTextFill(Color.rgb(231, 76, 60));
+        removeDeck.setStyle(";-fx-border-color: rgb(231, 76, 60);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
+        removeDeck.setVisible(false);
+        //------------------ input Box -----------------//
+        TextField inputBox = new TextField();
+        inputBox.setPromptText("New Deck ...");
+        inputBox.relocate(782,118);
+        inputBox.setStyle("-fx-min-width: 105px;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+        //------------------ Texts -------------------//
+        Text money = new Text(getCurrentMoney());
+        money.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
+        money.setFill(Color.rgb(229,227,6));
+        money.relocate(960 , 629);
+        //------------------ Buttons -------------------//
+        Button createDeckBtn = createInvisibleBtn(40,38,895,117);
+        Button back = createInvisibleBtn(65,65,1027,9);
+        //------------------ Event Handling -----------------//
+        removeDeck.setOnMouseEntered(mouseEvent -> {
+            removeDeck.setTextFill(Color.BLACK);
+            removeDeck.setStyle("-fx-background-color: rgb(231, 76, 60);-fx-border-color: rgb(231, 76, 60);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px");
+        });
+        removeDeck.setOnMouseExited(mouseEvent -> {
+            removeDeck.setTextFill(Color.rgb(231, 76, 60));
+            removeDeck.setStyle("-fx-background-color: transparent;-fx-border-color: rgb(231, 76, 60);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
+        });
+        removeDeck.setOnMouseClicked(mouseEvent -> {
+            deletePlayerDeck(deckSelector.getValue().toString());
+            deckSelector.getItems().remove(deckSelector.getValue());
+            removeDeck.setVisible(false);
+            mainDeck.setVisible(false);
+            scrollPane1.setVisible(false);
+            scrollPane2.setVisible(false);
+            removeDeck.relocate(500,122);
+            collectionList.getChildren().removeAll(collectionList.getChildren());
+            deckList.getChildren().removeAll(deckList.getChildren());
+            deckSelector.getSelectionModel().select(null);
+        });
+        mainDeck.setOnMouseEntered(event -> {
+            if(!mainDeck.getTextFill().equals(Color.rgb(39, 174, 96))){
+                mainDeck.setTextFill(Color.BLACK);
+                mainDeck.setStyle("-fx-background-color: rgb(52, 152, 219);-fx-border-color: rgb(52, 152, 219);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
             }
-            //============== Collection =============//
-            else if (menuMode == 2) {
-                if (input.toLowerCase().matches("exit"))
-                    this.menuMode = 1;
-                else if (input.toLowerCase().matches("show"))
-                    showCollection();
-                else if (input.toLowerCase().matches("search \\w+"))
-                    printSearchCollection(input.split(" ")[1]);
-                else if (input.toLowerCase().matches("save"))
-                    System.out.println("Saved Successfully !!!");
-                else if (input.toLowerCase().matches("create deck \\w+"))
-                    createPlayerDeck(input.split(" ")[2]);
-                else if (input.toLowerCase().matches("delete deck \\w+"))
-                    deletePlayerDeck(input.split(" ")[2]);
-                else if (input.toLowerCase().matches("add \\d+ to deck \\w+"))
-                    addCardToDeck(Integer.parseInt(input.split(" ")[1]), input.split(" ")[4]);
-                else if (input.toLowerCase().matches("remove \\d+ from deck \\w+"))
-                    removeCardFromDeck(Integer.parseInt(input.split(" ")[1]), input.split(" ")[4]);
-                else if (input.toLowerCase().matches("validate deck \\w+"))
-                    checkDeckValidation(input.split(" ")[2]);
-                else if (input.toLowerCase().matches("select deck \\w+"))
-                    setMainDeck(input.split(" ")[2]);
-                else if (input.toLowerCase().matches("show all decks"))
-                    showAllDecks();
-                else if (input.toLowerCase().matches("show deck \\w+"))
-                    showOneDeck(input.split(" ")[2]);
-                else if (input.toLowerCase().matches("help"))
-                    collectionHelp();
-                else
-                    System.out.println("Invalid Command !!!");
+        });
+        mainDeck.setOnMouseExited(event -> {
+            if(!mainDeck.getTextFill().equals(Color.rgb(39, 174, 96))){
+                mainDeck.setTextFill(Color.rgb(52, 152, 219));
+                mainDeck.setStyle("-fx-background-color: transparent;-fx-border-color: rgb(52, 152, 219);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
             }
-            //============== Shop =============//
-            else if (menuMode == 3) {
-                if (input.toLowerCase().matches("exit"))
-                    menuMode = 1;
-                else if (input.toLowerCase().matches("show collection"))
-                    showCollectionInShop();
-                else if (input.toLowerCase().matches("search collection \\w+"))
-                    searchCollectionInShop(input.split(" ")[2]);
-                else if (input.toLowerCase().matches("search \\w+") && !input.split(" ")[1].matches("collection"))
-                    searchInShop(input.split(" ")[1]);
-                else if (input.toLowerCase().matches("buy \\w+"))
-                buyCard(input.split(" ")[1]);
-                else if (input.toLowerCase().matches("sell \\d+"))
-                    sellCardWithID(Integer.parseInt(input.split(" ")[1]));
-                else if (input.toLowerCase().matches("sell \\w+"))
-                    sellCardWithName(input.split(" ")[1]);
-                else if (input.toLowerCase().matches("show"))
-                    showCardsInShop();
-                else if (input.toLowerCase().matches("help"))
-                    printShopMenu();
-                else
-                    System.out.println("Invalid Command !!!");
+        });
+        mainDeck.setOnMouseClicked(event -> {
+            if(!mainDeck.getTextFill().equals(Color.rgb(39, 174, 96))){
+                labelMainDeckOn(mainDeck);
+                removeDeck.relocate(465,122);
+                setMainDeck(deckSelector.getValue().toString());
             }
-            //============== Before Game =============//
-            else if(menuMode == 4){
-                if(input.toLowerCase().matches("single player")) {
-                    System.out.println("Story");
-                    System.out.println("Custom Game");
-                    menuMode = 6;
-                }
-                else if(input.toLowerCase().matches("start multi player between \\w+ and \\w+ mode \\w+"))
-                    setMultiPlayer(input.split(" ")[4],input.split(" ")[6],input.split(" ")[8]);
-                else if(input.toLowerCase().matches("exit"))
-                    menuMode = 1;
-                else
-                    System.out.println("Invalid Command !!!");
-            }
-            //============== Game =============//
-            else if (menuMode == 5) {
-                if(!isInGraveYard){
-                    printGameMap();
-                    if (input.toLowerCase().matches("game info"))
-                        showGameInfo();
-                    else if (input.toLowerCase().matches("select [\\d+]"))
-                        select(Integer.parseInt(input.split("\\s")[1]));
-                    else if (input.toLowerCase().matches("show my minions"))
-                        showPlayerMinions("my");
-                    else if (input.toLowerCase().matches("show opponent minions"))
-                        showPlayerMinions("opponent");
-                    else if (input.toLowerCase().matches("show card info \\d+"))
-                        showCardInfo(Integer.parseInt(input.split(" ")[3]));
-                    else if(input.matches("show hand"))
-                        showHand();
-                    else if(input.matches("insert \\w+ in \\(\\d,\\d\\)"))
-                        insert(input.split(" ")[1],input.split(" ")[3]);
-                    //////////////////////////// ARMAN ////////////////////////////////
-                    else if(input.toLowerCase().matches("attack \\d+"))
-                        attack(Integer.parseInt(input.split(" ")[1]));
-                    else if(input.toLowerCase().matches("attack combo \\d+ [\\d+]+")){
-                        ArrayList<Integer> cardsID = new ArrayList<>();
-                        for(int i = 3 ; i < input.split(" ").length ; i++ )
-                            cardsID.add(Integer.parseInt(input.split(" ")[i]));
-                        comboAttack(Integer.parseInt(input.split(" ")[2]),cardsID);
-                    }
-                    else if(input.toLowerCase().matches("show collectables"))
-                        showCollectables();
-                    else if(input.toLowerCase().matches("show next card"))
-                        showNextCard();
-                    else if(input.toLowerCase().matches("enter graveyard"))
-                        isInGraveYard = true;
-                    else if(input.toLowerCase().matches("help"))
-                        showHelpInGame();
-                    else if(input.toLowerCase().matches("move to \\d \\d"))
-                        moveCurrentCard(Integer.parseInt(input.split(" ")[2]) , Integer.parseInt(input.split(" ")[3]) );
-                    else if(input.toLowerCase().matches("select card \\d+"))
-                        select(Integer.parseInt(input.split("\\s")[2]));
-                    else if(input.toLowerCase().matches("end turn")) {
-                        controller.endTurn();
-                        endGame();
-                        if(isAIPlayerActive)
-                            playerAIMoves();
-                    }
-                    ///////////////////////////// END ARMAN ////////////////////////////////
-                    else if(input.toLowerCase().matches("show info"))
-                        showCurrentItemInfo();
-                    else if(input.toLowerCase().matches("Use \\[location \\d, \\d\\]"))
-                        useItem(input);
-                    else if(input.toLowerCase().matches("end game"))
-                        resignGame();
-                    else
-                        System.out.println("Invalid Command !!!");
+        });
+        deckSelector.valueProperty().addListener(new ChangeListener<String>() {
+            @Override public void changed(ObservableValue ov, String t, String t1) {
+                if(t1 == null)
+                    return;
+                removeDeck.setVisible(true);
+                mainDeck.setVisible(true);
+                scrollPane1.setVisible(true);
+                scrollPane2.setVisible(true);
+                deckList.getChildren().removeAll(deckList.getChildren());
+                collectionList.getChildren().removeAll(collectionList.getChildren());
+                showCollection(collectionList,deckList,t1);
+                showDeck(t1,deckList,collectionList);
+                if(controller.getPlayerMainDeck()!= null && t1.matches(controller.getPlayerMainDeck().getName())){
+                    labelMainDeckOn(mainDeck);
+                    removeDeck.relocate(465,122);
                 }
                 else{
-                    ///////////////////////////// ARMAN ////////////////////////////////
-                    if(input.toLowerCase().matches("exit"))
-                        isInGraveYard = false;
-                    else if(input.toLowerCase().matches("show info \\d+"))
-                        showInfoCardIDGraveyard(Integer.parseInt(input.split(" ")[2]));
-                    else if(input.toLowerCase().matches("show cards"))
-                        showGraveyardCards();
-                    else if(input.toLowerCase().matches("help"))
-                        showHelpGraveyard();
-                    else
-                        System.out.println("Invalid Command !");
-                    ///////////////////////////// END ARMAN ////////////////////////////////
-                }
-            } else if ( menuMode == 6 ){
-                if ( input.toLowerCase().matches("story")){
-                    switch (controller.getCurrentPlayer().getStoryModeLevel()){
-                        case 0 :
-                            setSinglePlayer("heromode");
-                            break;
-                        case 1:
-                            setSinglePlayer("flagholding");
-                            break;
-                        case 2:
-                            setSinglePlayer("flagscollecting");
-                            break;
-                    }
+                    labelMainDeckOff(mainDeck);
+                    removeDeck.relocate(500,122);
                 }
             }
+        });
+        createDeckBtn.setOnMouseClicked(mouseEvent -> {
+            createPlayerDeck(inputBox.getText());
+            if(!inputBox.getText().matches("")) {
+                deckSelector.getItems().add(inputBox.getText());
+                deckSelector.getSelectionModel().select(inputBox.getText());
+                deckList.getChildren().removeAll(deckList.getChildren());
+                collectionList.getChildren().removeAll(collectionList.getChildren());
+                showCollection(collectionList, deckList, inputBox.getText());
+                showDeck(inputBox.getText(),deckList,collectionList);
+                mainDeck.setVisible(true);
+                removeDeck.setVisible(true);
+                scrollPane1.setVisible(true);
+                scrollPane2.setVisible(true);
+                labelMainDeckOff(mainDeck);
+                removeDeck.relocate(500,122);
+            }
+            inputBox.setText("");
+        });
+        inputBox.setOnKeyReleased(mouseEvent -> {
+            if(mouseEvent.getCode() == KeyCode.ENTER && !inputBox.getText().matches("")){
+                createPlayerDeck(inputBox.getText());
+                deckSelector.getItems().add(inputBox.getText());
+                deckSelector.getSelectionModel().select(inputBox.getText());
+                deckList.getChildren().removeAll(deckList.getChildren());
+                collectionList.getChildren().removeAll(collectionList.getChildren());
+                showCollection(collectionList, deckList, inputBox.getText());
+                showDeck(inputBox.getText(),deckList,collectionList);
+                mainDeck.setVisible(true);
+                removeDeck.setVisible(true);
+                scrollPane1.setVisible(true);
+                scrollPane2.setVisible(true);
+                labelMainDeckOff(mainDeck);
+                inputBox.setText("");
+                removeDeck.relocate(500,122);
+            }
+        });
+        back.setOnMouseClicked(mouseEvent -> {
+            group.getChildren().removeAll(group.getChildren());
+            graphicShowUserMenu();
+        });
+        //------------------ Show Fields Register Or Login -----------------//
+        try {
+            Image image;
+            image = new Image(new FileInputStream("img/collectionBg.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            group.getChildren().addAll(imageView,money,createDeckBtn,back,inputBox,scrollPane1,scrollPane2,deckSelector,mainDeck,removeDeck);
         }
+        catch (Exception e){
+            System.err.println("Error While Showing Shop !");
+        }
+    }
+    public void graphicShowGame(){
+        //------------------ Show Players Name -----------------//
+        Text namePlayer1 = new Text(controller.getCurrentGame().getPlayersOfGame()[0].getUsername());
+        namePlayer1.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
+        namePlayer1.setFill(Color.rgb(231, 76, 60));
+        namePlayer1.relocate(783 + 147.0/2.0 - namePlayer1.getLayoutBounds().getWidth()/2 , 57);
+        Text namePlayer2 = new Text(controller.getCurrentGame().getPlayersOfGame()[1].getUsername());
+        namePlayer2.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
+        namePlayer2.setFill(Color.rgb(52, 152, 219));
+        namePlayer2.relocate(182 + 141.0/2.0 - namePlayer2.getLayoutBounds().getWidth()/2 , 54);
+        //------------------ Show Player's Mana -----------------//
+        Text manaPlayer1 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
+        manaPlayer1.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 14));
+        manaPlayer1.setFill(Color.rgb(255,255,255));
+        manaPlayer1.relocate(252 , 96);
+        Text manaPlayer2 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
+        manaPlayer2.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 14));
+        manaPlayer2.setFill(Color.rgb(255,255,255));
+        manaPlayer2.relocate(849 , 98);
+        //------------------ Effect Cell Map -----------------//
+        InnerShadow eff = new InnerShadow();
+        eff.setRadius(10);
+        eff.setColor(Color.WHITE);
+        //------------------ Show Map -----------------//
+        Rectangle[][] mapCellsGraphic = new Rectangle[5][9];
+        ArrayList<Rectangle> mapGraphic = new ArrayList<>();
+        for(int i = 0 ; i < 5 ; i++){
+            for(int j = 0 ; j < 9 ; j++){
+                Rectangle r = new Rectangle();
+                r.relocate(202 + j*72 - i*7,170 + i*72);
+                r.setWidth(70);
+                r.setHeight(70);
+                r.setArcWidth(5);
+                r.setArcHeight(5);
+                r.setFill(Color.rgb(0,0,0,0.3));
+                double shearX = -0.1;
+                Shear shear = new Shear();
+                shear.setX(shearX);
+                r.getTransforms().add(shear);
+                r.setOnMouseEntered(mouseEvent -> {
+                    r.setEffect(eff);
+                });
+                r.setOnMouseExited(mouseEvent -> {
+                    r.setEffect(null);
+                });
+                mapGraphic.add(r);
+                mapCellsGraphic[i][j] = r;
+            }
+        }
+        //------------------ Buttons -------------------//
+        Button endTurn = createInvisibleBtn(201,66,828,587);
+        //------------------ Event Handling -----------------//
+        endTurn.setOnMouseClicked(mouseEvent -> {
+            controller.endTurn();
+            manaPlayer1.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
+            manaPlayer2.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
+        });
+        //------------------ Show Fields Register Or Login -----------------//
+        try {
+            Image image;
+            image = new Image(new FileInputStream("img/gameMap.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            group.getChildren().addAll(imageView,endTurn,manaPlayer1,manaPlayer2,namePlayer1,namePlayer2);
+            group.getChildren().addAll(mapGraphic);
+        }
+        catch (Exception e){
+            System.err.println("Error While Showing Battle !");
+        }
+        //------------------ Test Sprite -------------------//
+        try {
+            for(int i = 0 ; i < 2 ; i++ ){
+                int j = (i==0)?0:8;
+                String str = controller.getCurrentGame().getPlayerHero(i).getName().toLowerCase();
+                Image boyImage = new Image(new FileInputStream("img/sprites/arash.png"));
+                ImageView boyView = new ImageView(boyImage);
+                group.getChildren().add(boyView);
+                boyView.setViewport(new Rectangle2D(505,202,100,100));
+                ArrayList<Integer> x = new ArrayList<>();
+                ArrayList<Integer> y = new ArrayList<>();
+                x.add(707);
+                x.add(707);
+                x.add(707);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(505);
+                y.add(202);
+                y.add(101);
+                y.add(0);
+                y.add(909);
+                y.add(808);
+                y.add(707);
+                y.add(606);
+                y.add(505);
+                y.add(404);
+                y.add(303);
+                y.add(202);
+                y.add(101);
+                y.add(0);
+                y.add(909);
+                boyView.relocate(202 + 72*j + 70.0/2.0 - boyView.getLayoutBounds().getWidth()/2 - 2*7 ,170 + 2*72 + 55.0/2.0 - boyView.getLayoutBounds().getHeight()/2);
+                final Animation animation = new SpriteAnimation(14 , x,y,100,boyView,Duration.millis(1000));
+                animation.setCycleCount(Animation.INDEFINITE);
+                animation.play();
+                final int k = i;
+                int cardID = controller.getCurrentGame().getPlayerHero(k).getCardID();
+                boyView.setOnMouseEntered(mouseEvent -> {
+                    int[] coord = controller.getCardCoord(cardID);
+                    mapCellsGraphic[coord[0]][coord[1]].setEffect(eff);
+                });
+                boyView.setOnMouseExited(mouseEvent -> {
+                    int[] coord = controller.getCardCoord(cardID);
+                    mapCellsGraphic[coord[0]][coord[1]].setEffect(null);
+                });
+                boyView.setOnMouseClicked(mouseEvent -> {
+                    System.out.println(controller.getCurrentGame().getCardOwner(controller.getCurrentGame().findCardByID(cardID)).getUsername());
+                });
+            }
+        }
+        catch (Exception e){
+            System.err.println("Animation Sprite Failed !!!");
+        }
+        //------------------ Show Hand -----------------//
+        ArrayList<Card> handCards = controller.showHand();
+        try {
+            for(int i = 0 ; i < handCards.size() ; i++ ){
+                int manaCost = 0;
+                if(handCards.get(i) instanceof Unit)
+                    manaCost = ((Unit)((Unit) handCards.get(i))).getManaCost();
+                else if(handCards.get(i) instanceof SpellCard)
+                    manaCost = ((SpellCard)((SpellCard) handCards.get(i))).getManaCost();
+                Text cardMana = new Text(String.valueOf(manaCost));
+                cardMana.setFill(Color.rgb(60,60,60));
+                cardMana.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 15));
+                cardMana.relocate(279 + i*115,656 );
+                group.getChildren().add(cardMana);
+                Image cardImage = new Image(new FileInputStream("img/sprites/arash.png"));
+                ImageView cardView = new ImageView(cardImage);
+                group.getChildren().add(cardView);
+                cardView.setViewport(new Rectangle2D(505,202,100,100));
+                ArrayList<Integer> x = new ArrayList<>();
+                ArrayList<Integer> y = new ArrayList<>();
+                x.add(707);
+                x.add(707);
+                x.add(707);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(606);
+                x.add(505);
+                y.add(202);
+                y.add(101);
+                y.add(0);
+                y.add(909);
+                y.add(808);
+                y.add(707);
+                y.add(606);
+                y.add(505);
+                y.add(404);
+                y.add(303);
+                y.add(202);
+                y.add(101);
+                y.add(0);
+                y.add(909);
+                final Animation animation = new SpriteAnimation(14 , x,y,100,cardView,Duration.millis(1000));
+                animation.setCycleCount(Animation.INDEFINITE);
+                animation.play();
+                cardView.relocate(233 + i*115,550 );
+                final int k = i;
+                cardView.setOnMouseClicked(mouseEvent -> {
+                    System.out.println(handCards.get(k).getName());
+                });
+            }
+        }
+        catch (Exception e){
+            System.err.println("Animation Sprite Failed !!!");
+        }
+    }
+    public void gameHandle() {
+        try{
+            Image image = new Image(new FileInputStream("img/cursor.png"));  //pass in the image path
+            scene.setCursor(new ImageCursor(image));
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        for(int k = 0 ; k < 2 ; k++){
+            String user = (k==0)?"Arman Zarei":"Ariyan Zarei";
+            createAccount(user,user);
+            buyCard("Arash");
+            buyCard("giv");
+            buyCard("giv");
+            buyCard("gorgSefid");
+            buyCard("gorgSefid");
+            buyCard("Iraj");
+            buyCard("Iraj");
+            buyCard("jadoogar");
+            buyCard("jadoogar");
+            buyCard("jen");
+            buyCard("jen");
+            buyCard("marSammi");
+            buyCard("marSammi");
+            buyCard("NaneSarma");
+            buyCard("NaneSarma");
+            buyCard("oqab");
+            buyCard("oqab");
+            buyCard("piran");
+            buyCard("piran");
+            buyCard("Shock");
+            createPlayerDeck("deck1");
+            for(int i = 0 ; i < controller.getCurrentPlayer().getCollection().size() ; i++){
+                int cardID = controller.getCurrentPlayer().getCollection().get(i).getCardID();
+                addCardToDeck(cardID,"deck1");
+            }
+            setMainDeck("deck1");
+            controller.logOut();
+        }
+
+        this.menuMode = 5;
+        setMultiPlayer("Arman Zarei","Ariyan Zarei","heromode");
+        graphicShowGame();
+//        graphicShowLogin();
+
+
+
+//        while (true) {
+//            String input = scanner.nextLine();
+//            //============== Before Login =============//r
+//            if (menuMode == 0) {
+//                //====================================== Create Account =================================//
+//                if (input.toLowerCase().matches("create account \\w+"))
+//                    createAccount(input);
+//                    //====================================== Login into Account =================================//
+//                else if (input.toLowerCase().matches("login \\w+"))
+//                    loginAccount(input);
+//                    //====================================== Show LeaderBoard =================================//
+//                else if (input.toLowerCase().matches("show leaderboard"))
+//                    showLeaderBoard();
+//                    //====================================== Save =================================//
+//                else if (input.toLowerCase().matches("save"))
+//                    controller.save();
+//                    //====================================== Help Account =================================//
+//                else if (input.toLowerCase().matches("help"))
+//                    accountHelp();
+//                else
+//                    System.out.println("Invalid Command !!!");
+//            }
+//            //============== MainMenu =============//
+//            else if (menuMode == 1) {
+//                if (input.toLowerCase().matches("enter \\w+"))
+//                    goToMenu(input.split(" ")[1]);
+//                else if (input.toLowerCase().matches("exit"))
+//                    this.menuMode = 0;
+//                else if (input.toLowerCase().matches("help"))
+//                    printMainMenu();
+//                else if (input.toLowerCase().matches("logout")) {
+//                    controller.logOut();
+//                    this.menuMode = 0;
+//                } else
+//                    System.out.println("invalid Command !!!");
+//            }
+//            //============== Collection =============//
+//            else if (menuMode == 2) {
+//                if (input.toLowerCase().matches("exit"))
+//                    this.menuMode = 1;
+//                else if (input.toLowerCase().matches("show"))
+//                    showCollection();
+//                else if (input.toLowerCase().matches("search \\w+"))
+//                    printSearchCollection(input.split(" ")[1]);
+//                else if (input.toLowerCase().matches("save"))
+//                    System.out.println("Saved Successfully !!!");
+//                else if (input.toLowerCase().matches("create deck \\w+"))
+//                    createPlayerDeck(input.split(" ")[2]);
+//                else if (input.toLowerCase().matches("delete deck \\w+"))
+//                    deletePlayerDeck(input.split(" ")[2]);
+//                else if (input.toLowerCase().matches("add \\d+ to deck \\w+"))
+//                    addCardToDeck(Integer.parseInt(input.split(" ")[1]), input.split(" ")[4]);
+//                else if (input.toLowerCase().matches("remove \\d+ from deck \\w+"))
+//                    removeCardFromDeck(Integer.parseInt(input.split(" ")[1]), input.split(" ")[4]);
+//                else if (input.toLowerCase().matches("validate deck \\w+"))
+//                    checkDeckValidation(input.split(" ")[2]);
+//                else if (input.toLowerCase().matches("select deck \\w+"))
+//                    setMainDeck(input.split(" ")[2]);
+//                else if (input.toLowerCase().matches("show all decks"))
+//                    showAllDecks();
+//                else if (input.toLowerCase().matches("show deck \\w+"))
+//                    showOneDeck(input.split(" ")[2]);
+//                else if (input.toLowerCase().matches("help"))
+//                    collectionHelp();
+//                else
+//                    System.out.println("Invalid Command !!!");
+//            }
+//            //============== Shop =============//
+//            else if (menuMode == 3) {
+//                if (input.toLowerCase().matches("exit"))
+//                    menuMode = 1;
+//                else if (input.toLowerCase().matches("show collection"))
+//                    showCollectionInShop();
+//                else if (input.toLowerCase().matches("search collection \\w+"))
+//                    searchCollectionInShop(input.split(" ")[2]);
+//                else if (input.toLowerCase().matches("search \\w+") && !input.split(" ")[1].matches("collection"))
+//                    searchInShop(input.split(" ")[1]);
+//                else if (input.toLowerCase().matches("buy \\w+"))
+//                buyCard(input.split(" ")[1]);
+//                else if (input.toLowerCase().matches("sell \\d+"))
+//                    sellCardWithID(Integer.parseInt(input.split(" ")[1]));
+//                else if (input.toLowerCase().matches("sell \\w+"))
+//                    sellCardWithName(input.split(" ")[1]);
+//                else if (input.toLowerCase().matches("show"))
+//                    showCardsInShop();
+//                else if (input.toLowerCase().matches("help"))
+//                    printShopMenu();
+//                else
+//                    System.out.println("Invalid Command !!!");
+//            }
+//            //============== Before Game =============//
+//            else if(menuMode == 4){
+//                if(input.toLowerCase().matches("single player")) {
+//                    System.out.println("Story");
+//                    System.out.println("Custom Game");
+//                    menuMode = 6;
+//                }
+//                else if(input.toLowerCase().matches("start multi player between \\w+ and \\w+ mode \\w+"))
+//                    setMultiPlayer(input.split(" ")[4],input.split(" ")[6],input.split(" ")[8]);
+//                else if(input.toLowerCase().matches("exit"))
+//                    menuMode = 1;
+//                else
+//                    System.out.println("Invalid Command !!!");
+//            }
+//            //============== Game =============//
+//            else if (menuMode == 5) {
+//                if(!isInGraveYard){
+//                    printGameMap();
+//                    if (input.toLowerCase().matches("game info"))
+//                        showGameInfo();
+//                    else if (input.toLowerCase().matches("select [\\d+]"))
+//                        select(Integer.parseInt(input.split("\\s")[1]));
+//                    else if (input.toLowerCase().matches("show my minions"))
+//                        showPlayerMinions("my");
+//                    else if (input.toLowerCase().matches("show opponent minions"))
+//                        showPlayerMinions("opponent");
+//                    else if (input.toLowerCase().matches("show card info \\d+"))
+//                        showCardInfo(Integer.parseInt(input.split(" ")[3]));
+//                    else if(input.matches("show hand"))
+//                        showHand();
+//                    else if(input.matches("insert \\w+ in \\(\\d,\\d\\)"))
+//                        insert(input.split(" ")[1],input.split(" ")[3]);
+//                    //////////////////////////// ARMAN ////////////////////////////////
+//                    else if(input.toLowerCase().matches("attack \\d+"))
+//                        attack(Integer.parseInt(input.split(" ")[1]));
+//                    else if(input.toLowerCase().matches("attack combo \\d+ [\\d+]+")){
+//                        ArrayList<Integer> cardsID = new ArrayList<>();
+//                        for(int i = 3 ; i < input.split(" ").length ; i++ )
+//                            cardsID.add(Integer.parseInt(input.split(" ")[i]));
+//                        comboAttack(Integer.parseInt(input.split(" ")[2]),cardsID);
+//                    }
+//                    else if(input.toLowerCase().matches("show collectables"))
+//                        showCollectables();
+//                    else if(input.toLowerCase().matches("show next card"))
+//                        showNextCard();
+//                    else if(input.toLowerCase().matches("enter graveyard"))
+//                        isInGraveYard = true;
+//                    else if(input.toLowerCase().matches("help"))
+//                        showHelpInGame();
+//                    else if(input.toLowerCase().matches("move to \\d \\d"))
+//                        moveCurrentCard(Integer.parseInt(input.split(" ")[2]) , Integer.parseInt(input.split(" ")[3]) );
+//                    else if(input.toLowerCase().matches("select card \\d+"))
+//                        select(Integer.parseInt(input.split("\\s")[2]));
+//                    else if(input.toLowerCase().matches("end turn")) {
+//                        controller.endTurn();
+//                        endGame();
+//                        if(isAIPlayerActive)
+//                            playerAIMoves();
+//                    }
+//                    ///////////////////////////// END ARMAN ////////////////////////////////
+//                    else if(input.toLowerCase().matches("show info"))
+//                        showCurrentItemInfo();
+//                    else if(input.toLowerCase().matches("Use \\[location \\d, \\d\\]"))
+//                        useItem(input);
+//                    else if(input.toLowerCase().matches("end game"))
+//                        resignGame();
+//                    else
+//                        System.out.println("Invalid Command !!!");
+//                }
+//                else{
+//                    ///////////////////////////// ARMAN ////////////////////////////////
+//                    if(input.toLowerCase().matches("exit"))
+//                        isInGraveYard = false;
+//                    else if(input.toLowerCase().matches("show info \\d+"))
+//                        showInfoCardIDGraveyard(Integer.parseInt(input.split(" ")[2]));
+//                    else if(input.toLowerCase().matches("show cards"))
+//                        showGraveyardCards();
+//                    else if(input.toLowerCase().matches("help"))
+//                        showHelpGraveyard();
+//                    else
+//                        System.out.println("Invalid Command !");
+//                    ///////////////////////////// END ARMAN ////////////////////////////////
+//                }
+//            } else if ( menuMode == 6 ){
+//                if ( input.toLowerCase().matches("story")){
+//                    switch (controller.getCurrentPlayer().getStoryModeLevel()){
+//                        case 0 :
+//                            setSinglePlayer("heromode");
+//                            break;
+//                        case 1:
+//                            setSinglePlayer("flagholding");
+//                            break;
+//                        case 2:
+//                            setSinglePlayer("flagscollecting");
+//                            break;
+//                    }
+//                }
+//            }
+//        }
     }
 
     //======================== Account Function ====================//
-    private void createAccount(String input) {
-        String username = input.split(" ")[2];
-        if (controller.userExists(username))
-            System.out.println("This Username Already Exists !!!");
+    private void createAccount(String username,String password) {
+        if(username.equals(""))
+            System.err.println("Please Enter a Username !!!");
+        else if(controller.userExists(username))
+            System.err.println("This Username Already Exists !!!");
+        else if(password.equals(""))
+            System.err.println("Please Enter A Password !!!");
         else {
-            System.out.println("Enter Your Password : ");
-            String password = scanner.nextLine();
             controller.createAccount(username, password);
+            controller.login(username,password);
+            this.menuMode = 1;
+            System.out.println("Account Created !!");
+            group.getChildren().removeAll(group.getChildren());
+            graphicShowUserMenu();
+        }
+    }
+    private void loginAccount(String username,String password) {
+        if(username.equals(""))
+            System.err.println("Please Enter a Username !!!");
+        else if(!controller.userExists(username))
+            System.err.println("This Username Doesn't Exists !!!");
+        else if(password.equals(""))
+            System.err.println("Please Enter A Password !!!");
+        else if (!controller.isValidLogin(username, password))
+            System.err.println("Invalid Password for This Username !!!");
+        else {
             controller.login(username, password);
             this.menuMode = 1;
+            System.out.println("Login Successfully !!");
+            group.getChildren().removeAll(group.getChildren());
+            graphicShowUserMenu();
         }
     }
-
-    private void loginAccount(String input) {
-        String username = input.split(" ")[1];
-        if (!controller.userExists(username))
-            System.out.println("This Username Doesn't Exists !!!");
-        else {
-            System.out.println("Enter Your Password :");
-            String password = scanner.nextLine();
-            if (!controller.isValidLogin(username, password))
-                System.out.println("Invalid Password for This Username !!!");
-            else {
-                controller.login(username, password);
-                this.menuMode = 1;
-            }
-        }
-    }
-
     private void showLeaderBoard() {
         ArrayList<Player> players = Player.getPlayers();
         Collections.sort(players, new Comparator<Player>() {
@@ -271,7 +873,6 @@ public class Viewer {
         for (int i = 0; i < players.size(); i++)
             System.out.println(i + 1 + " - UserName : " + players.get(i).getUsername() + " - Wins : " + players.get(i).getNumberOfWins());
     }
-
     private void accountHelp() {
         System.out.println("============= Commands =============");
         System.out.println("create account [user name]");
@@ -281,7 +882,12 @@ public class Viewer {
         System.out.println("logout");
         System.out.println("=====================================");
     }
-
+    private String getCurrentUsername(){
+        return controller.getCurrentPlayerName();
+    }
+    private String getCurrentMoney(){
+        return String.valueOf(controller.getCurrentPlayer().getMoney());
+    }
     //======================== Main Menu Function ====================//
     private void printMainMenu() {
         System.out.print("1. Collection\n2. Shop\n3. Battle\n4. Exit\n5. Help\n");
@@ -302,45 +908,94 @@ public class Viewer {
         System.out.println("1. Single Player");
         System.out.println("2. Start Multi Player Between [Player1 Name] and [Player2 Name] Mode [Mode Name]");
     }
-    //======================== Collection Functions ====================//
-    public void showCollection() {
+    //======================== CodidChoosellection Functions ====================//
+    private void addCardToDeckGraphic(String str,Pane deckList,int cardID, String deckName,Text itemTextInCollection){
+        Text txt = new Text(str.replace("+","-"));
+        txt.setFont(Font.font("verdana", FontWeight.EXTRA_LIGHT , FontPosture.REGULAR, 13));
+        txt.setFill(Color.rgb(255,255,255));
+        double yCoord;
+        if(deckList.getChildren().size() == 0 )
+            yCoord = 5;
+        else
+            yCoord = deckList.getChildren().get(deckList.getChildren().size()-1).getLayoutY();
+        txt.relocate(5 ,  yCoord );
+        txt.setOnMouseEntered(mouseEvent -> {
+            txt.setFill(Color.rgb(11,178,191));
+        });
+        txt.setOnMouseExited(mouseEvent -> {
+            txt.setFill(Color.rgb(255,255,255));
+        });
+        txt.setOnMouseClicked(mouseEvent -> {
+            removeCardFromDeck(cardID,deckName);
+            deckList.getChildren().remove(txt);
+            itemTextInCollection.setFill(Color.rgb(255,255,255));
+        });
+        deckList.getChildren().add(txt);
+    }
+    private void printCollectionItemsInDecks(String str , int yCoord,Pane cardsList,Pane deckList,int cardID,String deckName){
+        boolean didChoose = controller.isCardInDeck(cardID,deckName);
+        Text txt = new Text(str);
+        txt.setFont(Font.font("verdana", FontWeight.EXTRA_LIGHT , FontPosture.REGULAR, 13));
+        txt.setFill(Color.rgb(255,255,255));
+        if(didChoose)
+            txt.setFill(Color.rgb(192, 57, 43));
+        txt.relocate(5 , yCoord);
+        txt.setOnMouseClicked(mouseEvent -> {
+            boolean valid = addCardToDeck(cardID,deckName);
+            if(valid) {
+                addCardToDeckGraphic(str, deckList, cardID, deckName, txt);
+                txt.setFill(Color.rgb(192, 57, 43));
+            }
+        });
+        txt.setOnMouseEntered(mouseEvent -> {
+            if(txt.getFill().equals(Color.rgb(255,255,255)))
+                txt.setFill(Color.rgb(11,178,191));
+        });
+        txt.setOnMouseExited(mouseEvent -> {
+            if(txt.getFill().equals(Color.rgb(11,178,191)))
+                txt.setFill(Color.rgb(255,255,255));
+        });
+        cardsList.getChildren().add(txt);
+    }
+    public void showCollection(Pane cardsList,Pane deckList,String deckName) {
         ArrayList<Card> cardsToShow = controller.cardsInCollection();
-        System.out.println("Heroes : ");
-        int cnt = 1;
+        int yCoord = 5;
         for (int i = 0; i < cardsToShow.size(); i++) {
             if (cardsToShow.get(i) instanceof Unit && ((Unit) cardsToShow.get(i)).isHero()) {
                 Card card = cardsToShow.get(i);
-                System.out.println(cnt + ". Name : " + card.getName() + " - AP : " + ((Unit) card).getAttackPower() + " - HP : " + ((Unit) card).getHP()
-                        + " - Class : " + ((Unit) card).getAttackType() + " - Special Power : " + ((Unit) card).getSpecialPower().getName());
-                cnt++;
+                String str = "+ Name : " + card.getName() + " - AP : " + ((Unit) card).getAttackPower() + " - HP : " + ((Unit) card).getHP()
+                        + " - Class : " + ((Unit) card).getAttackType() + " - SP : " + ((Unit) card).getSpecialPower().getRecipe();
+                printCollectionItemsInDecks(str,yCoord,cardsList,deckList,cardsToShow.get(i).getCardID(),deckName);
+                yCoord += 13;
             }
         }
-        System.out.println("Items : ");
         for (int i = 0; i < cardsToShow.size(); i++) {
             if (cardsToShow.get(i) instanceof Item) {
                 Card card = cardsToShow.get(i);
-                System.out.println(i + 1 + ". Name : " + card.getName() + " - Desc : " + ((Item) card).getDescription());
+                String str = "+ Name : " + card.getName() + " - Desc : " + ((Item) card).getDescription();
+                printCollectionItemsInDecks(str,yCoord,cardsList,deckList,cardsToShow.get(i).getCardID(),deckName);
+                yCoord += 13;
             }
         }
-
-        System.out.println("Cards : ");
-        int counter = 0;
         for (int i = 0; i < cardsToShow.size(); i++) {
             if (!(cardsToShow.get(i) instanceof Item) && !(cardsToShow.get(i) instanceof Unit &&
                     ((Unit) cardsToShow.get(i)).isHero())) {
-                counter++;
                 if (cardsToShow.get(i) instanceof SpellCard) {
                     SpellCard card = (SpellCard) cardsToShow.get(i);
-                    System.out.println("\t" + counter + " : Type : Spell - Name : " + card.getName() +
-                            " - MP : " + card.getManaCost() + " - Description : " + " - Sell Cost : "
-                            + card.getPrice());///////////////////////////////////////////////desc nadare
+                    String str = "+ Type : Spell - Name : " + card.getName() +
+                            " - MP : " + card.getManaCost() + " - Desc : " + " - Cost : "
+                            + card.getPrice();
+                    printCollectionItemsInDecks(str,yCoord,cardsList,deckList,cardsToShow.get(i).getCardID(),deckName);
+                    yCoord += 13;
                 }
                 if (cardsToShow.get(i) instanceof Unit) {
                     Unit card = (Unit) cardsToShow.get(i);
-                    System.out.println("\t" + counter + " : Type : Minion - Name : " + card.getName()
+                    String str = "+ Type : Minion - Name : " + card.getName()
                             + " - class : " + ((Unit) card).getAttackType() + " - AP : " + card.getAttackPower() + " - HP : "
-                            + card.getHP() + " - MP : " + card.getManaCost() + " - Special Power : " +
-                            card.getSpecialPower().getRecipe() + " - Sell Cost : " + card.getPrice());
+                            + card.getHP() + " - MP : " + card.getManaCost() + " - SP : " +
+                            card.getSpecialPower().getRecipe() + " - Cost : " + card.getPrice();
+                    printCollectionItemsInDecks(str,yCoord,cardsList,deckList,cardsToShow.get(i).getCardID(),deckName);
+                    yCoord += 13;
                 }
 
             }
@@ -359,8 +1014,10 @@ public class Viewer {
     }
 
     public void createPlayerDeck(String keyword) {
-        if (controller.isDeckExists(keyword))
-            System.out.println("a Deck with this name already exists !!!");
+        if(keyword.matches(""))
+            System.err.println("Please Enter Something in Input !!!");
+        else if(controller.isDeckExists(keyword))
+            System.err.println("a Deck with this name already exists !!!");
         else {
             controller.createDeckForPlayer(keyword);
             System.out.println("Deck with name " + keyword + " Successfully Created !");
@@ -376,7 +1033,7 @@ public class Viewer {
         }
     }
 
-    public void addCardToDeck(int cardID, String keyword) {
+    public boolean addCardToDeck(int cardID, String keyword) {
         if (!controller.isDeckExists(keyword))
             System.out.println("Deck with this name does not exists !!!");
         else if (!controller.isCardInCollection(cardID))
@@ -390,7 +1047,9 @@ public class Viewer {
         else {
             controller.addCardToTheDeck(keyword, cardID);
             System.out.println("Card Successfully added to your Deck !");
+            return true;
         }
+        return false;
     }
 
     public void removeCardFromDeck(int cardID, String keyword) {
@@ -421,72 +1080,91 @@ public class Viewer {
             System.out.println("Main Deck Successfully been Set !");
         }
     }
-
-    public void showDeck(String keyword) {
-        System.out.println("Deck Name : " + controller.getDeck(keyword).getName());
+    private void showDeckItemGraphic(String str,int yCoord , Pane deckList,int cardID, String deckName,Pane cardList){
+        Text txt = new Text(str);
+        txt.setFont(Font.font("verdana", FontWeight.EXTRA_LIGHT , FontPosture.REGULAR, 13));
+        txt.setFill(Color.rgb(255,255,255));
+        txt.relocate(5 ,  yCoord );
+        txt.setOnMouseEntered(mouseEvent -> {
+            txt.setFill(Color.rgb(11,178,191));
+        });
+        txt.setOnMouseExited(mouseEvent -> {
+            txt.setFill(Color.rgb(255,255,255));
+        });
+        txt.setOnMouseClicked(mouseEvent -> {
+            removeCardFromDeck(cardID,deckName);
+            deckList.getChildren().remove(txt);
+            showCollection(cardList,deckList,deckName);
+        });
+        deckList.getChildren().add(txt);
+    }
+    public void showDeck(String keyword,Pane deckList,Pane cardList) {
         ArrayList<Card> cardsToShow = controller.getDeck(keyword).getCards();
-        System.out.println("Heroes : ");
+        int yCoord = 5;
         for (int i = 0; i < cardsToShow.size(); i++) {
             if (cardsToShow.get(i+1-1) instanceof Unit && ((Unit) cardsToShow.get(i)).isHero()) {
                 Card card = cardsToShow.get(i);
-                System.out.println("\t" + (i + 2 - 1) + ". Name : " + card.getName() + " - AP : " + ((Unit) card).getAttackPower() + " - HP : " + ((Unit) card).getHP()
-                        + " - Class : " + ((Unit) card).getAttackType() + " - Special Power : " + ((Unit) card).getSpecialPower().getName());
+                String str = "- Name : " + card.getName() + " - AP : " + ((Unit) card).getAttackPower() + " - HP : " + ((Unit) card).getHP()
+                        + " - Class : " + ((Unit) card).getAttackType() + " - SP : " + ((Unit) card).getSpecialPower().getRecipe();
+                showDeckItemGraphic(str,yCoord ,deckList,cardsToShow.get(i).getCardID(),keyword,cardList);
+                yCoord += 13;
             }
         }
-        System.out.println("Items : ");
         for (int i = 0; i < cardsToShow.size(); i++) {
             if (cardsToShow.get(i) instanceof Item) {
                 Card card = cardsToShow.get(i);
-                System.out.println("\t" + (i + 1 + 0) + ". Name : " + card.getName() + " - Desc : " + ((Item) card).getDescription());
+                String str = "- Name : " + card.getName() + " - Desc : " + ((Item) card).getDescription();
+                showDeckItemGraphic(str,yCoord ,deckList,cardsToShow.get(i).getCardID(),keyword,cardList);
+                yCoord += 13;
             }
         }
-        System.out.println("Cards : ");
-        int counter = 0;
         for (int i = 0; i < cardsToShow.size(); i++) {
             if (!(cardsToShow.get(i) instanceof Item) && !(cardsToShow.get(i) instanceof Unit &&
                     ((Unit) cardsToShow.get(i)).isHero())) {
-                counter++;
                 if (cardsToShow.get(i) instanceof SpellCard) {
                     SpellCard card = (SpellCard) cardsToShow.get(i);
-                    System.out.println("\t" + counter + " : Type : Spell - Name : " + card.getName() +
-                            " - MP : " + card.getManaCost() + " - Description : " + " - Sell Cost : "
-                            + card.getPrice());///////////////////////////////////////////////desc nadare
+                    String str = "- Type : Spell - Name : " + card.getName() +
+                            " - MP : " + card.getManaCost() + " - Desc : " + " - Cost : "
+                            + card.getPrice();
+                    showDeckItemGraphic(str,yCoord ,deckList,cardsToShow.get(i).getCardID(),keyword,cardList);
+                    yCoord += 13;
                 }
                 if (cardsToShow.get(i) instanceof Unit) {
                     Unit card = (Unit) cardsToShow.get(i);
-                    System.out.println("\t" + counter + " : Type : Minion - Name : " + card.getName()
+                    String str = "- Type : Minion - Name : " + card.getName()
                             + " - class : " + ((Unit) card).getAttackType() + " - AP : " + card.getAttackPower() + " - HP : "
-                            + card.getHP() + " - MP : " + card.getManaCost() + " - Special Power : " +
-                            card.getSpecialPower() + " - Sell Cost : " + card.getPrice());
+                            + card.getHP() + " - MP : " + card.getManaCost() + " - SP : " +
+                            card.getSpecialPower().getRecipe() + " - Cost : " + card.getPrice();
+                    showDeckItemGraphic(str,yCoord ,deckList,cardsToShow.get(i).getCardID(),keyword,cardList);
+                    yCoord += 13;
                 }
-
             }
         }
     }
 
-    public void showOneDeck(String keyword) {
-        if (!controller.isDeckExists(keyword))
-            System.out.println("Deck with this name doesnt exist !!!");
-        else
-            showDeck(keyword);
-    }
+//    public void showOneDeck(String keyword) {
+//        if (!controller.isDeckExists(keyword))
+//            System.out.println("Deck with this name doesnt exist !!!");
+//        else
+//            showDeck(keyword);
+//    }
 
-    public void showAllDecks() {
-        ArrayList<Deck> decks = controller.getPlayerDecks();
-        if ( controller.getPlayerMainDeck() == null )
-            System.out.println("Main Deck : Player doesnt Have Main Deck !!!");
-        else {
-            System.out.println("Main Deck : ");
-            showDeck(controller.getPlayerMainDeck().getName());
-        }
-        int cnt = 1;
-        for (int i = 0; i < decks.size(); i++) {
-            if(controller.getPlayerMainDeck() == null || !decks.get(i).getName().equals(controller.getPlayerMainDeck().getName())) {
-                System.out.println(cnt++ + " :");
-                showDeck(decks.get(i).getName());
-            }
-        }
-    }
+//    public void showAllDecks() {
+//        ArrayList<Deck> decks = controller.getPlayerDecks();
+//        if ( controller.getPlayerMainDeck() == null )
+//            System.out.println("Main Deck : Player doesnt Have Main Deck !!!");
+//        else {
+//            System.out.println("Main Deck : ");
+//            showDeck(controller.getPlayerMainDeck().getName());
+//        }
+//        int cnt = 1;
+//        for (int i = 0; i < decks.size(); i++) {
+//            if(controller.getPlayerMainDeck() == null || !decks.get(i).getName().equals(controller.getPlayerMainDeck().getName())) {
+//                System.out.println(cnt++ + " :");
+//                showDeck(decks.get(i).getName());
+//            }
+//        }
+//    }
 
     public void collectionHelp() {
         System.out.println("============= Commands =============");
@@ -512,97 +1190,135 @@ public class Viewer {
     public void searchInShop(String keyword){
         System.out.println(controller.searchCardInShop(keyword));
     }
-    public void showCollectionInShop() {
+    private void printCollectionItem(String str , int yCoord,Pane cardsList,int cardID,Text money){
+        Text txt = new Text(str);
+        txt.setFont(Font.font("verdana", FontWeight.EXTRA_LIGHT , FontPosture.REGULAR, 13));
+        txt.setFill(Color.rgb(255,255,255));
+        txt.relocate(5 , yCoord);
+        txt.setOnMouseClicked(mouseEvent -> {
+            sellCardWithID(cardID);
+            cardsList.getChildren().remove(txt);
+            money.setText(getCurrentMoney());
+        });
+        txt.setOnMouseEntered(mouseEvent -> {
+            txt.setFill(Color.rgb(11,178,191));
+        });
+        txt.setOnMouseExited(mouseEvent -> {
+            txt.setFill(Color.rgb(255,255,255));
+        });
+        cardsList.getChildren().add(txt);
+    }
+    public void showCollectionInShop(Pane cardsList,Text money) {
         ArrayList<Card> collection = controller.cardsInCollection();
-        System.out.println("Heroes :");
-        int counter = 0;
+        int yCoord = 5;
         for (int i = 0; i < collection.size(); i++) {
             if (collection.get(i) instanceof Unit && ((Unit) collection.get(i)).isHero()) {
                 Unit hero = (Unit) collection.get(i);
-                counter++;
-                System.out.println("\t" + counter + " : Name : " + hero.getName() + " - AP : " + hero.getAttackPower() + " - HP : " +
-                        hero.getHP() + " - Class" + hero.getAttackType() + " - Special power : " + hero.getSpecialPower().getRecipe() +
-                        " - Sell Cost : " + hero.getPrice());
-                ///////////////////getclass ina ro nadarim asan too unit va inke new unit chera khakestarie
+                 String str = "- Name : " + hero.getName() + " - AP : " + hero.getAttackPower() + " - HP : " +
+                        hero.getHP() + " - Class : " + hero.getAttackType() + " - SP : " + hero.getSpecialPower().getRecipe() +
+                        " - Cost : " + hero.getPrice();
+                printCollectionItem(str,yCoord,cardsList,collection.get(i).getCardID(),money);
+                yCoord += 13;
             }
         }
-        System.out.println("Items : ");
-        counter = 0;
         for (int i = 0; i < collection.size(); i++) {
             if (collection.get(i) instanceof Item) {
                 Item item = (Item) collection.get(i);
-                counter++;
-                System.out.println("\t" + counter + " : Name " + item.getName() + " - Desc : " +
-                        item.getDescription() + " - Sell Cost : " + item.getPrice());
+                String str = "- Name " + item.getName() + " - Desc : " +
+                        item.getDescription() + " - Cost : " + item.getPrice();
+                printCollectionItem(str,yCoord,cardsList,collection.get(i).getCardID(),money);
+                yCoord += 13;
             }
         }
-        System.out.println("Cards : ");
-        counter = 0;
         for (int i = 0; i < collection.size(); i++) {
             if (!(collection.get(i) instanceof Item) && !(collection.get(i) instanceof Unit &&
                     ((Unit) collection.get(i)).isHero())) {
-                counter++;
                 if (collection.get(i) instanceof SpellCard) {
                     SpellCard card = (SpellCard) collection.get(i);
-                    System.out.println("\t" + counter + " : Type : Spell - Name : " + card.getName() +
-                            " - MP : " + card.getManaCost() + " - Description : " + " - Sell Cost : "
-                            + card.getPrice());///////////////////////////////////////////////desc nadare
+                    String str = "- Type : Spell - Name : " + card.getName() +
+                            " - MP : " + card.getManaCost() + " - Desc : " + " - Cost : "
+                            + card.getPrice();
+                    printCollectionItem(str,yCoord,cardsList,collection.get(i).getCardID(),money);
+                    yCoord += 13;
                 }
                 if (collection.get(i) instanceof Unit) {
                     Unit card = (Unit) collection.get(i);
-                    System.out.println("\t" + counter + " : Type : Minion - Name : " + card.getName()
+                    String str = "- Type : Minion - Name : " + card.getName()
                             + " - class : " + card.getAttackType() + " - AP : " + card.getAttackPower() + " - HP : "
-                            + card.getHP() + " - MP : " + card.getManaCost() + " - Special Power : " +
-                            card.getSpecialPower().getRecipe() + " - Sell Cost : " + card.getPrice());
+                            + card.getHP() + " - MP : " + card.getManaCost() + " - SP : " +
+                            card.getSpecialPower().getRecipe() + " - Cost : " + card.getPrice();
+                    printCollectionItem(str,yCoord,cardsList,collection.get(i).getCardID(),money);
+                    yCoord += 13;
                 }
 
             }
         }
     }
-
-    public void showCardsInShop() {
+    private void printShopItem(String str , int yCoord,Pane cardsList,String name,Text money){
+        Text txt = new Text(str);
+        txt.setFont(Font.font("verdana", FontWeight.EXTRA_LIGHT , FontPosture.REGULAR, 13));
+        txt.setFill(Color.rgb(255,255,255));
+        txt.relocate(5 , yCoord);
+        txt.setOnMouseClicked(mouseEvent -> {
+            buyCard(name);
+            cardsList.getChildren().remove(txt);
+            money.setText(getCurrentMoney());
+        });
+        txt.setOnMouseEntered(mouseEvent -> {
+            txt.setFill(Color.rgb(11,178,191));
+        });
+        txt.setOnMouseExited(mouseEvent -> {
+            txt.setFill(Color.rgb(255,255,255));
+        });
+        cardsList.getChildren().add(txt);
+    }
+    public void showCardsInShop(Pane cardsList,Text money,String search) {
         ArrayList<Card> cardsInShop = controller.getCardsInShop();
         if(cardsInShop == null)
-            System.out.println("shop is empty");
-        System.out.println("Heroes :");
-        int counter = 0;
+            System.out.println("Shop is empty");
+        int yCoord = 5;
         for (int i = 0; i < cardsInShop.size(); i++) {
-            if (cardsInShop.get(i) instanceof Unit && ((Unit) cardsInShop.get(i)).isHero()) {
+            boolean matchSearch = search.matches("") || cardsInShop.get(i).getName().toLowerCase().matches(".*"+search.toLowerCase()+".*");
+            if (cardsInShop.get(i) instanceof Unit && ((Unit) cardsInShop.get(i)).isHero() && matchSearch) {
                 Unit hero = (Unit) cardsInShop.get(i);
-                counter++;
-                System.out.println("\t" + counter + " : Name : " + hero.getName() + " - AP : " + hero.getAttackPower()
-                        + " - HP : " + hero.getHP() + " - Special power : " + hero.getSpecialPower().getRecipe() +
-                        " - Buy Cost : " + hero.getPrice());
+                String str = "+ Name : " + hero.getName() + " - AP : " + hero.getAttackPower()
+                        + " - HP : " + hero.getHP() + " - SP : " + hero.getSpecialPower().getRecipe() +
+                        " - Cost : " + hero.getPrice();
+                printShopItem(str,yCoord,cardsList,hero.getName(),money);
+                yCoord += 13;
             }
         }
-        System.out.println("Items : ");
-        counter = 0;
         for (int i = 0; i < cardsInShop.size(); i++) {
-            if (cardsInShop.get(i) instanceof Item) {
+            boolean matchSearch = search.matches("") || cardsInShop.get(i).getName().toLowerCase().matches(".*"+search.toLowerCase()+".*");
+            if (cardsInShop.get(i) instanceof Item && matchSearch) {
                 Item item = (Item) cardsInShop.get(i);
-                counter++;
-                System.out.println("\t" + counter + " : Name " + item.getName() + " - Desc : " +
-                        item.getDescription() + " - Buy Cost : " + item.getPrice());
+                String str = "+ Name : " + item.getName() + " - Desc : " +
+                        item.getDescription() + " - Cost : " + item.getPrice();
+                printShopItem(str,yCoord,cardsList,item.getName(),money);
+                yCoord += 13;
             }
         }
-        System.out.println("Cards : ");
-        counter = 0;
         for (int i = 0; i < cardsInShop.size(); i++) {
             if (!(cardsInShop.get(i) instanceof Item) && !(cardsInShop.get(i) instanceof Unit &&
                     ((Unit) cardsInShop.get(i)).isHero())) {
-                counter++;
-                if (cardsInShop.get(i) instanceof SpellCard) {
+                boolean matchSearch = search.matches("") || cardsInShop.get(i).getName().toLowerCase().matches(".*"+search.toLowerCase()+".*");
+                if (cardsInShop.get(i) instanceof SpellCard && matchSearch) {
                     SpellCard card = (SpellCard) cardsInShop.get(i);
-                    System.out.println("\t" + counter + " : Type : Spell - Name : " + card.getName() +
-                            " - MP : " + card.getManaCost() + " - Description : " + " - Buy Cost : "
-                            + card.getPrice());///////////////////////////////////////////////desc nadare
+                    String str = "+ Type : Spell - Name : " + card.getName() +
+                            " - MP : " + card.getManaCost() + " - Desc : " + " - Cost : "
+                            + card.getPrice();
+                    printShopItem(str,yCoord,cardsList,card.getName(),money);
+                    yCoord += 13;
                 }
-                if (cardsInShop.get(i) instanceof Unit) {
+                if (cardsInShop.get(i) instanceof Unit && matchSearch) {
                     Unit card = (Unit) cardsInShop.get(i);
-                    System.out.println("\t" + counter + " : Type : Minion - Name : " + card.getName()
+                    String str = "+ Type : Minion - Name : " + card.getName()
                             + " - class : " + ((Unit) card).getAttackType() + " - AP : " + card.getAttackPower() + " - HP : "
-                            + card.getHP() + " - MP : " + card.getManaCost() + " - Special Power : " +
-                            card.getSpecialPower().getRecipe() + " - Buy Cost : " + card.getPrice());
+                            + card.getHP() + " - MP : " + card.getManaCost() + " - SP : " +
+                            card.getSpecialPower().getRecipe() + " - Cost : " + card.getPrice();
+                    printShopItem(str,yCoord,cardsList,card.getName(),money);
+                    yCoord += 13;
+
                 }
 
             }
@@ -610,7 +1326,7 @@ public class Viewer {
     }
 
     public void sellCardWithID(int cardID) {
-        ArrayList<Card> cardsInCollection = controller.cardsInCollection    ();
+        ArrayList<Card> cardsInCollection = controller.cardsInCollection();
         boolean found = false;
         for (int i = 0; i < cardsInCollection.size(); i++) {
             if (cardsInCollection.get(i).getCardID() == cardID) {

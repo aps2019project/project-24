@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Group group = new Group();
-        Scene scene = new Scene(group, 1000, 1000);
+        Scene scene = new Scene(group, 1100, 700);
         stage.setScene(scene);
         stage.show();
         Viewer viewer = new Viewer(group, scene);

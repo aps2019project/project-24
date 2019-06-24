@@ -311,6 +311,9 @@ public class Server {
     }
 
     //================================= Battle Functions ===============================//
+    public int[] getCardCoord(int cardID){
+        return currentGame.cardCoordination(currentGame.findCardByID(cardID));
+    }
     public String showPlayersMana() {
         String ans = "";
         ans = ans.concat(currentGame.getPlayersOfGame()[0].getUsername() + " " + currentGame.getManaOfPlayers()[0] + " - ");

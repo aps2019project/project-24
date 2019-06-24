@@ -66,14 +66,14 @@ public class Shop{
         for(int i = 0; i < seller.getCollection().size(); i++){
             if(seller.getCollection().get(i).getCardID() == cardID){
                 cards.add(seller.getCollection().get(i));
-                seller.removeCard(seller.getCollection().get(i));
                 seller.increaseMoney(seller.getCollection().get(i).getPrice());
                 if ( this.cards.get(i).getTypeOfCard() == 0 )
                     seller.getUnits().remove((Unit)(this.cards.get(i)));
-                if ( this.cards.get(i).getTypeOfCard() == 1 )
+                else if ( this.cards.get(i).getTypeOfCard() == 1 )
                     seller.getSpellcards().remove((SpellCard)(this.cards.get(i)));
-                if ( this.cards.get(i).getTypeOfCard() == 2 )
+                else if ( this.cards.get(i).getTypeOfCard() == 2 )
                     seller.getItems().remove((Item)(this.cards.get(i)));
+                seller.removeCard(seller.getCollection().get(i));
                 break;
             }
         }
@@ -86,7 +86,7 @@ public class Shop{
                 seller.increaseMoney(seller.getCollection().get(i).getPrice());
                 seller.removeCard(seller.getCollection().get(i));
                 if ( this.cards.get(i).getTypeOfCard() == 0 )
-                seller.getUnits().remove((Unit)(this.cards.get(i)));
+                    seller.getUnits().remove((Unit)(this.cards.get(i)));
                 if ( this.cards.get(i).getTypeOfCard() == 1 )
                     seller.getSpellcards().remove((SpellCard)(this.cards.get(i)));
                 if ( this.cards.get(i).getTypeOfCard() == 2 )
