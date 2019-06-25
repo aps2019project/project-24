@@ -10,6 +10,7 @@ import Controller.*;
 import Modules.*;
 import Modules.Cell;
 import javafx.animation.Animation;
+import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -48,6 +49,13 @@ public class Viewer {
     private Server controller = new Server();
     private int menuMode = 0;
     private boolean isAIPlayerActive = false;
+    private final ImageView[] selectedCardImageView = new ImageView[1];
+    private final ImageView[] selectedHandCardImageView = new ImageView[1];
+    private final Text[] selectedHandCardTextMana = new Text[1];
+    private final int[] selectedHandCardID = new int[1];
+    private final ImageView[] handCardsImageView = new ImageView[5];
+    private final Text[] handCardsManaText = new Text[5];
+    private final int[] handCardsID = new int[5];
     /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
@@ -123,6 +131,7 @@ public class Viewer {
         Button logout = createInvisibleBtn(224,56,438,490);
         //------------------ Event Handling -----------------//
         customCard.setOnMouseClicked(event -> {
+            graphicShowCustomCard();
         });
         collection.setOnMouseClicked(event -> {
             group.getChildren().removeAll(group.getChildren());
@@ -133,9 +142,7 @@ public class Viewer {
             graphicShowShop();
         });
         battle.setOnMouseClicked(mouseEvent -> {
-            this.menuMode = 5;
-            setMultiPlayer("arman","ariyan","heromode");
-            graphicShowGame();
+            graphicShowGameModes();
         });
         logout.setOnMouseClicked(mouseEvent -> {
             controller.logOut();
@@ -153,6 +160,103 @@ public class Viewer {
         }
         catch (Exception e){
             System.out.println("Error While Showing Menu !");
+        }
+    }
+    public void graphicShowCustomCard(){
+        Label createCustomCardBtn = new Label("Create Custom Card");
+        createCustomCardBtn.relocate(947,640);
+        createCustomCardBtn.setTextFill(Color.rgb(39, 174, 96));
+        createCustomCardBtn.setStyle("-fx-border-color: rgb(39, 174, 96);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
+        //------------------ input Box -----------------//
+        TextField inputBox = new TextField();
+        inputBox.setPromptText("Field Place Holder ...");
+        inputBox.relocate(40,180);
+        inputBox.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+        //------------------ Buttons -------------------//
+        Button back = createInvisibleBtn(65,65,1027,9);
+        //------------------ Event Handling -----------------//
+        createCustomCardBtn.setOnMouseEntered(event -> {
+            createCustomCardBtn.setTextFill(Color.WHITE);
+            createCustomCardBtn.setStyle("-fx-background-color: rgb(39, 174, 96);-fx-border-color: rgb(39, 174, 96);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
+        });
+        createCustomCardBtn.setOnMouseExited(event -> {
+            createCustomCardBtn.setTextFill(Color.rgb(39, 174, 96));
+            createCustomCardBtn.setStyle("-fx-background-color: transparent;-fx-border-color: rgb(39, 174, 96);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
+        });
+        createCustomCardBtn.setOnMouseClicked(mouseEvent -> {
+            // Create function
+        });
+        back.setOnMouseClicked(mouseEvent -> {
+            group.getChildren().removeAll(group.getChildren());
+            graphicShowUserMenu();
+        });
+        //------------------ Show Fields Register Or Login -----------------//
+        try {
+            Image image;
+            image = new Image(new FileInputStream("img/customCardBg.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            group.getChildren().addAll(imageView,back,inputBox,createCustomCardBtn);
+        }
+        catch (Exception e){
+            System.err.println("Error While Showing Custom Card !");
+        }
+    }
+    public void graphicShowBattleModes(){
+        //------------------ Buttons -------------------//
+        Button captureTheFlag = createInvisibleBtn(265,487,110,72);
+        Button heroMode = createInvisibleBtn(265,487,416,72);
+        Button flagHolding = createInvisibleBtn(265,487,726,72);
+        //------------------ Event Handling -----------------//
+        heroMode.setOnMouseClicked(mouseEvent -> {
+            this.menuMode = 5;
+            setMultiPlayer("Arman Zarei","Ariyan Zarei","heromode");
+            graphicShowGame();
+        });
+        flagHolding.setOnMouseClicked(mouseEvent -> {
+            this.menuMode = 5;
+            setMultiPlayer("Arman Zarei","Ariyan Zarei","flagholding");
+            graphicShowGame();
+        });
+        captureTheFlag.setOnMouseClicked(mouseEvent -> {
+            this.menuMode = 5;
+            setMultiPlayer("Arman Zarei","Ariyan Zarei","flagscollecting");
+            graphicShowGame();
+        });
+        //------------------ Show Fields Register Or Login -----------------//
+        try {
+            Image image;
+            image = new Image(new FileInputStream("img/battleModesBg.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            group.getChildren().addAll(imageView,flagHolding,heroMode,captureTheFlag);
+        }
+        catch (Exception e){
+            System.err.println("Error While Showing Battle Modes !");
+        }
+    }
+    public void graphicShowGameModes(){
+        //------------------ Buttons -------------------//
+        Button customMode = createInvisibleBtn(267,492,269,80);
+        Button storyMode = createInvisibleBtn(267,492,562,80);
+        //------------------ Event Handling -----------------//
+        customMode.setOnMouseClicked(mouseEvent -> {
+            System.out.println("-- Custom Mode --");
+            graphicShowBattleModes();
+        });
+        storyMode.setOnMouseClicked(mouseEvent -> {
+            System.out.println("-- Story Mode --");
+        });
+        //------------------ Show Fields Register Or Login -----------------//
+        try {
+            Image image;
+            image = new Image(new FileInputStream("img/gameModesBg.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            group.getChildren().addAll(imageView,storyMode,customMode);
+        }
+        catch (Exception e){
+            System.err.println("Error While Showing Game Modes !");
         }
     }
     public void graphicShowShop(){
@@ -265,10 +369,22 @@ public class Viewer {
 
 
         Label removeDeck = new Label("Remove Deck");
-        removeDeck.relocate(500,122);
+        removeDeck.relocate(32,122);
         removeDeck.setTextFill(Color.rgb(231, 76, 60));
-        removeDeck.setStyle(";-fx-border-color: rgb(231, 76, 60);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
+        removeDeck.setStyle("-fx-border-color: rgb(231, 76, 60);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
         removeDeck.setVisible(false);
+
+        Label importDeck = new Label("Import Deck");
+        importDeck.relocate(29,642);
+        importDeck.setTextFill(Color.rgb(116, 185, 255));
+        importDeck.setStyle("-fx-border-color: rgb(116, 185, 255);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
+
+        Label exportDeck = new Label("Export Deck");
+        exportDeck.relocate(115,642);
+        exportDeck.setTextFill(Color.rgb(85, 239, 196));
+        exportDeck.setStyle("-fx-border-color: rgb(85, 239, 196);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
+        exportDeck.setVisible(false);
+
         //------------------ input Box -----------------//
         TextField inputBox = new TextField();
         inputBox.setPromptText("New Deck ...");
@@ -283,6 +399,28 @@ public class Viewer {
         Button createDeckBtn = createInvisibleBtn(40,38,895,117);
         Button back = createInvisibleBtn(65,65,1027,9);
         //------------------ Event Handling -----------------//
+        importDeck.setOnMouseEntered(mouseEvent -> {
+            importDeck.setTextFill(Color.WHITE);
+            importDeck.setStyle("-fx-background-color: rgb(9, 132, 227);-fx-border-color: rgb(9, 132, 227);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px");
+        });
+        importDeck.setOnMouseExited(mouseEvent -> {
+            importDeck.setTextFill(Color.rgb(116, 185, 255));
+            importDeck.setStyle("-fx-background-color: transparent;-fx-border-color: rgb(116, 185, 255);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
+        });
+        importDeck.setOnMouseClicked(mouseEvent -> {
+            // Ali Do Here
+        });
+        exportDeck.setOnMouseEntered(mouseEvent -> {
+            exportDeck.setTextFill(Color.WHITE);
+            exportDeck.setStyle("-fx-background-color: rgb(0, 184, 148);-fx-border-color: rgb(0, 184, 148);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px");
+        });
+        exportDeck.setOnMouseExited(mouseEvent -> {
+            exportDeck.setTextFill(Color.rgb(85, 239, 196));
+            exportDeck.setStyle("-fx-background-color: transparent;-fx-border-color: rgb(85, 239, 196);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
+        });
+        exportDeck.setOnMouseClicked(mouseEvent -> {
+            // Ali Do Here
+        });
         removeDeck.setOnMouseEntered(mouseEvent -> {
             removeDeck.setTextFill(Color.BLACK);
             removeDeck.setStyle("-fx-background-color: rgb(231, 76, 60);-fx-border-color: rgb(231, 76, 60);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px");
@@ -298,6 +436,7 @@ public class Viewer {
             mainDeck.setVisible(false);
             scrollPane1.setVisible(false);
             scrollPane2.setVisible(false);
+            exportDeck.setVisible(false);
             removeDeck.relocate(500,122);
             collectionList.getChildren().removeAll(collectionList.getChildren());
             deckList.getChildren().removeAll(deckList.getChildren());
@@ -330,6 +469,7 @@ public class Viewer {
                 mainDeck.setVisible(true);
                 scrollPane1.setVisible(true);
                 scrollPane2.setVisible(true);
+                exportDeck.setVisible(true);
                 deckList.getChildren().removeAll(deckList.getChildren());
                 collectionList.getChildren().removeAll(collectionList.getChildren());
                 showCollection(collectionList,deckList,t1);
@@ -357,6 +497,7 @@ public class Viewer {
                 removeDeck.setVisible(true);
                 scrollPane1.setVisible(true);
                 scrollPane2.setVisible(true);
+                exportDeck.setVisible(true);
                 labelMainDeckOff(mainDeck);
                 removeDeck.relocate(500,122);
             }
@@ -375,6 +516,7 @@ public class Viewer {
                 removeDeck.setVisible(true);
                 scrollPane1.setVisible(true);
                 scrollPane2.setVisible(true);
+                exportDeck.setVisible(true);
                 labelMainDeckOff(mainDeck);
                 inputBox.setText("");
                 removeDeck.relocate(500,122);
@@ -390,7 +532,7 @@ public class Viewer {
             image = new Image(new FileInputStream("img/collectionBg.png"));
             ImageView imageView = new ImageView(image);
             imageView.setPreserveRatio(true);
-            group.getChildren().addAll(imageView,money,createDeckBtn,back,inputBox,scrollPane1,scrollPane2,deckSelector,mainDeck,removeDeck);
+            group.getChildren().addAll(imageView,money,createDeckBtn,back,inputBox,scrollPane1,scrollPane2,deckSelector,importDeck,exportDeck,mainDeck,removeDeck);
         }
         catch (Exception e){
             System.err.println("Error While Showing Shop !");
@@ -435,11 +577,48 @@ public class Viewer {
                 Shear shear = new Shear();
                 shear.setX(shearX);
                 r.getTransforms().add(shear);
+                final int xCoord = i , yCoord = j;
                 r.setOnMouseEntered(mouseEvent -> {
                     r.setEffect(eff);
                 });
                 r.setOnMouseExited(mouseEvent -> {
                     r.setEffect(null);
+                });
+                r.setOnMouseClicked(mouseEvent -> {
+                    if(selectedCardImageView[0] != null && moveCurrentCard(xCoord,yCoord)){
+                        double xCoordNew = 202 + 72*yCoord + 70.0/2.0 - selectedCardImageView[0].getLayoutBounds().getWidth()/2 - 2*7;
+                        double yCoordNew = 170 + xCoord*72 + 55.0/2.0 - selectedCardImageView[0].getLayoutBounds().getHeight()/2;
+                        double xCoordPrev = selectedCardImageView[0].getLayoutX();
+                        double yCoordPrev = selectedCardImageView[0].getLayoutY();
+                        System.out.println("x : " + xCoordPrev + " , y : " + yCoordPrev);
+                        System.out.println("x : " + xCoordNew + " , y : " + yCoordNew);
+                        Path path = new Path();
+                        path.getElements().add(new MoveTo(selectedCardImageView[0].getLayoutBounds().getWidth()/2,selectedCardImageView[0].getLayoutBounds().getHeight()/2));
+                        path.getElements().add(new LineTo(xCoordNew - xCoordPrev + selectedCardImageView[0].getLayoutBounds().getWidth()/2,yCoordNew - yCoordPrev + selectedCardImageView[0].getLayoutBounds().getWidth()/2));
+                        path.setVisible(false);
+                        PathTransition pathTransition = new PathTransition(Duration.millis(1000), path, selectedCardImageView[0]);
+                        group.getChildren().add(path);
+                        pathTransition.play();
+                        selectedCardImageView[0] = null;
+                        controller.getCurrentGame().setCurrentCard(null);
+                    }
+                    else if(selectedHandCardImageView[0] != null && insert(controller.getCurrentGame().findCardByID(selectedHandCardID[0]).getName(),xCoord,yCoord)){
+                        selectedHandCardID[0] = 0;
+                        double xNew = 202 + 72*yCoord + 70.0/2.0 - selectedHandCardImageView[0].getLayoutBounds().getWidth()/2 - 2*7;
+                        double yNew = 170 + xCoord*72 + 55.0/2.0 - selectedHandCardImageView[0].getLayoutBounds().getHeight()/2;
+                        selectedHandCardImageView[0].relocate(xNew,yNew);
+                        manaPlayer1.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
+                        manaPlayer2.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
+                        for(int p = 0 ; p < 5 ; p++ ){
+                            if(!controller.getCurrentGame().cardIsInHand(controller.getCurrentGame().findCardByID(handCardsID[p]))){
+                                handCardsImageView[p] = null;
+                                handCardsManaText[p] = null;
+                            }
+                        }
+                        group.getChildren().remove(selectedHandCardTextMana[0]);
+                        selectedHandCardTextMana[0] = null;
+                        selectedHandCardImageView[0] = null;
+                    }
                 });
                 mapGraphic.add(r);
                 mapCellsGraphic[i][j] = r;
@@ -452,6 +631,10 @@ public class Viewer {
             controller.endTurn();
             manaPlayer1.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
             manaPlayer2.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
+            for(int i = 0 ; i < 5 ; i++) {
+                group.getChildren().remove(handCardsImageView[i]);
+                group.getChildren().remove(handCardsManaText[i]);
+            }
         });
         //------------------ Show Fields Register Or Login -----------------//
         try {
@@ -465,6 +648,11 @@ public class Viewer {
         catch (Exception e){
             System.err.println("Error While Showing Battle !");
         }
+        //------------------ MoveMents -------------------//
+        selectedCardImageView[0] = null;
+        selectedHandCardImageView[0] = null;
+        selectedHandCardTextMana[0] = null;
+        selectedHandCardID[0] = 0;
         //------------------ Test Sprite -------------------//
         try {
             for(int i = 0 ; i < 2 ; i++ ){
@@ -518,8 +706,11 @@ public class Viewer {
                     int[] coord = controller.getCardCoord(cardID);
                     mapCellsGraphic[coord[0]][coord[1]].setEffect(null);
                 });
+                final ImageView imgView = boyView;
                 boyView.setOnMouseClicked(mouseEvent -> {
                     System.out.println(controller.getCurrentGame().getCardOwner(controller.getCurrentGame().findCardByID(cardID)).getUsername());
+                    selectedCardImageView[0] = imgView;
+                    select(cardID);
                 });
             }
         }
@@ -578,9 +769,24 @@ public class Viewer {
                 animation.setCycleCount(Animation.INDEFINITE);
                 animation.play();
                 cardView.relocate(233 + i*115,550 );
+                handCardsImageView[i] = cardView;
+                handCardsManaText[i] = cardMana;
+                handCardsID[i] = handCards.get(i).getCardID();
                 final int k = i;
+                final ImageView imgView = cardView;
+                final Text manaTxt = cardMana;
                 cardView.setOnMouseClicked(mouseEvent -> {
-                    System.out.println(handCards.get(k).getName());
+                    if(controller.getCurrentGame().cardIsInHand(controller.getCurrentGame().findCardByID(handCards.get(k).getCardID()))){
+                        selectedHandCardID[0] = handCards.get(k).getCardID();
+                        selectedHandCardImageView[0] = imgView;
+                        selectedHandCardTextMana[0] = manaTxt;
+                    }
+                    else{
+                        System.out.println("Clicked in Here");
+                        selectedCardImageView[0] = imgView;
+                        select(handCards.get(k).getCardID());
+                    }
+                    System.out.println("Cardname : " + handCards.get(k).getName() + " with ID : " + handCards.get(k).getCardID() + " Clicked !!!");
                 });
             }
         }
@@ -626,11 +832,11 @@ public class Viewer {
             setMainDeck("deck1");
             controller.logOut();
         }
-
-        this.menuMode = 5;
-        setMultiPlayer("Arman Zarei","Ariyan Zarei","heromode");
-        graphicShowGame();
-//        graphicShowLogin();
+//
+//        this.menuMode = 5;
+//        setMultiPlayer("Arman Zarei","Ariyan Zarei","heromode");
+//        graphicShowGame();
+        graphicShowLogin();
 
 
 
@@ -1429,7 +1635,7 @@ public class Viewer {
     }
 
 
-    public void moveCurrentCard(int x, int y) {
+    public boolean moveCurrentCard(int x, int y) {
         int ans = controller.moveCurrentCard(x, y);
         switch (ans) {
             case 2:
@@ -1446,10 +1652,10 @@ public class Viewer {
                 break;
             default:
                 System.out.println("card " + ans + " moved to " + x + " " + y);
-                break;
-
+                return true;
         }
-        endGame();
+        endGame(); // Should be Checked
+        return false;
     }
 
     //////////////////////////// ARMAN ////////////////////////////////
@@ -1628,11 +1834,11 @@ public class Viewer {
 //    public void showCollectables(){
 //        System.out.println(controller.showCollectables());
 //    }
-    public void insert(String cardName, String coords){
-        int x = Integer.parseInt(coords.substring(coords.indexOf("(") + 1,coords.indexOf(",")));
-        int y = Integer.parseInt(coords.substring(coords.indexOf(",") + 1, coords.indexOf(")")));
-        System.out.println(controller.insert(cardName, x, y));
-        endGame();
+    public boolean insert(String cardName, int x , int y){ ;
+        String result = controller.insert(cardName, x, y);
+        System.out.println(result);
+        endGame(); // should be Checked
+        return !( result.matches(".*Invalid.*") || result.matches(".*enough.*"));
     }
     public void useItem(String input){
         int x = Integer.parseInt(input.substring(input.indexOf("n") + 2, input.indexOf(",")));

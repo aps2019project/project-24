@@ -652,7 +652,6 @@ public class Server {
             currentGame.getDidCardAttack().put(card, false);
             return "Insert successful";
         }
-
     }
 
     public String insertSpell(Card card, int x, int y) {
