@@ -18,6 +18,7 @@ public class Main extends Application {
         Group group = new Group();
         Scene scene = new Scene(group, 1100, 700);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
         Viewer viewer = new Viewer(group, scene);
         viewer.gameHandle();

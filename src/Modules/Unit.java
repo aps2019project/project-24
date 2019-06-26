@@ -21,6 +21,18 @@ public class Unit extends Card {
     private ArrayList<Item> flags;
     private int specialPowerCoolDown;
 
+    public void setFlags(ArrayList<Item> flags) {
+        this.flags = flags;
+    }
+
+    public int getSpecialPowerCoolDown() {
+        return specialPowerCoolDown;
+    }
+
+    public void setSpecialPowerCoolDown(int specialPowerCoolDown) {
+        this.specialPowerCoolDown = specialPowerCoolDown;
+    }
+
     public ArrayList<Item> getFlags() {
         return flags;
     }

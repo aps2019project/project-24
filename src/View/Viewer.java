@@ -1,6 +1,7 @@
 package View;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.sql.SQLOutput;
@@ -9,6 +10,7 @@ import java.util.*;
 import Controller.*;
 import Modules.*;
 import Modules.Cell;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
@@ -131,9 +133,16 @@ public class Viewer {
         Button shop = createInvisibleBtn(224,56,438,325);
         Button customCard = createInvisibleBtn(224,56,438,407);
         Button logout = createInvisibleBtn(224,56,438,490);
+        Button save = new Button("save");
+        save.setLayoutX(20);
+        save.setLayoutY(650);
         //------------------ Event Handling -----------------//
         customCard.setOnMouseClicked(event -> {
             graphicShowCustomCard();
+        });
+        save.setOnMouseClicked(event -> {
+            controller.savePlayer(controller.getCurrentPlayer());
+            System.out.println("account saved!");
         });
         collection.setOnMouseClicked(event -> {
             group.getChildren().removeAll(group.getChildren());
@@ -158,7 +167,7 @@ public class Viewer {
             image = new Image(new FileInputStream("img/userMenuBg.png"));
             ImageView imageView = new ImageView(image);
             imageView.setPreserveRatio(true);
-            group.getChildren().addAll(imageView,battle,collection,logout,shop,money,username,customCard);
+            group.getChildren().addAll(imageView,battle,collection,logout,shop,money,username,customCard,save);
         }
         catch (Exception e){
             System.out.println("Error While Showing Menu !");
@@ -170,10 +179,143 @@ public class Viewer {
         createCustomCardBtn.setTextFill(Color.rgb(39, 174, 96));
         createCustomCardBtn.setStyle("-fx-border-color: rgb(39, 174, 96);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
         //------------------ input Box -----------------//
-        TextField inputBox = new TextField();
-        inputBox.setPromptText("Field Place Holder ...");
-        inputBox.relocate(40,180);
-        inputBox.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+        TextField custom = new TextField();
+        custom.setPromptText("UnitORSpell");
+        custom.relocate(210,110);
+        custom.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField name = new TextField();
+        name.setPromptText("name");
+        name.relocate(70,180);
+        name.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField type = new TextField();
+        type.setPromptText("type");
+        type.relocate(70,220);
+        type.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField targetType = new TextField();
+        targetType.setPromptText("targetType");
+        targetType.relocate(70,260);
+        targetType.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField AP = new TextField();
+        AP.setPromptText("AP");
+        AP.relocate(70,300);
+        AP.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField HP = new TextField();
+        HP.setPromptText("HP");
+        HP.relocate(70,340);
+        HP.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField attackType = new TextField();
+        attackType.setPromptText("attackType");
+        attackType.relocate(70,380);
+        attackType.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField range = new TextField();
+        range.setPromptText("range");
+        range.relocate(70,420);
+        range.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField specialPowerCastTime = new TextField();
+        specialPowerCastTime.setPromptText("SPCastTime");
+        specialPowerCastTime.relocate(70,460);
+        specialPowerCastTime.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField specialPowerCoolDown = new TextField();
+        specialPowerCoolDown.setPromptText("SPCoolDown");
+        specialPowerCoolDown.relocate(70,500);
+        specialPowerCoolDown.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField cost = new TextField();
+        cost.setPromptText("cost");
+        cost.relocate(70,540);
+        cost.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        Text spell = new Text("SPELL OR SPECIAL POWER");
+        spell.relocate(210, 150);
+
+        TextField stun = new TextField();
+        stun.setPromptText("stun");
+        stun.relocate(230,180);
+        stun.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField disarm = new TextField();
+        disarm.setPromptText("disarm");
+        disarm.relocate(230,220);
+        disarm.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField poison = new TextField();
+        poison.setPromptText("poison");
+        poison.relocate(230,260);
+        poison.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField weaknes = new TextField();
+        weaknes.setPromptText("weaknes");
+        weaknes.relocate(230,300);
+        weaknes.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField fire = new TextField();
+        fire.setPromptText("fire");
+        fire.relocate(230,340);
+        fire.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField attackChange = new TextField();
+        attackChange.setPromptText("attackChange");
+        attackChange.relocate(230,380);
+        attackChange.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField HPChanger = new TextField();
+        HPChanger.setPromptText("HPChanger");
+        HPChanger.relocate(230,420);
+        HPChanger.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField holyBuff = new TextField();
+        holyBuff.setPromptText("holyBuff");
+        holyBuff.relocate(230,460);
+        holyBuff.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+
+        TextField  deBuff= new TextField();
+        deBuff.setPromptText("deBuff");
+        deBuff.relocate(230,500);
+        deBuff.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField attack = new TextField();
+        attack.setPromptText("attack");
+        attack.relocate(230,540);
+        attack.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField targetNum = new TextField();
+        targetNum.setPromptText("targetNum");
+        targetNum.relocate(70,580);
+        targetNum.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField targetGP = new TextField();
+        targetGP.setPromptText("targetGP");
+        targetGP.relocate(70,620);
+        targetGP.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField changeMana = new TextField();
+        changeMana.setPromptText("changeMana");
+        changeMana.relocate(390,180);
+        changeMana.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField rounds = new TextField();
+        rounds.setPromptText("rounds");
+        rounds.relocate(230,580);
+        rounds.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField positive = new TextField();
+        positive.setPromptText("positive");
+        positive.relocate(230,620);
+        positive.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+
+
+
         //------------------ Buttons -------------------//
         Button back = createInvisibleBtn(65,65,1027,9);
         //------------------ Event Handling -----------------//
@@ -186,7 +328,22 @@ public class Viewer {
             createCustomCardBtn.setStyle("-fx-background-color: transparent;-fx-border-color: rgb(39, 174, 96);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
         });
         createCustomCardBtn.setOnMouseClicked(mouseEvent -> {
-            // Create function
+            try {
+                Target target = controller.createTarget(targetNum.getText(), targetGP.getText(), targetType.getText());
+                Spell customSpell = controller.createCustomSpell(Boolean.parseBoolean(stun.getText()), Boolean.parseBoolean(disarm.getText()),
+                        Boolean.parseBoolean(poison.getText()), Integer.parseInt(weaknes.getText()), Boolean.parseBoolean(fire.getText()),
+                        Integer.parseInt(attackChange.getText()), Integer.parseInt(HPChanger.getText()), Boolean.parseBoolean(holyBuff.getText()),
+                        Boolean.parseBoolean(deBuff.getText()), Integer.parseInt(attack.getText()), Integer.parseInt(changeMana.getText()),
+                        Integer.parseInt(rounds.getText()), Boolean.parseBoolean(positive.getText()));
+                if (custom.getText().toLowerCase().equals("unit"))
+                    controller.createCustomUnit(name.getText(), Integer.parseInt(type.getText()), target, Integer.parseInt(AP.getText()),
+                            Integer.parseInt(HP.getText()), attackType.getText(), Integer.parseInt(range.getText())
+                            , customSpell, specialPowerCastTime.getText(), Integer.parseInt(specialPowerCoolDown.getText()), Integer.parseInt(cost.getText()));
+                else if (custom.getText().toLowerCase().equals("spell"))
+                    controller.createCustomSpellCard(customSpell, target, Integer.parseInt(cost.getText()));
+            }catch (Exception e){
+                System.out.println("fill the form correctly!!!");
+            }
         });
         back.setOnMouseClicked(mouseEvent -> {
             group.getChildren().removeAll(group.getChildren());
@@ -198,7 +355,9 @@ public class Viewer {
             image = new Image(new FileInputStream("img/customCardBg.png"));
             ImageView imageView = new ImageView(image);
             imageView.setPreserveRatio(true);
-            group.getChildren().addAll(imageView,back,inputBox,createCustomCardBtn);
+            group.getChildren().addAll(imageView,back,name,type,targetType,targetGP,AP,HP,attackType,range,specialPowerCastTime,
+                    specialPowerCoolDown,cost,createCustomCardBtn,spell,stun,disarm,poison,weaknes, fire, attackChange,
+                    HPChanger,custom,holyBuff,deBuff,attack,changeMana,rounds,positive,targetNum);
         }
         catch (Exception e){
             System.err.println("Error While Showing Custom Card !");
@@ -736,6 +895,55 @@ public class Viewer {
             System.err.println("Animation Sprite Failed !!!");
         }
         graphicShowHand();
+        graphicShowItem();
+    }
+    public void graphicShowItem(){
+        for(int i = 0; i < 5; i++)
+            for(int j = 0; j < 9; j++){
+                if(controller.getCurrentGame().getCell(i,j).getItems() != null){
+                    ArrayList<Item> items = controller.getCurrentGame().getCell(i,j).getItems();
+                    for(int k = 0; k < items.size(); k++){
+                        if(items.get(k).isCollectAble()){
+                            try {
+                                Image image;
+                                image = new Image(new FileInputStream("img/collectable.png"));
+                                System.out.println(i + " " + j);
+                                ImageView imageView = new ImageView(image);
+//                                imageView.setX(195 + 70 * i);
+//                                imageView.setY(160 + 70 *j);
+
+                                imageView.setFitHeight(60);
+                                imageView.relocate(202 + 72*j + 70.0/2.0 - imageView.getLayoutBounds().getWidth()/2 - 2*7 ,170 + 2*72 + 55.0/2.0 - imageView.getLayoutBounds().getHeight()/2);
+
+                                imageView.setPreserveRatio(true);
+                                group.getChildren().add(imageView);
+                            }
+                            catch (Exception e){
+                                System.err.println("Error While Showing Battle !");
+                            }
+                        }
+                        else if(items.get(k).isFlag()){
+                            try {
+                                Image image;
+                                image = new Image(new FileInputStream("img/flag.png"));
+                                System.out.println(i + " " + j);
+                                ImageView imageView = new ImageView(image);
+//                                imageView.setX(195 + 70 * i);
+//                                imageView.setY(160 + 70 *j);
+
+                                imageView.setFitHeight(40);
+                                imageView.relocate(202 + 72*j + 70.0/2.0 - imageView.getLayoutBounds().getWidth()/2 - 2*7 ,170 + 2*72 + 55.0/2.0 - imageView.getLayoutBounds().getHeight()/2);
+
+                                imageView.setPreserveRatio(true);
+                                group.getChildren().add(imageView);
+                            }
+                            catch (Exception e){
+                                System.err.println("Error While Showing Battle !");
+                            }
+                        }
+                    }
+                }
+            }
     }
     private void graphicShowHand(){
         //------------------ Show Hand -----------------//

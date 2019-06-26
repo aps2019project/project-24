@@ -26,15 +26,15 @@ public class Game {
     private Card currentCard;
     private Item currentItem;
     private boolean areWeInTheGraveYard;
-    private int[] manaOfTheStartOfTheTrun;
     private int countsOfRoundsToWinInFlagHoldingMode = 8;
     private int[] countOfFlagsInFlagsCollecting;
     private int[] roundsPlayerHasTheFlag;
     private Item[] mainItem;
 
+
     //////////////////////////// ARMAN ////////////////////////////////
     private HashMap<Card,Boolean> didCardAttack;
-
+    public int[] manaOfTheStartOfTheTrun;
     public HashMap<Card, Boolean> getDidCardAttack(){return this.didCardAttack;}
     //////////////////////////// End ARMAN ////////////////////////////////
 
@@ -108,7 +108,7 @@ public class Game {
             setMainFlagInMap();
 
         collectablesMap = new ArrayList<>();
-        File folder = new File(".\\.\\cards\\collectable item");
+        File folder = new File("././cards/collectable item");
         File[]listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             Item item = CardBuilder.loadAnItemFromJsonFile(file.getName().substring(0, file.getName().length() - 5), 1);
@@ -117,7 +117,9 @@ public class Game {
         }
         setCollectablesMap(3);
     }
-
+    public Cell getCell(int i, int j){
+        return map[i][j];
+    }
     public void setPrimaryCards(ArrayList<Card>[] primaryCards) {
         this.primaryCards = primaryCards;
     }

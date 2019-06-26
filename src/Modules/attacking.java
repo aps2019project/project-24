@@ -3,7 +3,7 @@ package Modules;
 import java.util.ArrayList;
 
 public class attacking {
-    
+
     public ArrayList<Integer> xGiv(){
         ArrayList<Integer> x = new ArrayList<>();
         x.add(303);

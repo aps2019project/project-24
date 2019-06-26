@@ -115,9 +115,8 @@ public class Server {
         currentPlayer = Player.getPlayerObj(username);
     }
 
-    public void save() {
-        for ( Player player : Player.getPlayers() )
-            CardBuilder.createJsonFileFromTheObject(player);
+    public void savePlayer(Player player) {
+        CardBuilder.createJsonFileFromTheObject(player);
     }
 
     public void logOut() {
@@ -630,6 +629,7 @@ public class Server {
             currentGame.getMap()[x][y].setCard(card);
             currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
             currentGame.decreaseManaOfPlayers(((Unit) card).getManaCost());
+            currentGame.manaOfTheStartOfTheTrun[currentGame.getTurn()] -= ((Unit) card).getManaCost();
             Cell currentCell = currentGame.getMap()[x][y];
             if(currentCell.getItems().size() != 0){
                 for(int i = 0; i < currentCell.getItems().size(); i++){
@@ -659,6 +659,7 @@ public class Server {
             return "you dont have enough mana";
         else if(currentGame.useSpecialPowerOfTheCard(card, x, y)){
             currentGame.decreaseManaOfPlayers(((SpellCard) card).getManaCost());
+            currentGame.manaOfTheStartOfTheTrun[currentGame.getTurn()] -= ((SpellCard) card).getManaCost();
             currentGame.getHandsOfPlayers()[currentGame.getTurn()].remove(card);
             return card.getName() + " with " + card.getCardID() + " inserted to " + "(" + x + "," + y + ")";
         }
@@ -688,22 +689,6 @@ public class Server {
         return answer;
     }
 
-//    public Item showCurrentItemInfo() {
-//
-//    }
-//
-//    public boolean useCurrentItem(int x, int y) {
-//
-//    }
-//
-//    public void showNextCard() {
-//
-//    }
-//
-//    public boolean enterGraveYard() {
-//
-//    }
-//
     public String checkEndGame() {
         if( currentGame.checkEndGame().equals("nothing happen")){
             return "nothing happen";
@@ -734,5 +719,56 @@ public class Server {
 
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
+    }
+
+    public Target createTarget(String number, String targetGP, String targetType){
+        Target target = new Target();
+        target.setNumber(number);
+        target.setTargetGroup(targetGP);
+        target.setTargetType(targetType);
+        return target;
+    }
+
+    public void createCustomUnit(String name, int type, Target target, int AP, int HP, String attackType, int range
+            , Spell specialPower, String speciallPowerCastTime, int specialPowerCoolDown, int cost){
+
+        Unit card = new Unit();
+        card.setName(name);
+        card.setTypeOfCard(type);
+        ((Unit)card).setAttackPower(AP);
+        ((Unit)card).setHP(HP);
+        ((Unit)card).setSpecialPowerTarget(target);
+        ((Unit)card).setAttackType(attackType);
+        ((Unit)card).setRange(range);
+        ((Unit)card).setSpecialPower(specialPower);
+        ((Unit)card).setSpecialPowerCastTime(speciallPowerCastTime);
+        ((Unit)card).setManaCost(cost);
+        ((Unit)card).setSpecialPowerCoolDown(specialPowerCoolDown);
+        CardBuilder.createJsonFileFromTheObject(card);
+    }
+    public Spell createCustomSpell(boolean stun, boolean disarm, boolean poison, int weakness, boolean fire, int attackChange,
+                                   int HPChanger, boolean holyBuff, boolean deBuff, int attack, int changeMana, int rounds, boolean positive){
+        Spell spell = new Spell();
+        spell.setStun(stun);
+        spell.setDisarm(disarm);
+        spell.setPoison(poison);
+        spell.setWeakness(weakness);
+        spell.setFire(fire);
+        spell.setAttackChange(attackChange);
+        spell.setHPChanger(HPChanger);
+        spell.setHolyBuff(holyBuff);
+        spell.setDeBuff(deBuff);
+        spell.setAttack(attack);
+        spell.setChangeMana(changeMana);
+        spell.setRounds(rounds);
+        spell.setPositive(positive);
+        return spell;
+    }
+    public void createCustomSpellCard(Spell spell, Target target, int manacost){
+        SpellCard card = new SpellCard();
+        card.setSpell(spell);
+        card.setManaCost(manacost);
+        card.setTarget(target);
+        CardBuilder.createJsonFileFromTheObject(card);
     }
 }
