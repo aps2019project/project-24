@@ -919,13 +919,10 @@ public class Viewer {
                             try {
                                 Image image;
                                 image = new Image(new FileInputStream("img/collectable.png"));
-                                System.out.println(i + " " + j);
+//                                System.out.println(i + " " + j);
                                 ImageView imageView = new ImageView(image);
-//                                imageView.setX(195 + 70 * i);
-//                                imageView.setY(160 + 70 *j);
-
                                 imageView.setFitHeight(60);
-                                imageView.relocate(202 + 72*j + 70.0/2.0 - imageView.getLayoutBounds().getWidth()/2 - 2*7 ,170 + 2*72 + 55.0/2.0 - imageView.getLayoutBounds().getHeight()/2);
+                                imageView.relocate(320 + 72*j + 70.0/2.0 - imageView.getLayoutBounds().getWidth()/2 - 2*7 ,170 + i*72 + 55.0/2.0 - imageView.getLayoutBounds().getHeight()/2);
 
                                 imageView.setPreserveRatio(true);
                                 group.getChildren().add(imageView);
@@ -938,14 +935,10 @@ public class Viewer {
                             try {
                                 Image image;
                                 image = new Image(new FileInputStream("img/flag.png"));
-                                System.out.println(i + " " + j);
+//                                System.out.println(i + " " + j);
                                 ImageView imageView = new ImageView(image);
-//                                imageView.setX(195 + 70 * i);
-//                                imageView.setY(160 + 70 *j);
-
+                                imageView.relocate(440 + 72*j + 70.0/2.0 - imageView.getLayoutBounds().getWidth()/2 - 2*7 ,430 + i*72 + 55.0/2.0 - imageView.getLayoutBounds().getHeight()/2);
                                 imageView.setFitHeight(40);
-                                imageView.relocate(202 + 72*j + 70.0/2.0 - imageView.getLayoutBounds().getWidth()/2 - 2*7 ,170 + 2*72 + 55.0/2.0 - imageView.getLayoutBounds().getHeight()/2);
-
                                 imageView.setPreserveRatio(true);
                                 group.getChildren().add(imageView);
                             }
