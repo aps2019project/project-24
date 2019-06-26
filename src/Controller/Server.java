@@ -601,8 +601,8 @@ public class Server {
         else return null;
     }
 
-    public String insert(String cardName, int x, int y){
-        Card card = currentGame.findCardByName(cardName);
+    public String insert(int cardID, int x, int y){
+        Card card = currentGame.findCardByID(cardID);
         if (card == null)
             return "Invalid card name";
         else if (!currentGame.cardIsInHand(card))

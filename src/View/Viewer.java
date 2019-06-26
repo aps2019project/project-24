@@ -53,9 +53,11 @@ public class Viewer {
     private final ImageView[] selectedHandCardImageView = new ImageView[1];
     private final Text[] selectedHandCardTextMana = new Text[1];
     private final int[] selectedHandCardID = new int[1];
+    private final int[] selectedHandCardIndex = new int[1];
     private final ImageView[] handCardsImageView = new ImageView[5];
     private final Text[] handCardsManaText = new Text[5];
     private final int[] handCardsID = new int[5];
+    private final boolean[] handCardsDidInserted = new boolean[5];
     /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
@@ -601,8 +603,9 @@ public class Viewer {
                         pathTransition.play();
                         selectedCardImageView[0] = null;
                         controller.getCurrentGame().setCurrentCard(null);
+                        System.out.println("Graphic : Card Moved !!!");
                     }
-                    else if(selectedHandCardImageView[0] != null && insert(controller.getCurrentGame().findCardByID(selectedHandCardID[0]).getName(),xCoord,yCoord)){
+                    else if(selectedHandCardImageView[0] != null && insert(selectedHandCardID[0],xCoord,yCoord)){
                         selectedHandCardID[0] = 0;
                         double xNew = 202 + 72*yCoord + 70.0/2.0 - selectedHandCardImageView[0].getLayoutBounds().getWidth()/2 - 2*7;
                         double yNew = 170 + xCoord*72 + 55.0/2.0 - selectedHandCardImageView[0].getLayoutBounds().getHeight()/2;
@@ -618,6 +621,17 @@ public class Viewer {
                         group.getChildren().remove(selectedHandCardTextMana[0]);
                         selectedHandCardTextMana[0] = null;
                         selectedHandCardImageView[0] = null;
+                        handCardsDidInserted[selectedHandCardIndex[0]] = false;
+                        selectedHandCardIndex[0] = -1;
+                        System.out.println("Graphic : Card inserted !!!");
+                    }
+                    else{
+                        selectedCardImageView[0] = null;
+                        controller.getCurrentGame().setCurrentCard(null);
+                        selectedHandCardImageView[0] = null;
+                        selectedHandCardTextMana[0] = null;
+                        selectedHandCardID[0] = 0;
+                        System.out.println("Graphic : Can't Do Shit , Selected Card in map And Hand been set to Null");
                     }
                 });
                 mapGraphic.add(r);
@@ -631,10 +645,13 @@ public class Viewer {
             controller.endTurn();
             manaPlayer1.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
             manaPlayer2.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
-            for(int i = 0 ; i < 5 ; i++) {
-                group.getChildren().remove(handCardsImageView[i]);
-                group.getChildren().remove(handCardsManaText[i]);
+            for(int p = 0 ; p < 5 ; p++) {
+                if(!handCardsDidInserted[p]) {
+                    group.getChildren().remove(handCardsImageView[p]);
+                    group.getChildren().remove(handCardsManaText[p]);
+                }
             }
+            graphicShowHand();
         });
         //------------------ Show Fields Register Or Login -----------------//
         try {
@@ -711,12 +728,16 @@ public class Viewer {
                     System.out.println(controller.getCurrentGame().getCardOwner(controller.getCurrentGame().findCardByID(cardID)).getUsername());
                     selectedCardImageView[0] = imgView;
                     select(cardID);
+                    System.out.println("Graphic : Card in map Selected !!!");
                 });
             }
         }
         catch (Exception e){
             System.err.println("Animation Sprite Failed !!!");
         }
+        graphicShowHand();
+    }
+    private void graphicShowHand(){
         //------------------ Show Hand -----------------//
         ArrayList<Card> handCards = controller.showHand();
         try {
@@ -772,6 +793,7 @@ public class Viewer {
                 handCardsImageView[i] = cardView;
                 handCardsManaText[i] = cardMana;
                 handCardsID[i] = handCards.get(i).getCardID();
+                handCardsDidInserted[i] = false;
                 final int k = i;
                 final ImageView imgView = cardView;
                 final Text manaTxt = cardMana;
@@ -780,13 +802,16 @@ public class Viewer {
                         selectedHandCardID[0] = handCards.get(k).getCardID();
                         selectedHandCardImageView[0] = imgView;
                         selectedHandCardTextMana[0] = manaTxt;
+                        selectedHandCardIndex[0] = k;
+                        System.out.println("Graphic : Card in Hand Selected !!!");
                     }
                     else{
                         System.out.println("Clicked in Here");
                         selectedCardImageView[0] = imgView;
                         select(handCards.get(k).getCardID());
+                        System.out.println("Graphic : Card in Map Selected !!!");
                     }
-                    System.out.println("Cardname : " + handCards.get(k).getName() + " with ID : " + handCards.get(k).getCardID() + " Clicked !!!");
+                    System.out.println("Graphic : Cardname > " + handCards.get(k).getName() + " with ID > " + handCards.get(k).getCardID() + " Clicked !!!");
                 });
             }
         }
@@ -1834,8 +1859,8 @@ public class Viewer {
 //    public void showCollectables(){
 //        System.out.println(controller.showCollectables());
 //    }
-    public boolean insert(String cardName, int x , int y){ ;
-        String result = controller.insert(cardName, x, y);
+    public boolean insert(int cardID, int x , int y){ ;
+        String result = controller.insert(cardID, x, y);
         System.out.println(result);
         endGame(); // should be Checked
         return !( result.matches(".*Invalid.*") || result.matches(".*enough.*"));
