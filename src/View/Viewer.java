@@ -10,6 +10,7 @@ import java.util.*;
 import Controller.*;
 import Modules.*;
 import Modules.Cell;
+import Modules.Collection;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
@@ -540,8 +541,19 @@ public class Viewer {
         importDeck.setTextFill(Color.rgb(116, 185, 255));
         importDeck.setStyle("-fx-border-color: rgb(116, 185, 255);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
 
+        TextField importName = new TextField();
+        importName.setPromptText("imoprt name");
+        importName.relocate(26,664);
+        importName.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField exportName = new TextField();
+        exportName.setPromptText("export name");
+        exportName.relocate(122,664);
+        exportName.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+
         Label exportDeck = new Label("Export Deck");
-        exportDeck.relocate(115,642);
+        exportDeck.relocate(125,642);
         exportDeck.setTextFill(Color.rgb(85, 239, 196));
         exportDeck.setStyle("-fx-border-color: rgb(85, 239, 196);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;");
         exportDeck.setVisible(false);
@@ -569,7 +581,7 @@ public class Viewer {
             importDeck.setStyle("-fx-background-color: transparent;-fx-border-color: rgb(116, 185, 255);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
         });
         importDeck.setOnMouseClicked(mouseEvent -> {
-            // Ali Do Here
+            Collection.importDeck(controller.getCurrentPlayer(),importName.getText());
         });
         exportDeck.setOnMouseEntered(mouseEvent -> {
             exportDeck.setTextFill(Color.WHITE);
@@ -580,7 +592,7 @@ public class Viewer {
             exportDeck.setStyle("-fx-background-color: transparent;-fx-border-color: rgb(85, 239, 196);-fx-border-style: solid;-fx-border-width: 2px;-fx-padding: 2px 5px;-fx-border-radius: 5px;-fx-background-radius: 5px;");
         });
         exportDeck.setOnMouseClicked(mouseEvent -> {
-            // Ali Do Here
+            Collection.exportDeck(controller.getCurrentPlayer(), exportName.getText());
         });
         removeDeck.setOnMouseEntered(mouseEvent -> {
             removeDeck.setTextFill(Color.BLACK);
@@ -693,7 +705,7 @@ public class Viewer {
             image = new Image(new FileInputStream("img/collectionBg.png"));
             ImageView imageView = new ImageView(image);
             imageView.setPreserveRatio(true);
-            group.getChildren().addAll(imageView,money,createDeckBtn,back,inputBox,scrollPane1,scrollPane2,deckSelector,importDeck,exportDeck,mainDeck,removeDeck);
+            group.getChildren().addAll(imageView,money,importName,exportName,createDeckBtn,back,inputBox,scrollPane1,scrollPane2,deckSelector,importDeck,exportDeck,mainDeck,removeDeck);
         }
         catch (Exception e){
             System.err.println("Error While Showing Shop !");

@@ -32,9 +32,9 @@ public class Collection {
         return null;
     }
 
-    public static int exportDeck(Player player, Deck deckk) {
+    public static int exportDeck(Player player, String deckName) {
         for (Deck deck : player.getAllDecks())
-            if (deck.getName().equals(deckk.getName())) {
+            if (deck.getName().equals(deckName)) {
                 CardBuilder.createJsonFileFromTheObject(deck);
                 return 1;
             }
@@ -42,37 +42,42 @@ public class Collection {
     }
 
     public static int importDeck(Player player, String deckName) {
-        File folder = new File(".\\.\\decks\\");
-        File[] listOfFiles = folder.listFiles();
-        Deck deck = null;
-        for (File file : listOfFiles)
-            if (file.getName().contains(deckName)) {
-                try {
-                    deck = CardBuilder.loadADeckFromJsonFile(deckName);
-                } catch (Exception e) {
-                    System.out.println("shit");
-                    return 0;
-                }
-                break;
-            }
-        if (deck == null)
-            return 0;
-
-        for (Card card : deck.getCards()) {
-            Boolean flag = true;
-            for (Card playerCard : player.getCollection())
-                if (playerCard.getName().equals(card.getName())) {
-                    flag = false;
+        try {
+            File folder = new File("././decks/");
+            File[] listOfFiles = folder.listFiles();
+            Deck deck = null;
+            for (File file : listOfFiles)
+                if (file.getName().contains(deckName)) {
+                    try {
+                        deck = CardBuilder.loadADeckFromJsonFile(deckName);
+                    } catch (Exception e) {
+                        System.out.println("shit");
+                        return 0;
+                    }
                     break;
                 }
-            if (flag)
-                return -1;
+            if (deck == null)
+                return 0;
+
+            for (Card card : deck.getCards()) {
+                Boolean flag = true;
+                for (Card playerCard : player.getCollection())
+                    if (playerCard.getName().equals(card.getName())) {
+                        flag = false;
+                        break;
+                    }
+                if (flag)
+                    return -1;
+            }
+            deck.setCards(new ArrayList<>());
+            deck.getCards().addAll(deck.getUnits());
+            deck.getCards().addAll(deck.getSpells());
+            deck.getCards().addAll(deck.getItems());
+            player.getAllDecks().add(deck);
+            return 1;
+        }catch (Exception e){
+            System.out.println("there is not a deck with this name");
         }
-        deck.setCards(new ArrayList<>());
-        deck.getCards().addAll(deck.getUnits());
-        deck.getCards().addAll(deck.getSpells());
-        deck.getCards().addAll(deck.getItems());
-        player.getAllDecks().add(deck);
         return 1;
     }
 }
