@@ -640,9 +640,11 @@ public class Server {
                             currentGame.increaseCountOfFlagsInFlagsCollecting();
                         ((Unit)card).setHasFlag(true);
                         ((Unit)card).addFlag(currentCell.getItems().get(i));
+                        currentCell.getItems().remove(currentCell.getItems().get(i));
                     }
                     if(currentCell.getItems().get(i).isCollectAble()){
                         currentGame.addCollectableItems(currentCell.getItems().get(i));
+                        currentCell.getItems().remove(currentCell.getItems().get(i));
                     }
                 }
                 currentCell.setItems(null);
@@ -746,9 +748,10 @@ public class Server {
         ((Unit)card).setSpecialPowerCoolDown(specialPowerCoolDown);
         CardBuilder.createJsonFileFromTheObject(card);
     }
-    public Spell createCustomSpell(boolean stun, boolean disarm, boolean poison, int weakness, boolean fire, int attackChange,
+    public Spell createCustomSpell(String name, boolean stun, boolean disarm, boolean poison, int weakness, boolean fire, int attackChange,
                                    int HPChanger, boolean holyBuff, boolean deBuff, int attack, int changeMana, int rounds, boolean positive){
         Spell spell = new Spell();
+        spell.setName(name);
         spell.setStun(stun);
         spell.setDisarm(disarm);
         spell.setPoison(poison);
@@ -764,10 +767,14 @@ public class Server {
         spell.setPositive(positive);
         return spell;
     }
-    public void createCustomSpellCard(Spell spell, Target target, int manacost){
+    public void createCustomSpellCard(Spell spell, Target target, int cost, int manaCost, String desc){
         SpellCard card = new SpellCard();
+        card.setName(spell.getName());
+        spell.setName(null);
         card.setSpell(spell);
-        card.setManaCost(manacost);
+        card.setPrice(cost);
+        card.setDescription(desc);
+        card.setManaCost(manaCost);
         card.setTarget(target);
         CardBuilder.createJsonFileFromTheObject(card);
     }

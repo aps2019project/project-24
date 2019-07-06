@@ -314,6 +314,16 @@ public class Viewer {
         positive.relocate(230,620);
         positive.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
 
+        TextField manaCost = new TextField();
+        manaCost.setPromptText("manaCost");
+        manaCost.relocate(390,220);
+        manaCost.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
+        TextField desc = new TextField();
+        desc.setPromptText("desc");
+        desc.relocate(390,260);
+        desc.setStyle("-fx-min-width: 105px;-fx-border-style: solid;-fx-border-width: 1px;-fx-border-color: #666;-fx-max-width: 105px;-fx-min-height: 37px;-fx-font-weight: bold;-fx-background-color: rgba(0,0,0,1);-fx-text-fill: white");
+
 
 
 
@@ -331,7 +341,7 @@ public class Viewer {
         createCustomCardBtn.setOnMouseClicked(mouseEvent -> {
             try {
                 Target target = controller.createTarget(targetNum.getText(), targetGP.getText(), targetType.getText());
-                Spell customSpell = controller.createCustomSpell(Boolean.parseBoolean(stun.getText()), Boolean.parseBoolean(disarm.getText()),
+                Spell customSpell = controller.createCustomSpell(name.getText(),Boolean.parseBoolean(stun.getText()), Boolean.parseBoolean(disarm.getText()),
                         Boolean.parseBoolean(poison.getText()), Integer.parseInt(weaknes.getText()), Boolean.parseBoolean(fire.getText()),
                         Integer.parseInt(attackChange.getText()), Integer.parseInt(HPChanger.getText()), Boolean.parseBoolean(holyBuff.getText()),
                         Boolean.parseBoolean(deBuff.getText()), Integer.parseInt(attack.getText()), Integer.parseInt(changeMana.getText()),
@@ -341,7 +351,7 @@ public class Viewer {
                             Integer.parseInt(HP.getText()), attackType.getText(), Integer.parseInt(range.getText())
                             , customSpell, specialPowerCastTime.getText(), Integer.parseInt(specialPowerCoolDown.getText()), Integer.parseInt(cost.getText()));
                 else if (custom.getText().toLowerCase().equals("spell"))
-                    controller.createCustomSpellCard(customSpell, target, Integer.parseInt(cost.getText()));
+                    controller.createCustomSpellCard(customSpell, target, Integer.parseInt(cost.getText()), Integer.parseInt(manaCost.getText()), desc.getText());
             }catch (Exception e){
                 System.out.println("fill the form correctly!!!");
             }
@@ -358,7 +368,7 @@ public class Viewer {
             imageView.setPreserveRatio(true);
             group.getChildren().addAll(imageView,back,name,type,targetType,targetGP,AP,HP,attackType,range,specialPowerCastTime,
                     specialPowerCoolDown,cost,createCustomCardBtn,spell,stun,disarm,poison,weaknes, fire, attackChange,
-                    HPChanger,custom,holyBuff,deBuff,attack,changeMana,rounds,positive,targetNum);
+                    HPChanger,custom,holyBuff,deBuff,attack,changeMana,rounds,positive,targetNum, manaCost, desc);
         }
         catch (Exception e){
             System.err.println("Error While Showing Custom Card !");
