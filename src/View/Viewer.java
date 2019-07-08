@@ -1,24 +1,20 @@
 package View;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.sql.SQLOutput;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.*;
 
 import Controller.*;
 import Modules.*;
 import Modules.Cell;
 import Modules.Collection;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.geometry.Orientation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.ImageCursor;
@@ -29,27 +25,22 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Shear;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-import javax.sound.midi.Soundbank;
-import javax.swing.*;
 import java.util.Comparator;
 
 public class Viewer {
     private Group group;
     private Scene scene;
     private Scanner scanner = new Scanner(System.in);
-    private Server controller = new Server();
+    private Controller controller = new Controller();
     private int menuMode = 0;
     private boolean isAIPlayerActive = false;
     private final ImageView[] selectedCardImageView = new ImageView[1];
@@ -61,6 +52,8 @@ public class Viewer {
     private final Text[] handCardsManaText = new Text[5];
     private final int[] handCardsID = new int[5];
     private final boolean[] handCardsDidInserted = new boolean[5];
+    private BufferedReader keyboard ;
+    private PrintWriter out ;
     /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
@@ -70,9 +63,11 @@ public class Viewer {
     // 5 -> in Battle
     ////////////////////
     boolean isInGraveYard = false;
-    public Viewer(Group group, Scene scene){
+    public Viewer(Group group, Scene scene, BufferedReader keyboard, PrintWriter out ){
         this.scene = scene;
         this.group = group;
+        this.keyboard = keyboard;
+        this.out = out;
     }
 
 
@@ -83,7 +78,7 @@ public class Viewer {
         btn.setStyle("-fx-min-width: " + w + "px;-fx-min-height: " + h + "px;-fx-background-color: transparent;");
         return btn;
     }
-    public void graphicShowLogin(){
+    public void graphicShowLogin() {
         //------------------ Username -----------------//
         TextField userName = new TextField();
         userName.relocate(410,319);
@@ -102,6 +97,7 @@ public class Viewer {
         });
         loginBtn.setOnMouseClicked(event -> {
             loginAccount(userName.getText(),password.getText());
+            out.println("salam");
         });
         exitBtn.setOnMouseClicked(mouseEvent -> {
             Platform.exit();
