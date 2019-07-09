@@ -45,9 +45,9 @@ public class CardBuilder {
             if (object instanceof Player)
                 fileWriter = new FileWriter(((Player) object).getUsername() + ".json");
             if (object instanceof Unit)
-                fileWriter = new FileWriter("/home/ali_kmr/IdeaProjects/project24/cards/units" + ((Unit) object).getName() + ".json");
+                fileWriter = new FileWriter(".\\.\\cards\\units\\" + ((Unit) object).getName() + ".json");
             if (object instanceof SpellCard)
-                fileWriter = new FileWriter("/home/ali_kmr/IdeaProjects/project24/cards/spellCards/" + ((SpellCard) object).getName() + ".json");
+                fileWriter = new FileWriter(".\\.\\cards\\spellCards\\" + ((SpellCard) object).getName() + ".json");
             if (object instanceof Spell)
                 fileWriter = new FileWriter(".\\.\\cards\\spells\\" + ((Spell) object).getName() + ".json");
             if (object instanceof Deck)
@@ -109,7 +109,7 @@ public class CardBuilder {
         Unit unit = null;
         Gson gson = new Gson();
         try {
-            JsonReader reader = new JsonReader(new FileReader("/home/ali_kmr/IdeaProjects/project24/cards/units/" + fileName + ".json"));
+            JsonReader reader = new JsonReader(new FileReader(".\\.\\cards\\units\\" + fileName + ".json"));
             unit = gson.fromJson(reader, Unit.class);
         } catch (Exception e) {
         }
@@ -120,7 +120,7 @@ public class CardBuilder {
         SpellCard spellCard = null;
         Gson gson = new Gson();
         try {
-            JsonReader reader = new JsonReader(new FileReader("/home/ali_kmr/IdeaProjects/project24/cards/spellCards/" + fileName + ".json"));
+            JsonReader reader = new JsonReader(new FileReader(".\\.\\cards\\spellCards\\" + fileName + ".json"));
             spellCard = gson.fromJson(reader, SpellCard.class);
         } catch (Exception e) {
 
@@ -134,9 +134,9 @@ public class CardBuilder {
         try {
             JsonReader reader = null;
             if (a == 0)
-                reader = new JsonReader(new FileReader("/home/ali_kmr/IdeaProjects/project24/cards/items/" + fileName + ".json"));
+                reader = new JsonReader(new FileReader(".\\.\\cards\\items\\" + fileName + ".json"));
             else
-                reader = new JsonReader(new FileReader("/home/ali_kmr/IdeaProjects/project24/cards/collectable item/" + fileName + ".json"));
+                reader = new JsonReader(new FileReader(".\\.\\cards\\collectable item\\" + fileName + ".json"));
             item = gson.fromJson(reader, Item.class);
         } catch (Exception e) {
 

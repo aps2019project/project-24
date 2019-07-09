@@ -8,7 +8,7 @@ import cardBuilder.CardBuilder;
 import java.io.File;
 import java.util.ArrayList;
 
-public class Server {
+public class Controller {
     private Shop shop = new Shop();
     private Player currentPlayer = null;
     private Game currentGame;
@@ -68,7 +68,7 @@ public class Server {
         this.currentPlayer = currentPlayer;
     }
 
-    public Server(){
+    public Controller(){
         File folder = new File(".\\.\\");
         File[] listOfFiles = folder.listFiles();
         if ( listOfFiles != null )

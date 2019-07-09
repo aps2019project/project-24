@@ -1,8 +1,15 @@
 package View;
 
-import Controller.Server;
-import Modules.Cell;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.*;
+
+import Controller.*;
 import Modules.*;
+import Modules.Cell;
+import Modules.Collection;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
@@ -12,17 +19,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.shape.*;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -30,17 +34,13 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Shear;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Scanner;
 
 public class Viewer {
     private Group group;
     private Scene scene;
     private Scanner scanner = new Scanner(System.in);
-    private Server controller = new Server();
+    private Controller controller = new Controller();
     private int menuMode = 0;
     private boolean isAIPlayerActive = false;
     private final ImageView[] selectedCardImageView = new ImageView[1];
@@ -52,6 +52,8 @@ public class Viewer {
     private final Text[] handCardsManaText = new Text[5];
     private final int[] handCardsID = new int[5];
     private final boolean[] handCardsDidInserted = new boolean[5];
+    private BufferedReader keyboard ;
+    private PrintWriter out ;
     /////////////////////
     // 0 -> before login
     // 1 -> MainMenu
@@ -61,9 +63,11 @@ public class Viewer {
     // 5 -> in Battle
     ////////////////////
     boolean isInGraveYard = false;
-    public Viewer(Group group, Scene scene){
+    public Viewer(Group group, Scene scene, BufferedReader keyboard, PrintWriter out ){
         this.scene = scene;
         this.group = group;
+        this.keyboard = keyboard;
+        this.out = out;
     }
 
 
@@ -74,7 +78,7 @@ public class Viewer {
         btn.setStyle("-fx-min-width: " + w + "px;-fx-min-height: " + h + "px;-fx-background-color: transparent;");
         return btn;
     }
-    public void graphicShowLogin(){
+    public void graphicShowLogin() {
         //------------------ Username -----------------//
         TextField userName = new TextField();
         userName.relocate(410,319);
@@ -93,6 +97,7 @@ public class Viewer {
         });
         loginBtn.setOnMouseClicked(event -> {
             loginAccount(userName.getText(),password.getText());
+            out.println("salam");
         });
         exitBtn.setOnMouseClicked(mouseEvent -> {
             Platform.exit();
@@ -712,14 +717,7 @@ public class Viewer {
             System.err.println("Error While Showing Shop !");
         }
     }
-
-//    private Text manaPlayer2 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
-//    private final Text manaPlayer1 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
-
     public void graphicShowGame(){
-//        Text manaPlayer2 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
-//        Text manaPlayer1 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
-        System.out.println();
         //------------------ Show Players Name -----------------//
         Text namePlayer1 = new Text(controller.getCurrentGame().getPlayersOfGame()[0].getUsername());
         namePlayer1.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
@@ -821,7 +819,6 @@ public class Viewer {
         Button endTurn = createInvisibleBtn(201,66,828,587);
         //------------------ Event Handling -----------------//
         endTurn.setOnMouseClicked(mouseEvent -> {
-//            graphicEndTurn();
             controller.endTurn();
             manaPlayer1.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
             manaPlayer2.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
@@ -918,22 +915,6 @@ public class Viewer {
         graphicShowHand();
         graphicShowItem();
     }
-//    public void graphicEndTurn(){
-//        Text manaPlayer2 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
-//        Text manaPlayer1 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
-//
-//        controller.endTurn();
-//        manaPlayer1.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
-//        manaPlayer2.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
-//        for(int p = 0 ; p < 5 ; p++) {
-//            if(!handCardsDidInserted[p]) {
-//                group.getChildren().remove(handCardsImageView[p]);
-//                group.getChildren().remove(handCardsManaText[p]);
-//            }
-//        }
-//        graphicShowHand();
-//        group.getChildren().addAll(manaPlayer1,manaPlayer2);
-//    }
     public void graphicShowItem(){
         for(int i = 0; i < 5; i++)
             for(int j = 0; j < 9; j++){
