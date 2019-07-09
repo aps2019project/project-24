@@ -1,14 +1,12 @@
 package Modules;
 
+import cardBuilder.CardBuilder;
+
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import View.*;
-import cardBuilder.CardBuilder;
 
 public class Game {
     private Player[] playersOfGame;
@@ -116,6 +114,8 @@ public class Game {
             collectablesMap.add(item);
         }
         setCollectablesMap(3);
+        TimeCounter counter = new TimeCounter(this);
+        counter.start();
     }
     public Cell getCell(int i, int j){
         return map[i][j];
@@ -1058,6 +1058,8 @@ public class Game {
         manaOfPlayers[turn] = manaOfTheStartOfTheTrun[turn];
         this.currentCard = null;
         this.currentItem = null;
+        TimeCounter counter = new TimeCounter(this);
+        counter.start();
     }
 
     public String checkEndGame() {

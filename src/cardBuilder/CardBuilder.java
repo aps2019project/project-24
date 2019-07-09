@@ -1,18 +1,17 @@
 package cardBuilder;
 
 import Modules.*;
-
-import java.io.FileWriter;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
 import com.gilecode.yagson.YaGson;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
-import java.nio.file.*;
-import java.io.IOException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+//
 
 public class CardBuilder {
     public static void createJsonFileFromTheObject(Object object) {

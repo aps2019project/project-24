@@ -1,49 +1,40 @@
 package View;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.sql.SQLOutput;
-import java.util.*;
-
-import Controller.*;
-import Modules.*;
+import Controller.Server;
 import Modules.Cell;
-import Modules.Collection;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import Modules.*;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.geometry.Orientation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
-import javafx.scene.effect.InnerShadow;
-import javafx.scene.shape.*;
 import javafx.scene.control.*;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Shear;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-import javax.sound.midi.Soundbank;
-import javax.swing.*;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Scanner;
 
 public class Viewer {
     private Group group;
@@ -721,7 +712,14 @@ public class Viewer {
             System.err.println("Error While Showing Shop !");
         }
     }
+
+//    private Text manaPlayer2 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
+//    private final Text manaPlayer1 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
+
     public void graphicShowGame(){
+//        Text manaPlayer2 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
+//        Text manaPlayer1 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
+        System.out.println();
         //------------------ Show Players Name -----------------//
         Text namePlayer1 = new Text(controller.getCurrentGame().getPlayersOfGame()[0].getUsername());
         namePlayer1.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
@@ -823,6 +821,7 @@ public class Viewer {
         Button endTurn = createInvisibleBtn(201,66,828,587);
         //------------------ Event Handling -----------------//
         endTurn.setOnMouseClicked(mouseEvent -> {
+//            graphicEndTurn();
             controller.endTurn();
             manaPlayer1.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
             manaPlayer2.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
@@ -919,6 +918,22 @@ public class Viewer {
         graphicShowHand();
         graphicShowItem();
     }
+//    public void graphicEndTurn(){
+//        Text manaPlayer2 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
+//        Text manaPlayer1 = new Text(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
+//
+//        controller.endTurn();
+//        manaPlayer1.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[0]));
+//        manaPlayer2.setText(String.valueOf(controller.getCurrentGame().getManaOfPlayers()[1]));
+//        for(int p = 0 ; p < 5 ; p++) {
+//            if(!handCardsDidInserted[p]) {
+//                group.getChildren().remove(handCardsImageView[p]);
+//                group.getChildren().remove(handCardsManaText[p]);
+//            }
+//        }
+//        graphicShowHand();
+//        group.getChildren().addAll(manaPlayer1,manaPlayer2);
+//    }
     public void graphicShowItem(){
         for(int i = 0; i < 5; i++)
             for(int j = 0; j < 9; j++){
