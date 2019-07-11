@@ -1,16 +1,9 @@
 package Modules;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.util.ArrayList;
-
 import cardBuilder.CardBuilder;
-import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.io.FileReader;
+import java.io.File;
+import java.util.ArrayList;
 
 public class Shop{
 
@@ -19,7 +12,7 @@ public class Shop{
 
     public Shop(){
         cards = new ArrayList<>();
-        File folder = new File(".\\.\\cards\\units\\");
+        File folder = new File("././cards/units/");
         File[] listOfFiles = folder.listFiles();
             for (File file : listOfFiles)
                 for (int i = 0; i < 10; i++) {
@@ -32,7 +25,7 @@ public class Shop{
                     CardBuilder.createJsonFileFromTheObject(unit.getSpecialPower());
                     cards.add(unit);
                 }
-        folder = new File(".\\.\\cards\\spellCards\\");
+        folder = new File("././cards/spellCards/");
         listOfFiles = folder.listFiles();
         for (File file : listOfFiles)
             for (int i = 0; i < 10; i++) {
@@ -41,7 +34,7 @@ public class Shop{
                 spell.setTypeOfCard(1);
                 cards.add(spell);
             }
-        folder = new File(".\\.\\cards\\items\\");
+        folder = new File("././cards/items/");
         listOfFiles = folder.listFiles();
         for (File file : listOfFiles)
             for (int i = 0; i < 10; i++){

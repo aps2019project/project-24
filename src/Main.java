@@ -1,12 +1,9 @@
-import View.*;
-import Controller.*;
-import Modules.*;
+import View.Viewer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 
 public class Main extends Application {
     public static void main(String[] args) {
