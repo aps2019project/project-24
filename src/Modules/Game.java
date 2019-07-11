@@ -1,14 +1,12 @@
 package Modules;
 
+import cardBuilder.CardBuilder;
+
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import View.*;
-import cardBuilder.CardBuilder;
 
 public class Game {
     private Player[] playersOfGame;
@@ -108,7 +106,7 @@ public class Game {
             setMainFlagInMap();
 
         collectablesMap = new ArrayList<>();
-        File folder = new File("cards\\collectable item");
+        File folder = new File("cards/collectable item");
         File[]listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             Item item = CardBuilder.loadAnItemFromJsonFile(file.getName().substring(0, file.getName().length() - 5), 1);
@@ -116,6 +114,8 @@ public class Game {
             collectablesMap.add(item);
         }
         setCollectablesMap(3);
+        TimeCounter counter = new TimeCounter(this);
+        counter.start();
     }
     public Cell getCell(int i, int j){
         return map[i][j];
@@ -893,7 +893,7 @@ public class Game {
                 return false;
             if (target.getNumber().equals("2*2") && (x > 3 || y > 7))
                 return false;
-            int numberOfCells = Integer.parseInt(target.getNumber().split("\\*")[0]);
+            int numberOfCells = Integer.parseInt(target.getNumber().split("/*")[0]);
             if (target.getTargetGroup().equals("Ally") && target.getTargetType().equals("minions") || target.getTargetGroup().equals("both"))
                 for (int i = x; i < x + numberOfCells; i++)
                     for (int j = y; j < y + numberOfCells; j++) {
@@ -1058,6 +1058,8 @@ public class Game {
         manaOfPlayers[turn] = manaOfTheStartOfTheTrun[turn];
         this.currentCard = null;
         this.currentItem = null;
+        TimeCounter counter = new TimeCounter(this);
+        counter.start();
     }
 
     public String checkEndGame() {

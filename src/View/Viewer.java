@@ -1,15 +1,8 @@
 package View;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.*;
-
-import Controller.*;
-import Modules.*;
+import Controller.Controller;
 import Modules.Cell;
-import Modules.Collection;
+import Modules.*;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
@@ -19,14 +12,18 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
-import javafx.scene.effect.InnerShadow;
-import javafx.scene.shape.*;
 import javafx.scene.control.*;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -34,7 +31,14 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Shear;
 import javafx.util.Duration;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Scanner;
 
 public class Viewer {
     private Group group;
@@ -69,6 +73,10 @@ public class Viewer {
         this.keyboard = keyboard;
         this.out = out;
     }
+    public Viewer(Group group, Scene scene){
+        this.group = group;
+        this.scene = scene;
+    }
 
 
     //======================== Graphic Function ====================//
@@ -79,6 +87,11 @@ public class Viewer {
         return btn;
     }
     public void graphicShowLogin() {
+
+        String song = "police.mp3";
+        AudioClip sound = new AudioClip(new File(song).toURI().toString());
+//        MediaPlayer songs = new MediaPlayer(sound);
+        sound.play();
         //------------------ Username -----------------//
         TextField userName = new TextField();
         userName.relocate(410,319);
@@ -718,6 +731,10 @@ public class Viewer {
         }
     }
     public void graphicShowGame(){
+        String song = "night.mp3";
+        AudioClip sound = new AudioClip(new File(song).toURI().toString());
+//        MediaPlayer songs = new MediaPlayer(sound);
+        sound.play();
         //------------------ Show Players Name -----------------//
         Text namePlayer1 = new Text(controller.getCurrentGame().getPlayersOfGame()[0].getUsername());
         namePlayer1.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 17));
